@@ -1,0 +1,181 @@
+# Copyright (c) 2016-2021 Martin Donath <martin.donath@squidfunk.com>
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to
+# deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+# sell copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+# IN THE SOFTWARE.
+
+# Project information
+site_name: POLARISCN
+# site_url: https://squidfunk.github.io/mkdocs-material/
+# site_author: Martin Donath
+site_description: >-
+  One branded static site from a set of Markdown files to host the
+  documentation for Open Source or Commercial project
+
+# Repository
+repo_name: darmarj
+repo_url: https://github.com/darmarj
+edit_uri: ""
+
+# Copyright
+copyright: Copyright &copy; 2021 ~ Present Darmarj.M
+
+# Configuration
+theme:
+  name: null
+  custom_dir: !ENV [THEME_DIR, "material"]
+  # icon:
+  #   admonition:
+  #     example: octicons-beaker-16
+
+  # Static files
+  static_templates:
+    - 404.html
+
+  # Don't include MkDocs' JavaScript
+  include_search_page: false
+  search_index_only: true
+
+  # Default values, taken from mkdocs_theme.yml
+  language: en
+  features:
+    - content.code.annotate
+    # - content.tabs.link
+    # - header.autohide
+    # - navigation.expand
+    - navigation.indexes
+    # - navigation.instant
+    - navigation.sections
+    - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    # - toc.integrate
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: red
+      accent: red
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  favicon: assets/favicon.png
+  icon:
+    logo: logo
+
+# Plugins
+# plugins:
+#   - search
+#   - redirects:
+#       redirect_maps:
+#         changelog/insiders.md: insiders/changelog.md
+#         upgrading.md: upgrade.md
+#         reference/variables.md: https://mkdocs-macros-plugin.readthedocs.io/
+#         sponsorship.md: insiders/index.md
+#   - minify:
+#       minify_html: true
+
+# Customization
+extra:
+  # analytics:
+  #   provider: google
+  #   property: !ENV GOOGLE_ANALYTICS_KEY
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/darmarj
+    # - icon: fontawesome/brands/gitter
+    #   link: https://gitter.im/squidfunk/mkdocs-material
+    # - icon: fontawesome/brands/docker
+    #   link: https://hub.docker.com/r/squidfunk/mkdocs-material/
+    # - icon: fontawesome/brands/twitter
+    #   link: https://twitter.com/squidfunk
+    # - icon: fontawesome/brands/linkedin
+    #   link: https://linkedin.com/in/squidfunk/
+    # - icon: fontawesome/brands/instagram
+    #   link: https://instagram.com/squidfunk
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - abbr
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: darmarj
+      repo: Polaris
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid-experimental
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Page tree
+nav:
+  - Home: index.md
+  - 容器运行时:
+    - 容器运行时介绍: Container/容器运行时.md
+    - Containerd的使用: Container/Containerd.md
+    - 命令行工具Nerdctl: Container/Containerd 高级命令行工具 nerdctl.md
+    - CGroups与Namespaces: Container/Container&cgroups.md
+  - 基础:
+    - K8S简介: K8S简介.md
+    - 集群部署: 集群部署.md
+    - 资源清单: YAML文件.md
+    - Pod原理: Pod.md
+    - Pod生命周期: Pod的生命周期.md
+    - Pod使用进阶: Pod使用进阶.md
+  - 控制器:
+    - ReplicaSet: Kubernetes/architecture.md
+    - Deployment: Kubernetes/kubernetes.md
+
+      
