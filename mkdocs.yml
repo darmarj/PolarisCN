@@ -51,7 +51,7 @@ theme:
   search_index_only: true
 
   # Default values, taken from mkdocs_theme.yml
-  language: en
+  language: zh
   features:
     - content.code.annotate
     # - content.tabs.link
@@ -134,6 +134,7 @@ markdown_extensions:
       generic: true
   - pymdownx.betterem:
       smart_enable: all
+  - pymdownx.critic
   - pymdownx.caret
   - pymdownx.details
   - pymdownx.emoji:
@@ -161,12 +162,12 @@ markdown_extensions:
 
 # Page tree
 nav:
-  - Home: index.md
+  - 首页: index.md
   - 容器运行时:
     - 容器运行时介绍: Container/容器运行时.md
-    - Containerd的使用: Container/Containerd.md
-    - 命令行工具Nerdctl: Container/Containerd 高级命令行工具 nerdctl.md
-    - CGroups与Namespaces: Container/Container&cgroups.md
+    - Containerd的使用: Container/containerd.md
+    - 命令行工具Nerdctl: Container/nerdctl.md
+    - CGroups与Namespaces: Container/namespace&cgroups.md
   - 基础:
     - K8S简介: K8S简介.md
     - 集群部署: 集群部署.md
