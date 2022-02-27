@@ -3,9 +3,7 @@ on:
   push:
     branches: # 
       - main
-      - Mac
-      - Lux-W
-      - Lux-P
+      - Arco
 jobs:
   deploy:
     runs-on: ubuntu-latest
