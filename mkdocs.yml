@@ -169,7 +169,7 @@ nav:
     - 命令行工具Nerdctl: Container/nerdctl.md
     - CGroups与Namespaces: Container/namespace&cgroups.md
   - 基础:
-    - K8S简介: K8S简介.md
+    - K8S简介: Foundation/K8s简介.md
     - 集群部署: 集群部署.md
     - 资源清单: YAML文件.md
     - Pod原理: Pod.md

@@ -42,7 +42,7 @@ libseccomp-2.3.1-4.el7.x86_64
 ```
 
 由于 containerd 需要调用 runc，所以我们也需要先安装 runc，不过 containerd 提供了一个包含相关依赖的压缩包 `cri-containerd-cni-${VERSION}.${OS}-${ARCH}.tar.gz`，可以直接使用这个包来进行安装。首先从 [release 页面](https://github.com/containerd/containerd/releases)下载最新版本的压缩包，当前为 1.5.5 版本（最新的1.5.7版本在CentOS7下面执行 runc 会报错：https://github.com/containerd/containerd/issues/6091）：
-```bash
+``` bash
 ➜  ~ wget https://github.com/containerd/containerd/releases/download/v1.5.5/cri-containerd-cni-1.5.5-linux-amd64.tar.gz
 # 如果有限制，也可以替换成下面的 URL 加速下载
 # wget https://download.fastgit.org/containerd/containerd/releases/download/v1.5.5/cri-containerd-cni-1.5.5-linux-amd64.tar.gz
@@ -118,7 +118,7 @@ containerd 的默认配置文件为 `/etc/containerd/config.toml`，我们可以
 ➜  ~ containerd config default > /etc/containerd/config.toml
 ```
 由于上面我们下载的 containerd 压缩包中包含一个 etc/systemd/system/containerd.service 的文件，这样我们就可以通过 systemd 来配置 containerd 作为守护进程运行了，内容如下所示：
-``` bash
+``` bash hl_lines="12 13"
 ➜  ~ cat /etc/systemd/system/containerd.service
 [Unit]
 Description=containerd container runtime
@@ -570,7 +570,7 @@ harbor.k8s.local/course/nginx:alpine
 **删除镜像**
 
 不需要使用的镜像也可以使用 `ctr image rm` 进行删除：
-```bash
+``` bash
 ➜  ~ ctr image rm harbor.k8s.local/course/nginx:alpine
 harbor.k8s.local/course/nginx:alpine
 ➜  ~ ctr image ls -q
@@ -580,7 +580,7 @@ docker.io/library/nginx:alpine
 
 **将镜像挂载到主机目录**
 
-```bash
+``` bash
 ➜  ~ ctr image mount docker.io/library/nginx:alpine /mnt
 sha256:c3554b2d61e3c1cffcaba4b4fa7651c644a3354efaafa2f22cb53542f6c600dc
 /mnt
@@ -609,20 +609,20 @@ sha256:c3554b2d61e3c1cffcaba4b4fa7651c644a3354efaafa2f22cb53542f6c600dc
 18 directories, 1 file
 ```
 **将镜像从主机目录上卸载**
-```bash
+``` bash
 ➜  ~ ctr image unmount /mnt
 /mnt
 ```
 **将镜像导出为压缩包**
-```bash
+``` bash
 ➜  ~ ctr image export --all-platforms nginx.tar.gz docker.io/library/nginx:alpine
 ```
 **从压缩包导入镜像**
-```bash
+``` bash
 ➜  ~ ctr image import nginx.tar.gz
 ```
 直接导入可能会出现类似于 `ctr: content digest sha256:xxxxxx not found` 的错误，要解决这个办法需要 pull 所有平台镜像：
-```bash
+``` bash
 ➜  ~ ctr i pull --all-platforms docker.io/library/nginx:alpine
 ➜  ~ ctr i export --all-platforms nginx.tar.gz docker.io/library/nginx:alpine
 ➜  ~ ctr i rm docker.io/library/nginx:alpine
@@ -632,23 +632,23 @@ sha256:c3554b2d61e3c1cffcaba4b4fa7651c644a3354efaafa2f22cb53542f6c600dc
 ###容器操作
 容器相关操作可以通过 `ctr container` 获取。
 **创建容器**
-```bash
+``` bash
 ➜  ~ ctr container create docker.io/library/nginx:alpine nginx
 ```
 **列出容器**
-```bash
+``` bash
 ➜  ~ ctr container ls
 CONTAINER    IMAGE                             RUNTIME
 nginx        docker.io/library/nginx:alpine    io.containerd.runc.v2
 ```
 同样可以加上 -q 选项精简列表内容：
-```bash
+``` bash
 ➜  ~ ctr container ls -q
 nginx
 ```
 **查看容器详细配置**
 类似于 `docker inspect` 功能。
-```bash
+``` bash
 ➜  ~ ctr container info nginx
 {
     "ID": "nginx",
@@ -671,7 +671,7 @@ nginx
 ......
 ```
 **删除容器**
-```bash
+``` bash
 ➜  ~ ctr container rm nginx
 ➜  ~ ctr container ls
 CONTAINER    IMAGE    RUNTIME
@@ -684,56 +684,56 @@ CONTAINER    IMAGE    RUNTIME
 一个容器真正运行起来是由 Task 任务实现的，Task 可以为容器设置网卡，还可以配置工具来对容器进行监控等。
 
 Task 相关操作可以通过 `ctr task` 获取，如下我们通过 Task 来启动容器：
-```bash
+``` bash
 ➜  ~ ctr task start -d nginx
 /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
 /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
 ```
 启动容器后可以通过 `task ls` 查看正在运行的容器：
-```bash
+``` bash
 ➜  ~ ctr task ls
 TASK     PID     STATUS
 nginx    3630    RUNNING
 ```
 同样也可以使用 `exec` 命令进入容器进行操作：
-```bash
+``` bash
 ➜  ~ ctr task exec --exec-id 0 -t nginx sh
 / #
 ```
 不过这里需要注意必须要指定 `--exec-id` 参数，这个 id 可以随便写，只要唯一就行。
 
 暂停容器，和 `docker pause` 类似的功能：
-```bash
+``` bash
 ➜  ~ ctr task pause nginx
 ```
 暂停后容器状态变成了 `PAUSED`：
-```bash
+``` bash
 ➜  ~ ctr task ls
 TASK     PID     STATUS
 nginx    3630    PAUSED
 ```
 同样也可以使用 `resume` 命令来恢复容器：
-```bash
+``` bash
 ➜  ~ ctr task resume nginx
 ➜  ~ ctr task ls
 TASK     PID     STATUS
 nginx    3630    RUNNING
 ```
 不过需要注意 ctr 没有 stop 容器的功能，只能暂停或者杀死容器。杀死容器可以使用 `task kill` 命令:
-```bash
+``` bash
 ➜  ~ ctr task kill nginx
 ➜  ~ ctr task ls
 TASK     PID     STATUS
 nginx    3630    STOPPED
 ```
 杀掉容器后可以看到容器的状态变成了 `STOPPED`。同样也可以通过 `task rm` 命令删除 Task：
-```bash
+``` bash
 ➜  ~ ctr task rm nginx
 ➜  ~ ctr task ls
 TASK    PID    STATUS
 ```
 除此之外我们还可以获取容器的 cgroup 相关信息，可以使用 `task metrics` 命令用来获取容器的内存、CPU 和 PID 的限额与使用量。
-```bash
+``` bash
 # 重新启动容器
 ➜  ~ ctr task metrics nginx
 ID       TIMESTAMP
@@ -749,7 +749,7 @@ pids.current             9
 pids.limit               0
 ```
 还可以使用 `task ps` 命令查看容器中所有进程在宿主机中的 PID：
-```bash
+``` bash
 ➜  ~ ctr task ps nginx
 PID     INFO
 3984    -
@@ -769,13 +769,13 @@ nginx    3984    RUNNING
 
 ###命名空间
 另外 Containerd 中也支持命名空间的概念，比如查看命名空间：
-```bash
+``` bash
 ➜  ~ ctr ns ls
 NAME    LABELS
 default
 ```
 如果不指定，ctr 默认使用的是 `default` 空间。同样也可以使用 `ns create` 命令创建一个命名空间：
-```bash
+``` bash
 ➜  ~ ctr ns create test
 ➜  ~ ctr ns ls
 NAME    LABELS
@@ -783,7 +783,7 @@ default
 test
 ```
 使用 `remove` 或者 `rm` 可以删除 namespace：
-```bash
+``` bash
 ➜  ~ ctr ns rm test
 test
 ➜  ~ ctr ns ls
@@ -791,12 +791,12 @@ NAME    LABELS
 default
 ```
 有了命名空间后就可以在操作资源的时候指定 namespace，比如查看 test 命名空间的镜像，可以在操作命令后面加上 `-n test` 选项：
-```bash
+``` bash
 ➜  ~ ctr -n test image ls
 REF TYPE DIGEST SIZE PLATFORMS LABELS
 ```
 我们知道 Docker 其实也是默认调用的 containerd，事实上 Docker 使用的 containerd 下面的命名空间默认是 `moby`，而不是 `default`，所以假如我们有用 docker 启动容器，那么我们也可以通过 `ctr -n moby` 来定位下面的容器：
-```bash
+``` bash
 ➜  ~ ctr -n moby container ls
 ```
 同样 Kubernetes 下使用的 containerd 默认命名空间是 `k8s.io`，所以我们可以使用 `ctr -n k8s.io` 来查看 Kubernetes 下面创建的容器。

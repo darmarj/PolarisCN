@@ -281,7 +281,7 @@ linux 共有6(7)种命名空间:
 4026532504 mnt        1   745 chrony  /usr/sbin/chronyd
 4026532642 mnt        1  1076 grafana /usr/sbin/grafana-server --config=/etc/grafana/grafana.ini --pidfile=/var/run
 ```
-要查看一个进程所属的命名空间信息，可以到 `/proc/<pid>/ns 目录下查看：
+要查看一个进程所属的命名空间信息，可以到 `/proc/<pid>/ns` 目录下查看：
 ```bash
 ➜  ~ ps -ef | grep prometheus
 root       1065      1  0 10:10 ?        00:01:13 /root/p8strain/prometheus-2.30.2.linux-amd64/prometheus --config.file=/root/p8strain/prometheus-2.30.2.linux-amd64/prometheus.yml
