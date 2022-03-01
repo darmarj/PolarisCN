@@ -170,7 +170,7 @@ nav:
     - CGroups与Namespaces: Container/namespace&cgroups.md
   - 基础:
     - K8S简介: Foundation/K8s简介.md
-    - 集群部署: 集群部署.md
+    - 集群部署: Foundation/K8s Installation.md
     - 资源清单: YAML文件.md
     - Pod原理: Pod.md
     - Pod生命周期: Pod的生命周期.md
