@@ -4,6 +4,7 @@ title: K8s Installaton
 ---
 
 # 集群部署
+
 **使用 containerd 作为容器运行时搭建 Kubernetes 集群**
 
 现在我们使用 kubeadm 从头搭建一个使用 containerd 作为容器运行时的 Kubernetes 集群，这里我们安装最新的 `v1.22.2` 版本。
@@ -21,26 +22,34 @@ title: K8s Installaton
 	节点的 hostname 必须使用标准的 DNS 命名，另外千万不用什么默认的 `localhost` 的 hostname，会导致各种错误出现的。在 Kubernetes 项目里，机器的名字以及一切存储在 Etcd 中的 API 对象，都必须使用标准的 DNS 命名（RFC 1123）。可以使用命令 `hostnamectl set-hostname node1` 来修改 hostname。
 
 禁用防火墙：
+
 ``` bash
 ➜  ~ systemctl stop firewalld
 ➜  ~ systemctl disable firewalld
 ```
+
 禁用 SELINUX：
+
 ``` bash
 ➜  ~ setenforce 0
 ➜  ~ cat /etc/selinux/config
 SELINUX=disabled
 ```
+
 由于开启内核 ipv4 转发需要加载 br_netfilter 模块，所以加载下该模块：
+
 ``` bash
 ➜  ~ modprobe br_netfilter
 ```
+
 创建`/etc/sysctl.d/k8s.conf`文件，添加如下内容：
+
 ``` bash
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
 ```
+
 !!! INFO "bridge-nf"
 	bridge-nf 使得 netfilter 可以对 Linux 网桥上的 IPv4/ARP/IPv6 包过滤。比如，设置`net.bridge.bridge-nf-call-iptables＝1`后，二层的网桥在转发包时也会被 iptables的 FORWARD 规则所过滤。常用的选项包括：
 
@@ -50,9 +59,11 @@ net.ipv4.ip_forward = 1
     - net.bridge.bridge-nf-filter-vlan-tagged：是否在 iptables/arptables 中过滤打了 vlan 标签的包。
 
 执行如下命令使修改生效：
-``` bash
+
+```bash
 ➜  ~ sysctl -p /etc/sysctl.d/k8s.conf
 ```
+
 安装 ipvs：
 ``` bash
 ➜  ~ cat > /etc/sysconfig/modules/ipvs.modules <<EOF
@@ -178,6 +189,7 @@ RuntimeApiVersion:  v1alpha2
 ```
 
 ### 使用 kubeadm 部署 Kubernetes
+
 上面的相关环境配置也完成了，现在我们就可以来安装 Kubeadm 了，我们这里是通过指定yum 源的方式来进行安装的：
 ``` bash
 ➜  ~ cat <<EOF > /etc/yum.repos.d/kubernetes.repo

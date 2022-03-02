@@ -29,7 +29,7 @@ kubelet 的另外一个重要功能就是调用网络插件（`CNI`）和存储�
 ## 组件
 上面我介绍了 Kubernetes 集群的整体架构，下面我们再来更加详细的了解下这些组件的功能。
 
-###kube-apiserver
+### kube-apiserver
 API Server 提供了资源对象的唯一操作入口，其它所有组件都必须通过它提供的 API 来操作资源数据。<span class="rouge">**只有 API Server 会与 etcd 进行通信，其它模块都必须通过 API Server 访问集群状态**</span>。API Server 作为 Kubernetes 系统的入口，封装了`核心对象的增删改查操作`。API Server 以 RESTFul 接口方式提供给外部客户端和内部组件调用，API Server 再对相关的资源数据（`全量查询 + 变化监听`）进行操作，以达到实时完成相关的业务功能。以 API Server 为 Kubernetes 入口的设计<span class="jade">主要有以下好处</span>：
 
 - 保证了集群状态访问的安全
@@ -152,5 +152,5 @@ Service 是应用服务的抽象，通过 Labels 为应用提供`负载均衡和
 每个 Service 都会自动分配一个 cluster IP（仅在集群内部可访问的虚拟地址）和 DNS 名，其他容器可以通过该地址或 DNS 来访问服务，而不需要了解后端容器的运行。
 ![PodService](../assets/images/PodService.png "PodService")
 
-!!! Info "迁移"
+!!! INFO "迁移"
 	了解了上面的几个基本概念后，我们就完全可以把我们的容器服务迁移到 Kubernetes 集群上了。当然我们还得先搭建好我们的 Kubernetes 集群环境。

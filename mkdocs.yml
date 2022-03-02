@@ -169,12 +169,12 @@ nav:
     - 命令行工具Nerdctl: Container/nerdctl.md
     - CGroups与Namespaces: Container/namespace&cgroups.md
   - 基础:
-    - K8S简介: Foundation/K8s简介.md
+    - K8S简介: Foundation/K8s Introduction.md
     - 集群部署: Foundation/K8s Installation.md
-    - 资源清单: YAML文件.md
-    - Pod原理: Pod.md
-    - Pod生命周期: Pod的生命周期.md
-    - Pod使用进阶: Pod使用进阶.md
+    - 资源清单: Foundation/YAML.md
+    - Pod原理: Foundation/Pod.md
+    - Pod生命周期: Foundation/Pod lifeCycle.md
+    - Pod使用进阶: Foundation/Pod inAdvance.md
   - 控制器:
     - ReplicaSet: Kubernetes/architecture.md
     - Deployment: Kubernetes/kubernetes.md
