@@ -88,6 +88,9 @@ theme:
   icon:
     logo: logo
 
+extra_css:
+  - stylesheets/extra.css
+
 # Plugins
 # plugins:
 #   - search
@@ -140,7 +143,8 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
-  - pymdownx.highlight
+  - pymdownx.highlight:
+      anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.keys
   - pymdownx.magiclink:
@@ -176,7 +180,14 @@ nav:
     - Pod生命周期: Foundation/Pod lifeCycle.md
     - Pod使用进阶: Foundation/Pod inAdvance.md
   - 控制器:
-    - ReplicaSet: Kubernetes/architecture.md
-    - Deployment: Kubernetes/kubernetes.md
+    - ReplicaSet: Controller/ReplicaSet.md
+    - Deployment: Controller/Deployment.md
+    - StatefulSet: Controller/StatefulSet.md
+    - DaemonSet: Controller/DaemonSet.md
+    - Job: Controller/Job.md
+    - HPA: Controller/HPA.md
+    - Admission: Controller/Admission.md
+    - Crd: Controller/Crd.md
+    - OpenKruise: Controller/OpenKruise.md
 
       
