@@ -7,7 +7,7 @@ title: Admission
 
 Kubernetes 提供了需要扩展其内置功能的方法，{++最常用的可能是自定义资源类型和自定义控制器了++}，除此之外，Kubernetes 还有一些其他非常有趣的功能，比如 {++admission webhooks 就可以用于扩展 API，用于修改某些 Kubernetes 资源的基本行为++}。
 
-准入控制器是在对象持久化之前用于对 Kubernetes API Server 的请求进行拦截的代码段，在请求经过身份验证和授权之后放行通过。准入控制器可能正在 `validating、mutating` 或者都在执行，``#!css Mutating 控制器``可以修改他们处理的资源对象，``#!css Validating`` 控制器不会，如果任何一个阶段中的任何控制器拒绝了请求，则会立即拒绝整个请求，并将错误返回给最终的用户。
+准入控制器是在对象持久化之前用于对 Kubernetes API Server 的请求进行拦截的代码段，在请求经过身份验证和授权之后放行通过。准入控制器可能正在 `validating、mutating` 或者都在执行，``#!css Mutating`` 控制器可以修改他们处理的资源对象，``#!css Validating`` 控制器不会，如果任何一个阶段中的任何控制器拒绝了请求，则会立即拒绝整个请求，并将错误返回给最终的用户。
 
 这意味着有一些特殊的控制器可以拦截 Kubernetes API 请求，并根据自定义的逻辑修改或者拒绝它们。Kubernetes 有自己实现的一个[控制器列表](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#what-does-each-admission-controller-do)，当然你也可以编写自己的控制器，虽然这些控制器听起来功能比较强大，但是这些控制器需要被编译进 kube-apiserver，并且只能在 apiserver 启动了再随之启动。
 
@@ -35,7 +35,7 @@ kube-apiserver --help |grep enable-admission-plugins
 
 现在非常火热的 Service Mesh 应用 [istio](https://istio.io/docs/setup/kubernetes/sidecar-injection/) 就是通过 mutating webhooks 来自动将 Envoy 这个 sidecar 容器注入到 Pod 中去的。
 
-## 创建配置一个 Admission Webhook¶
+## 创建配置一个 Admission Webhook
 
 上面我们介绍了 Admission Webhook 的理论知识，接下来我们在一个真实的 Kubernetes 集群中来实际测试使用下，我们将创建一个 webhook 的 webserver，将其部署到集群中，然后创建 webhook 配置查看是否生效。
 
