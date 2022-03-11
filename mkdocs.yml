@@ -184,7 +184,7 @@ nav:
     - Deployment: Controller/Deployment.md
     - StatefulSet: Controller/StatefulSet.md
     - DaemonSet: Controller/DaemonSet.md
-    - Job: Controller/Job.md
+    - Job: Controller/Job&CronJob.md
     - HPA: Controller/HPA.md
     - Admission: Controller/Admission.md
     - Crd: Controller/Crd.md

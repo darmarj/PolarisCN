@@ -196,9 +196,9 @@ web-1                     1/1     Running             0          6s
 我们仔细观察整个过程出现了两个 Pod：`web-0` 和 `web-1`，而且这两个 Pod 是按照顺序进行创建的，`web-0` 启动起来后 `web-1` 才开始创建。如同上面 StatefulSet 概念中所提到的，StatefulSet 中的 Pod 拥有一个具有稳定的、独一无二的身份标志。这个标志基于 StatefulSet 控制器分配给每个 Pod 的唯一顺序索引。Pod 的名称的形式为``#!css <statefulset name>-<ordinal index>``。我们这里的对象拥有两个副本，所以它创建了两个 Pod 名称分别为：web-0 和 web-1，我们可以使用 `kubectl exec` 命令进入到容器中查看它们的 hostname：
 
 ``` bash
-➜  ~ kubectl exec web-0 hostname
+➜  ~ kubectl exec web-0 -- hostname
 web-0
-➜  ~ kubectl exec web-1 hostname
+➜  ~ kubectl exec web-1 -- hostname
 web-1
 ```
 
@@ -248,6 +248,7 @@ Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
 Name:      nginx
 Address 1: 10.244.1.175 web-1.nginx.default.svc.cluster.local
 Address 2: 10.244.4.83 web-0.nginx.default.svc.cluster.local
+
 / # ping nginx
 PING nginx (10.244.1.175): 56 data bytes
 64 bytes from 10.244.1.175: seq=0 ttl=62 time=1.076 ms
@@ -264,7 +265,8 @@ Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
 
 Name:      web-0.nginx
 Address 1: 10.244.4.83 web-0.nginx.default.svc.cluster.local
-/ # nslookup web-1.nginx
+
+$ / # nslookup web-1.nginx
 Server:    10.96.0.10
 Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
 
@@ -298,6 +300,7 @@ Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
 
 Name:      web-0.nginx
 Address 1: 10.244.3.98 web-0.nginx.default.svc.cluster.local
+
 / # nslookup web-1.nginx
 Server:    10.96.0.10
 Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
