@@ -57,7 +57,7 @@ spec:
 !!! WARNING
 	需要注意的是 v1.16 版本以后已经 GA 了，使用的是 v1 版本，之前都是 v1beta1，定义规范有部分变化，所以要注意版本变化。
 
-这个地方的定义和我们定义普通的资源对象比较类似，我们说我们可以随意定义一个自定义的资源对象，但是在创建资源的时候，肯定不是任由我们随意去编写 YAML 文件的，当我们把上面的 CRD 文件提交给 Kubernetes 之后，Kubernetes 会对我们提交的声明文件进行校验，从定义可以看出 CRD 是基于 [OpenAPI v3 schem](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) 进行规范的。**这种校验只是对于字段的类型进行校验，比较初级**，{++如果想要更加复杂的校验，这个时候就需要通过 Kubernetes 的 admission webhook 来实现了++}。关于校验的更多用法，可以前往[官方文档](https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/#validation)查看。
+这个地方的定义和我们定义普通的资源对象比较类似，我们说我们可以随意定义一个自定义的资源对象，但是在创建资源的时候，肯定不是任由我们随意去编写 YAML 文件的，当我们把上面的 CRD 文件提交给 Kubernetes 之后，Kubernetes 会对我们提交的声明文件进行校验，从定义可以看出 CRD 是基于 [OpenAPI v3 schem](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) 进行规范的。**这种校验只是对于字段的类型进行校验，比较初级**，<span class="jade">如果想要更加复杂的校验，这个时候就需要通过 Kubernetes 的 admission webhook 来实现了</span>。关于校验的更多用法，可以前往[官方文档](https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/#validation)查看。
 
 同样现在我们可以直接使用 kubectl 来创建这个 CRD 资源清单：
 
@@ -145,7 +145,7 @@ metadata:
 
 就如上面我们说的，现在我们自定义的资源创建完成了，但是也只是单纯的把资源清单数据存放到了 etcd 中而已，并没有什么其他用处，因为我们没有定义一个对应的 Controller 来处理他。
 
-官方提供了一个自定义 `Controller` 的[示例](https://github.com/kubernetes/sample-controller，实现了)：
+官方提供了一个自定义 `Controller` 的[示例](https://github.com/kubernetes/sample-controller)：
 
 - 如何注册资源 Foo
 - 如何创建、删除和查询 Foo 对象
@@ -196,7 +196,7 @@ metadata:
 
 `Operator` 就可以看成是 CRD 和 Controller 的{++一种组合特例++}，Operator 是一种思想，它结合了特定领域知识并通过 CRD 机制扩展了 Kubernetes API 资源，使用户管理 Kubernetes 的内置资源（Pod、Deployment等）一样创建、配置和管理应用程序，{++Operator 是一个特定应用程序的控制器，通过扩展 Kubernetes API 资源以代表 Kubernetes 用户创建、配置和管理复杂应用程序的实例++}。通常包含资源模型定义和控制器，通过 Operator 通常是为了实现<span class="jade">某种特定软件（通常是有状态服务）的自动化运维</span>。
 
-我们完全可以通过上面的方式编写一个 CRD 对象，然后去手动实现一个对应的 Controller 就可以实现一个 Operator，但是我们也发现从头开始去构建一个 CRD 控制器并不容易，需要对 Kubernetes 的 API 有深入了解，并且 RBAC 集成、镜像构建、持续集成和部署等都需要很大工作量。为了解决这个问题，社区就推出了对应的简单易用的 Operator 框架，**比较主流的是 `kubebuilder` 和 `Operator Framework`**，这两个框架的使用基本上差别不大，我们可以根据自己习惯选择一个即可。
+我们完全可以通过上面的方式编写一个 CRD 对象，然后去手动实现一个对应的 Controller 就可以实现一个 Operator，但是我们也发现从头开始去构建一个 CRD 控制器并不容易，需要对 Kubernetes 的 API 有深入了解，并且 RBAC 集成、镜像构建、持续集成和部署等都需要很大工作量。为了解决这个问题，社区就推出了对应的简单易用的 Operator 框架，**比较主流的是 [kubebuilder](https://github.com/kubernetes-sigs/kubebuilder) 和 [Operator Framework](https://coreos.com/operators)**，这两个框架的使用基本上差别不大，我们可以根据自己习惯选择一个即可。
 
 ## 参考文档
 
