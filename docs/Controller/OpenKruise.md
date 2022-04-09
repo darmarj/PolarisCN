@@ -231,22 +231,22 @@ CloneSet 一共提供了 3 种升级方式：
 - **InPlaceIfPossible**: 会优先尝试原地升级 Pod，如果不行再采用重建升级
 - **InPlaceOnly**: 只允许采用原地升级，因此，用户只能修改上一条中的限制字段，如果尝试修改其他字段会被拒绝
 
-这里有一个重要概念：<span class="jade">原地升级</span>，这也是 OpenKruise 提供的核心功能之一，当我们要升级一个 Pod 中镜像的时候，下图展示了重建升级和原地升级的区别：
+这里有一个重要概念：<span class="jade">原地升级</span>，这也是 OpenKruise 提供的<span class="jade">核心功能之一</span>，当我们要升级一个 Pod 中镜像的时候，下图展示了重建升级和原地升级的区别：
 
 [![OpenKruiseUpdate](../assets/images/OpenKruiseUpdate.png "OpenKruiseUpdate")](../assets/images/OpenKruiseUpdate.png)
 
-!!!INFO "重建升级时我们需要删除旧 Pod、创建新 Pod"
+!!!Info  "重建升级时我们需要删除旧 Pod、创建新 Pod"
     1. Pod 名字和 uid 发生变化，因为它们是完全不同的两个 Pod 对象（比如 Deployment 升级）
     2. Pod 名字可能不变、但 uid 变化，因为它们是不同的 Pod 对象，只是复用了同一个名字（比如 StatefulSet 升级）
     3. Pod 所在 Node 名字可能发生变化，因为新 Pod 很可能不会调度到之前所在的 Node 节点
     4. Pod IP 发生变化，因为新 Pod 很大可能性是不会被分配到之前的 IP 地址
 
-!!!INFO "但是对于原地升级，我们仍然复用同一个 Pod 对象，只是修改它里面的字段"
+!!!Success "对于原地升级，我们仍然复用同一个 Pod 对象，只是修改它里面的字段"
     1. 可以避免如调度、分配 IP、挂载盘等额外的操作和代价
     2. 更快的镜像拉取，因为会复用已有旧镜像的大部分 layer 层，只需要拉取新镜像变化的一些 layer
     3. 当一个容器在原地升级时，Pod 中的其他容器不会受到影响，仍然维持运行
 
-!!!INFO "显然，如果能用原地升级方式来升级我们的工作负载，对在线应用的影响是最小的。上面我们提到 CloneSet 升级类型支持 `#!css InPlaceIfPossible`，这意味着 Kruise 会尽量对 Pod 采取原地升级，如果不能则退化到重建升级，以下的改动会被允许执行原地升级"
+!!!Tip "显然，如果能用原地升级方式来升级我们的工作负载，对在线应用的影响是最小的。上面我们提到 CloneSet 升级类型支持 `#!css InPlaceIfPossible`，这意味着 Kruise 会尽量对 Pod 采取原地升级，如果不能则退化到重建升级，以下的改动会被允许执行原地升级"
     1. 更新 workload 中的 spec.template.metadata.*，比如 labels/annotations，Kruise 只会将 metadata 中的改动更新到存量 Pod 上。
     2. 更新 workload 中的 spec.template.spec.containers[x].image，Kruise 会原地升级 Pod 中这些容器的镜像，而不会重建整个 Pod。
     3. 从 Kruise v1.0 版本开始，更新 spec.template.metadata.labels/annotations 并且 container 中有配置 env from 这些改动的 labels/anntations，Kruise 会原地升级这些容器来生效新的 env 值。
@@ -359,7 +359,7 @@ Advanced StatefulSet 在滚动更新策略中新增了 maxUnavailable 来支持�
 
 比如现在我们创建一个如下所示的 Advanced StatefulSet：
 
-```yaml
+```yaml hl_lines="12 13"
 apiVersion: apps.kruise.io/v1beta1
 kind: StatefulSet
 metadata:
@@ -428,9 +428,9 @@ web-4   0/1     ContainerCreating   0          10s
 
 Advanced StatefulSet 增加了 `#!css podUpdatePolicy` 来允许用户指定重建升级还是原地升级。此外还在原地升级中提供了 `#!yaml graceful period` 选项，作为优雅原地升级的策略。用户如果配置了 gracePeriodSeconds 这个字段，控制器在原地升级的过程中会先把 Pod status 改为 not-ready，然后等一段时间（`gracePeriodSeconds`），最后再去修改 Pod spec 中的镜像版本。这样，就为 endpoints-controller这些控制器留出了充足的时间来将 Pod 从 endpoints 端点列表中去除。
 
-如果使用 InPlaceIfPossible 或 InPlaceOnly 策略，必须要增加一个 InPlaceUpdateReady readinessGate，用来在原地升级的时候控制器将 Pod 设置为 NotReady，比如设置上面的应用为原地升级的方式：
+如果使用 InPlaceIfPossible 或 InPlaceOnly 策略，必须要增加一个 InPlaceUpdateReady readinessGate，用来在原地升级的时候控制器将 Pod 设置为 `NotReady`，比如设置上面的应用为原地升级的方式：
 
-```yaml
+```yaml hl_lines="12 13 23 24"
 apiVersion: apps.kruise.io/v1beta1
 kind: StatefulSet
 metadata:
@@ -524,7 +524,7 @@ spec:
 当这个字段被设置之后，Advanced StatefulSet 会保证创建 pod 之后不可用 pod 数量不超过这个限制值。比如说，上面这个 StatefulSet 一开始只会一次性创建 100*10%=10 个 pod，在此之后，每当一个 pod 变为 running、ready 状态后，才会再创建一个新 pod 出来。
 
 !!! WARNING
-    这个功能只允许在 `podManagementPolicy` 是 Parallel 的 StatefulSet 中使用。
+    这个功能只允许在 `podManagementPolicy` 是 `#!css Parallel` 的 StatefulSet 中使用。
 
 ## Advanced DaemonSet
 
@@ -591,7 +591,7 @@ nginx-qvvkz   1/1     Running   0          52s   10.244.3.12   node2   <none>   
 
 我们这里只有两个 Work 节点，所以一共运行了2个 Pod，每个节点上一个，和默认的 DaemonSet 行为基本一致。此外这个策略还支持用户通过配置 node 标签的 selector，来指定灰度升级某些特定类型 node 上的 Pod，比如现在我们只升级 node1 节点的应用，则可以使用 `selector` 标签来标识：
 
-```yaml
+```yaml hl_lines="9-11"
 apiVersion: apps.kruise.io/v1alpha1
 kind: DaemonSet
 spec:
@@ -661,10 +661,9 @@ Events:
   Warning  numUnavailable >= maxUnavailable  15s (x7 over 16s)  daemonset-controller  default/nginx number of unavailable DaemonSet pods: 1, is equal to or exceeds allowed maximum: 1
   Normal   SuccessfulUpdatePodInPlace        14s                daemonset-controller  successfully update pod nginx-m9vj9 in-place
 ```
-
 ## BroadcastJob
 
-这个控制器将 Pod 分发到集群中每个节点上，类似于 DaemonSet，但是 BroadcastJob 管理的 Pod 并不是长期运行的 daemon 服务，而是类似于 Job 的任务类型 Pod，在每个节点上的 Pod 都执行完成退出后，BroadcastJob 和这些 Pod 并不会占用集群资源。 这个控制器非常有利于做升级基础软件、巡检等过一段时间需要在整个集群中跑一次的工作。
+这个控制器将 Pod 分发到集群中每个节点上，类似于 DaemonSet，但是 BroadcastJob 管理的 Pod 并不是长期运行的 daemon 服务，而是类似于 Job 的任务类型 Pod，在每个节点上的 Pod 都执行完成退出后，BroadcastJob 和这些 Pod 并不会占用集群资源。{++这个控制器非常有利于做升级基础软件、巡检等过一段时间需要在整个集群中跑一次的工作++}。
 
 比如我们声明一个如下所示的 BroadcastJob 对象：
 
@@ -699,12 +698,12 @@ bcj-demo-m4mrw           0/1     Completed     0               5m16s   10.244.1.
 bcj-demo-v2fdx           0/1     Completed     0               5m16s   10.244.3.37    node2   <none>           1/1
 ```
 
-我们可以看到创建了一个 BroadcastJob 对象后，同时启动了两个 Pod 任务，每个节点上一个，这和原生的 Job 是不太一样的。创建的 BroadcastJob 一共有以下几种状态：
+{++我们可以看到创建了一个 BroadcastJob 对象后，同时启动了两个 Pod 任务，每个节点上一个，这和原生的 Job 是不太一样的++}。创建的 BroadcastJob 一共有以下几种状态：
 
-- Desired : 期望的 Pod 数量（等同于当前集群中匹配的节点数量）
-- Active: 运行中的 Pod 数量
-- SUCCEEDED: 执行成功的 Pod 数量
-- FAILED: 执行失败的 Pod 数量
+- **Desired**: 期望的 Pod 数量（等同于当前集群中匹配的节点数量）
+- **Active**: 运行中的 Pod 数量
+- **SUCCEEDED**: 执行成功的 Pod 数量
+- **FAILED**: 执行失败的 Pod 数量
 
 此外在 BroadcastJob 对象中还可以配置任务完成后的一些策略，比如配置 completionPolicy.ttlSecondsAfterFinished: 30，表示这个 job 会在执行结束后 30s 被删除。
 
@@ -941,7 +940,7 @@ Events:
 ```
 
 可以看到 Pod 中的 sidecar 容器镜像被原地升级成 busybox:1.35.0 了， 对主容器没有产生任何影响。
-### 同意特性
+### 统一特性
 
 需要注意的是 sidecar 的注入只会发生在 Pod 创建阶段，并且只有 Pod spec 会被更新，不会影响 Pod 所属的 workload template 模板。 spec.containers 除了默认的 k8s container 字段，还扩展了如下一些字段，来方便注入：
 
