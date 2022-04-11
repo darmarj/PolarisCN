@@ -223,7 +223,7 @@ cs-demo-p4kmw   1/1     Running   4 (51m ago)   3d6h
 
 ![OpenKruiseCloneset-Lifecycle](../assets/images/OpenKruiseCloneset-Lifecycle.png "OpenKruiseCloneset-Lifecycle")
 
-### 升级
+### [CloneSet](https://openkruise.io/docs/user-manuals/cloneset)
 
 CloneSet 一共提供了 3 种升级方式：
 
@@ -338,7 +338,7 @@ cs-demo-p4kmw   1/1     Running   0             3d6h   cs-demo-7cb9c88699
 
 此外 CloneSet 还支持一些更高级的用法，比如可以定义优先级策略来控制 Pod 发布的优先级规则，还可以定义策略来将一类 Pod 打散到整个发布过程中，也可以暂停 Pod 发布等操作。
 
-## Advanced StatefulSet
+## [Advanced StatefulSet](https://openkruise.io/docs/user-manuals/advancedstatefulset)
 
 该控制器在原生的 StatefulSet 基础上增强了发布能力，比如 `maxUnavailable` 并行发布、原地升级等，该对象的名称也是 StatefulSet，但是 apiVersion 是 `apps.kruise.io/v1beta1`，这个 CRD 的所有默认字段、默认行为与原生 StatefulSet 完全一致，除此之外还提供了一些 optional 字段来扩展增强的策略。因此，用户从原生 StatefulSet 迁移到 Advanced StatefulSet，只需要把 apiVersion 修改后提交即可：
 
@@ -351,6 +351,7 @@ cs-demo-p4kmw   1/1     Running   0             3d6h   cs-demo-7cb9c88699
    spec:
      #...
 ```
+
 ### 最大不可用
 
 Advanced StatefulSet 在滚动更新策略中新增了 maxUnavailable 来支持并行 Pod 发布，它会保证发布过程中最多有多少个 Pod 处于不可用状态。注意，maxUnavailable 只能配合 `#!css podManagementPolicy` 为 `Parallel` 来使用。
@@ -526,7 +527,7 @@ spec:
 !!! WARNING
     这个功能只允许在 `podManagementPolicy` 是 Parallel 的 StatefulSet 中使用。
 
-## Advanced DaemonSet
+## [Advanced DaemonSet](https://openkruise.io/docs/user-manuals/advanceddaemonset)
 
 这个控制器基于原生 DaemonSet 上增强了发布能力，比如灰度分批、按 Node label 选择、暂停、热升级等。同样的该对象的 Kind 名字也是 DaemonSet，只是 apiVersion 是 `apps.kruise.io/v1alpha1`，这个 CRD 的所有默认字段、默认行为与原生 DaemonSet 完全一致，除此之外还提供了一些 optional 字段来扩展增强的策略。
 
@@ -662,7 +663,7 @@ Events:
   Normal   SuccessfulUpdatePodInPlace        14s                daemonset-controller  successfully update pod nginx-m9vj9 in-place
 ```
 
-## BroadcastJob
+## [BroadcastJob](https://openkruise.io/docs/user-manuals/broadcastjob)
 
 这个控制器将 Pod 分发到集群中每个节点上，类似于 DaemonSet，但是 BroadcastJob 管理的 Pod 并不是长期运行的 daemon 服务，而是类似于 Job 的任务类型 Pod，在每个节点上的 Pod 都执行完成退出后，BroadcastJob 和这些 Pod 并不会占用集群资源。 这个控制器非常有利于做升级基础软件、巡检等过一段时间需要在整个集群中跑一次的工作。
 
@@ -744,7 +745,7 @@ spec:
   # ......
 ```
 
-## AdvancedCronJob
+## [AdvancedCronJob](https://openkruise.io/docs/user-manuals/advancedcronjob)
 
 AdvancedCronJob 是对于原生 CronJob 的扩展版本，根据用户设置的 schedule 规则，周期性创建 Job 执行任务，而 AdvancedCronJob 的 template 支持多种不同的 job 资源：
 
@@ -764,7 +765,7 @@ spec:
 - jobTemplate：与原生 CronJob 一样创建 Job 执行任务
 - broadcastJobTemplate：周期性创建 BroadcastJob 执行任务
 
-![OpenKruiseAdvancedCronJob](../assets/image/OpenKruiseAdvancedCronJob.png "OpenKruiseAdvancedCronJob")
+![OpenKruiseAdvancedCronJob](../assets/images/OpenKruiseAdvancedCronJob.png "OpenKruiseAdvancedCronJob")
 
 ```yaml
 apiVersion: apps.kruise.io/v1alpha1
@@ -806,13 +807,13 @@ acj-test-1646305200-c4jbr   0/1     Completed     0               41s
 acj-test-1646305200-stsm9   0/1     Completed     0               41s
 ```
 
-## SidecarSet
+## [SidecarSet](https://openkruise.io/docs/user-manuals/sidecarset)
 
-SidecarSet 支持通过 admission webhook 来自动为集群中创建的符合条件的 Pod 注入 sidecar 容器，除了在 Pod 创建时候注入外，SidecarSet 还提供了为 Pod 原地升级其中已经注入的 sidecar 容器镜像的能力。SidecarSet 将 sidecar 容器的定义和生命周期与业务容器解耦，它主要用于管理无状态的 sidecar 容器，比如监控、日志等 agent。
+SidecarSet 支持通过 `admission webhook` 来自动为集群中创建的符合条件的 Pod 注入 sidecar 容器，除了在 Pod 创建时候注入外，SidecarSet 还提供了额外的功能，诸如Sidecar 容器镜像原地升级。SidecarSet 将 sidecar 容器的定义和生命周期与业务容器解耦，它主要用于管理无状态的 sidecar 容器，比如监控、日志等 agent。
 
 比如我们定义一个如下所示的 SidecarSet 资源对象：
 
-```yaml
+```yamlkg
 # sidecarset.yaml
 apiVersion: apps.kruise.io/v1alpha1
 kind: SidecarSet
@@ -845,7 +846,7 @@ NAME              MATCHED   UPDATED   READY   AGE
 test-sidecarset   0         0         0       34s
 ```
 
-需要注意上面我们在定义 SidecarSet 对象的时候里面有一个非常终于的属性就是 label selector，会去匹配具有 app=nginx 的 Pod，然后向其中注入下面定义的 `sidecar1` 这个容器，比如定义如下所示的一个 Pod，该 Pod 中包含 app=nginx 的标签，这样可以和上面的 SidecarSet 对象匹配：
+需要注意上面我们在定义 SidecarSet 对象的时候里面有一个非常重要的属性就是 `#!css label selector`，会去匹配具有 app=nginx 的 Pod，然后向其中注入下面定义的 `sidecar1` 这个容器，比如定义如下所示的一个 Pod，该 Pod 中包含 app=nginx 的标签，这样可以和上面的 SidecarSet 对象匹配：
 
 ```yaml
 apiVersion: v1
@@ -911,10 +912,25 @@ spec:
 
 现在我们去更新 SidecarSet 中的 sidecar 容器镜像替换成 `busybox:1.35.0`：
 
-```shell
-➜ kubectl patch sidecarset test-sidecarset --type='json' -p='[{"op": "replace", "path": "/spec/containers/0/image", "value": "busybox:1.35.0"}]'
-sidecarset.apps.kruise.io/test-sidecarset patched
-```
+!!!Tip
+    **Option 1**
+    ```shell
+    ➜ kubectl patch sidecarset test-sidecarset --type='json' -p='[{"op": "replace", "path": "/spec/containers/0/image", "value": "busybox:1.35.0"}]'
+    sidecarset.apps.kruise.io/test-sidecarset patched
+    ```
+    **Option 2**
+    ```shell
+    ➜ kubectl edit sidecarsets test-sidecarset
+    # sidecarset.yaml
+    apiVersion: apps.kruise.io/v1alpha1
+    kind: SidecarSet
+    metadata:
+      name: test-sidecarset
+    spec:
+      containers:
+        - name: sidecar1
+          image: centos:7
+    ```
 
 更新后再去查看 Pod 中的 sidecar 容器：
 
