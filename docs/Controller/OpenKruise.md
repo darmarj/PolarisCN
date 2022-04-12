@@ -44,6 +44,7 @@ workloadspreads.apps.kruise.io             2021-09-16T06:02:37Z
 从 v0.8.0 版本开始提供了一个新的 `#!css Kruise-daemon` 组件，它通过 `DaemonSet` 部署到每个节点上，提供镜像预热、容器重启等功能。
 
 可以通过查阅这些[发布的新功能](https://github.com/openkruise/kruise/releases)。
+
 ## 安装
 
 这里我们同样还是使用 Helm 方式来进行安装，{++**需要注意从 v1.0.0 开始，OpenKruise 要求在 Kubernetes >= 1.16 以上版本的集群中安装和使用**++}。
@@ -80,6 +81,7 @@ kruise-daemon-tnqsx                         1/1     Running   0          4m3s
 ```
 
 如果不想使用默认的参数进行安装，也可以自定义配置，可配置的 values 值可以参考 [charts 文档](https://github.com/openkruise/charts/tree/master/versions) 进行定制。
+
 ## CloneSet
 
 CloneSet 控制器是 OpenKruise 提供的对原生 Deployment 的增强控制器，在使用方式上和 Deployment 几乎一致，如下所示是我们声明的一个 CloneSet 资源对象：
@@ -542,6 +544,7 @@ spec:
    spec:
      #...
 ```
+
 ### 升级
 
 Advanced DaemonSet 在 `#!css spec.updateStrategy.rollingUpdate` 中有一个 `rollingUpdateType` 字段，标识了如何进行滚动升级：
@@ -912,7 +915,7 @@ spec:
 
 现在我们去更新 SidecarSet 中的 sidecar 容器镜像替换成 `busybox:1.35.0`：
 
-!!!Tip
+!!!Warning
     **Option 1**
     ```shell
     ➜ kubectl patch sidecarset test-sidecarset --type='json' -p='[{"op": "replace", "path": "/spec/containers/0/image", "value": "busybox:1.35.0"}]'
@@ -957,6 +960,7 @@ Events:
 ```
 
 可以看到 Pod 中的 sidecar 容器镜像被原地升级成 busybox:1.35.0 了， 对主容器没有产生任何影响。
+
 ### 统一特性
 
 需要注意的是 sidecar 的注入只会发生在 Pod 创建阶段，并且只有 Pod spec 会被更新，不会影响 Pod 所属的 workload template 模板。 spec.containers 除了默认的 k8s container 字段，还扩展了如下一些字段，来方便注入：
@@ -990,7 +994,7 @@ spec:
 ```
 
 - podInjectPolicy 定义了容器 注入到 pod.spec.containers 中的位置
-    - BeforeAppContainer：表示注入到 pod 原 containers 的前面（(默认) ）
+    - BeforeAppContainer：表示注入到 pod 原 containers 的前面 (默认)
     - AfterAppContainer： 表示注入到 pod 原 containers 的后面
 - shareVolumePolicy(数据卷共享)
     - 共享指定卷：通过 spec.volumes 来定义 sidecar 自身需要的 volume
@@ -999,8 +1003,8 @@ spec:
 
 SidecarSet 不仅支持 sidecar 容器的原地升级，而且提供了非常丰富的升级、灰度策略。同样在 SidecarSet 对象中 `#!css updateStrategy` 属性下面也可以配置 partition 来定义保留旧版本 Pod 的数量或百分比，默认为 0；同样还可以配置的有 `#!css maxUnavailable` 属性，表示在发布过程中的最大不可用数量。
 
-- 当 `{matched pod}=100,partition=50,maxUnavailable=10`，控制器会发布 50 个 Pod 到新版本，但是同一时间只会发布 10 个 Pod，每发布好一个 Pod 才会再找一个发布，直到 50 个发布完成。
-- 当 `{matched pod}=100,partition=80,maxUnavailable=30`，控制器会发布 20 个 Pod 到新版本，因为满足 maxUnavailable 数量，所以这 20 个 Pod 会同时发布。
+- {++当 {matched pod}=100,partition=50,maxUnavailable=10++}，控制器会发布 50 个 Pod 到新版本，但是同一时间只会发布 10 个 Pod，每发布好一个 Pod 才会再找一个发布，直到 50 个发布完成。
+- {++当 {matched pod}=100,partition=80,maxUnavailable=30++}，控制器会发布 20 个 Pod 到新版本，因为满足 maxUnavailable 数量，所以这 20 个 Pod 会同时发布。
 
 同样也可以设置 `paused: true` 来暂停发布，此时对于新创建的、扩容的 pod 依旧会实现注入能力，已经更新的 pod 会保持更新后的版本不动，还没有更新的 pod 会暂停更新。
 
@@ -1017,6 +1021,7 @@ spec:
     partition: 10
     paused: true
 ```
+
 ### 金丝雀发布
 
 对于有金丝雀发布需求的业务，可以通过 `selector` 来实现，对于需要率先金丝雀灰度的 pod 打上固定的 `#!css [canary.release] = true` 的标签，再通过 `selector.matchLabels` 来选中该 pod 即可。
@@ -1061,7 +1066,7 @@ test-pod                2/2     Running   0              4m2s
 现在如果我们想为 test-pod 这个应用来执行灰度策略，将 sidecar 容器镜像更新成 busybox:1.35.0，则可以在 `updateStrategy` 下面添加 `selector.matchLabels` 属性 canary.release: "true"：
 
 ```yaml
-piVersion: apps.kruise.io/v1alpha1
+apiVersion: apps.kruise.io/v1alpha1
 kind: SidecarSet
 metadata:
   name: test-sidecarset
@@ -1092,6 +1097,10 @@ spec:
   - name: app
     image: nginx:1.7.9
 ```
+!!!Warning
+    使用命令kubectl path或直接使用kubectl editor修改
+    
+    直接修改资源配置文件存在bug---无法生效
 
 更新后可以发现 test-pod 的 sidecar 镜像更新了，其他 Pod 没有变化，这样就实现了 sidecar 的灰度功能：
 
@@ -1113,7 +1122,7 @@ SidecarSet 原地升级会先停止旧版本的容器，然后创建新版本的
 
 但是对于很多代理或运行时的 sidecar 容器，例如 Istio Envoy，这种升级方法就有问题了，Envoy 作为 Pod 中的一个代理容器，代理了所有的流量，如果直接重启，Pod 服务的可用性会受到影响，如果需要单独升级 envoy sidecar，就需要复杂的优雅终止和协调机制，所以我们为这种 sidecar 容器的升级提供了一种新的解决方案。
 
-```yaml
+```yaml hl_lines="13 14 21"
 apiVersion: apps.kruise.io/v1alpha1
 kind: SidecarSet
 metadata:
@@ -1155,6 +1164,7 @@ Pod 创建时，SidecarSet Webhook 将会注入两个容器：
 - **{sidecarContainer.name}-2**: 如下图所示 envoy-2，这个容器是业务配置的 hotUpgradeEmptyImage 容器，例如：empty:1.0，用于后面的热升级机制
 
 ![OpenKruiseUpdateInjection](../assets/images/OpenKruiseUpdateInjection.png "OpenKruiseUpdateInjection")
+
 ### 热升级流程
 
 热升级流程主要分为三个步骤：
@@ -1170,6 +1180,12 @@ Pod 创建时，SidecarSet Webhook 将会注入两个容器：
 这里我们以 OpenKruise 的官方示例来进行说明，首先创建上面的 `hotupgrade-sidecarset` 这个 SidecarSet。然后创建一个如下所示的 CloneSet 对象：
 
 ```yaml
+apiVersion: apps.kruise.io/v1alpha1
+kind: SidecarSet
+  # ......
+
+---
+
 apiVersion: apps.kruise.io/v1alpha1
 kind: CloneSet
 metadata:
@@ -1274,6 +1290,7 @@ I0306 11:08:47.587727       1 main.go:39] request sidecar server success, and re
 ```
 
 整个热升级示例代码可以参考[GitHub](https://github.com/openkruise/samples/tree/master/hotupgrade)的实现。
+
 ## Container Restart
 
 `#!css ContainerRecreateRequest` 控制器可以帮助用户重启/重建存量 Pod 中一个或多个容器。和 Kruise 提供的原地升级类似，当一个容器重建的时候，Pod 中的其他容器还保持正常运行，重建完成后，Pod 中除了该容器的 restartCount 增加以外不会有什么其他变化。
@@ -1302,6 +1319,7 @@ spec:
 ```
 
 一般来说，列表中的容器会一个个被停止，但可能同时在被重建和启动，除非 `#!yaml orderedRecreate` 被设置为 <span class="rouge">true</span>。 `#!yaml unreadyGracePeriodSeconds` 功能依赖于 KruisePodReadinessGate 这个 feature-gate，后者会在每个 Pod 创建的时候注入一个 `readinessGate`，否则，默认只会给 Kruise workload 创建的 Pod 注入 `readinessGate`，也就是说只有这些 Pod 才能在 CRR 重建时使用 `#!yaml unreadyGracePeriodSeconds`。
+
 ## ImagePullJob
 
 NodeImage 和 ImagePullJob 是从 Kruise v0.8.0 版本开始提供的 CRD。Kruise 会自动为每个 Node 创建一个 NodeImage，它包含了哪些镜像需要在这个 Node 上做预热，比如我们这里3个节点，则会自动创建3个 NodeImage 对象：
@@ -1388,7 +1406,7 @@ spec:
   - secret-name2
 ```
 
-我们可以在 selector 字段中指定节点的名字列表或标签选择器 (只能设置其中一种)，如果没有设置 selector 则会选择所有节点做预热。或者可以配置 `podSelector` 来在这些 pod 所在节点上拉取镜像，podSelector 与 selector 不能同时设置。
+我们可以在 selector 字段中指定节点的名字列表或标签选择器 (只能设置其中一种)，如果没有设置 selector 则会选择所有节点做预热。或者可以配置 `podSelector` 来在这些 pod 所在节点上拉取镜像，{++podSelector 与 selector 不能同时设置++}。
 
 同时，ImagePullJob 有两种 `#!css completionPolicy` 类型:
 
@@ -1397,10 +1415,11 @@ spec:
 - **ttlSecondsAfterFinished**：结束后超过这个时间，自动清理删除 job
 - **Never**：表示这个 job 是长期运行、不会结束，并且会每天都会在匹配的节点上重新预热一次指定的镜像
 
-同样如果你要预热的镜像来自私有仓库，则可以通过 `pullSecrets` 来指定仓库的 Secret 信息。
+同样如果你要预热的镜像`来自私有仓库`，则可以通过 `pullSecrets` 来指定仓库的 Secret 信息。
+
 ## 容器启动顺序
 
-`#!css Container Launch Priority` 提供了控制一个 Pod 中容器启动顺序的方法。通常来说 Pod 容器的启动和退出顺序是由 Kubelet 管理的，Kubernetes 曾经有一个 KEP 计划在 container 中增加一个 type 字段来标识不同类型容器的启停优先级，但是由于{++sig-node 考虑到对现有代码架构的改动太大，所以将该提案拒绝了++}。
+`#!css Container Launch Priority` 提供了控制一个 Pod 中容器启动顺序的方法。通常来说 Pod 容器的启动和退出顺序是由 Kubelet 管理的，Kubernetes 曾经有一个 KEP 计划在 container 中增加一个 type 字段来标识不同类型容器的启停优先级，但是由于sig-node 考虑到对现有代码架构的改动太大，所以将该提案拒绝了。
 
 !!!WARNING
     这个功能作用在 Pod 对象上，不管它的 owner 是什么类型的，因此可以适用于 Deployment、CloneSet 以及其他的 workload 种类。
