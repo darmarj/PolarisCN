@@ -189,5 +189,7 @@ nav:
     - Admission: Controller/Admission.md
     - Crd: Controller/Crd.md
     - OpenKruise: Controller/OpenKruise.md
+  - 配置管理:
+    - ConfigMap: ConfigManage/ConfigMap.md
 
       
