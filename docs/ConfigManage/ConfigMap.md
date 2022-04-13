@@ -273,7 +273,7 @@ port=6379
 
 另外我们也可以使用 ConfigMap来设置命令行参数，ConfigMap 也可以被用来设置容器中的命令或者参数值，如下 Pod:
 
-```yaml
+```yaml hl_lines="9"
 apiVersion: v1
 kind: Pod
 metadata:
@@ -305,7 +305,7 @@ localhost 3306
 
 另外一种是非常常见的使用 ConfigMap 的方式：通过数据卷使用，在数据卷里面使用 ConfigMap，就是将文件填入数据卷，在这个文件中，键就是文件名，键值就是文件内容，如下资源对象所示
 
-```yaml
+```yaml hl_lines="13"
 apiVersion: v1
 kind: Pod
 metadata:
@@ -334,7 +334,7 @@ port=6379
 
 当然我们也可以在 ConfigMap 值被映射的数据卷里去控制路径，如下 Pod 定义：
 
-```yaml
+```yaml hl_lines="12 16"
 apiVersion: v1
 kind: Pod
 metadata:
