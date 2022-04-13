@@ -191,6 +191,5 @@ nav:
     - OpenKruise: Controller/OpenKruise.md
   - 配置管理:
     - ConfigMap: ConfigManage/ConfigMap.md
-    - Secret: ConfigManage/Secret.md
 
       
