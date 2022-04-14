@@ -17,3 +17,5 @@ title: RBAC
 ```
 
 如果是二进制的方式搭建的集群，添加这个参数过后，记得要重启 kube-apiserver 服务。
+
+## API 对象
