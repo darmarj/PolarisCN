@@ -7,7 +7,7 @@ title: Secret
 
 前面我们学习 `ConfigMap` 的时候，我们说 ConfigMap 这个资源对象是 Kubernetes 当中非常重要的一个资源对象，**一般情况下 ConfigMap 是用来存储一些非安全的配置信息**，如果涉及到一些安全相关的数据的话用 ConfigMap 就非常不妥了，因为 **ConfigMap 是明文存储的**，这个时候我们就需要用到{++另外一个资源对象了：Secret，Secret用来保存敏感信息++}。例如密码、OAuth 令牌和 ssh key 等等，将这些信息放在 `Secret` 中比放在 Pod 的定义中或者 Docker 镜像中要更加安全和灵活。
 
-Secret 主要使用的有以下三种类型：
+Secret 主要使用的有以下这些类型，其中主要使用前三种：
 
 - **Opaque**：base64 编码格式的 Secret，用来存储密码、密钥等；但数据也可以通过 base64 –decode 解码得到原始数据，所有**加密性很弱**。
 - **kubernetes.io/dockercfg**: ~/.dockercfg 文件的序列化形式
@@ -313,7 +313,7 @@ type: kubernetes.io/dockerconfigjson
 
 如果我们需要拉取私有仓库中的 Docker 镜像的话就需要使用到上面的 myregistry 这个 Secret：
 
-```yaml
+```yaml hl_lines="8"
 apiVersion: v1
 kind: Pod
 metadata:
@@ -334,6 +334,7 @@ spec:
 除了设置 `Pod.spec.imagePullSecrets` 这种方式来获取私有镜像之外，我们还可以通过在 `ServiceAccount` 中设置 imagePullSecrets，然后就会自动为使用该 SA 的 Pod 注入 imagePullSecrets 信息：
 
 ```shell
+# kubectl edit ServiceAccountk edit
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -351,12 +352,28 @@ imagePullSecrets:
 
 ## kubernetes.io/basic-auth
 
-该类型用来存放用于基本身份认证所需的凭据信息，使用这种 Secret 类型时，Secret 的 data 字段（不一定）必须包含以下两个键（相当于是约定俗成的一个规定）：
+该类型用来存放用于基本身份认证所需的凭据信息，使用这种 Secret 类型时，Secret 的 data 字段可以包含以下两个键（相当于是约定俗成的一个规定），即非必须：
 
 - **username**: 用于身份认证的用户名
 - **password**: 用于身份认证的密码或令牌
 
-以上两个键的键值都是 base64 编码的字符串。 然你也可以在创建 Secret 时使用 stringData 字段来提供明文形式的内容。下面的 YAML 是基本身份认证 Secret 的一个示例清单：
+!!!Info
+    ```shell
+    # kubectl explain secret.data
+
+    KIND:     Secret
+    VERSION:  v1
+    
+    FIELD:    data <map[string]string>
+    
+    DESCRIPTION:
+         Data contains the secret data. Each key must consist of alphanumeric
+         characters, '-', '_' or '.'. The serialized form of the secret data is a
+         base64 encoded string, representing the arbitrary (possibly non-string)
+         data value here. Described in https://tools.ietf.org/html/rfc4648#section-4
+    ```
+
+以上两个键的键值都是 base64 编码的字符串。 然而你也可以在创建 Secret 时使用 stringData 字段来提供明文形式的内容。下面的 YAML 是基本身份认证 Secret 的一个示例清单：
 
 ```yaml
 apiVersion: v1
@@ -433,7 +450,7 @@ secret-pod3-78c8c76db8-7zmqm   1/1       Running   0          13s
 
 我们可以直接查看这个 Pod 的详细信息：
 
-```yaml
+```yaml hl_lines="7 13"
     volumeMounts:
     - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
       name: kube-api-access-lvhfb
