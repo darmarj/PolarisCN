@@ -524,7 +524,7 @@ spec:
 
 为解决这个问题 Kubernetes 提供了 ServiceAccount Token 投影特性用于增强 ServiceAccount 的安全性，ServiceAccount 令牌卷投影可使 Pod 支持以卷投影的形式将 ServiceAccount 挂载到容器中从而避免了对 Secret 的依赖。
 
-通过 ServiceAccount 令牌卷投影可用于工作负载的 ServiceAccount 令牌是受时间限制，受 audience 约束的,并且不与 Secret 对象关联。如果删除了 Pod 或删除了 ServiceAccount，则这些令牌将无效，从而可以防止任何误用，Kubelet 还会在令牌即将到期时自动旋转令牌，另外，还可以配置希望此令牌可用的路径。
+通过 ServiceAccount 令牌卷投影可用于工作负载的 ServiceAccount 令牌是受时间限制，受 audience 约束的， 并且不与 Secret 对象关联。如果删除了 Pod 或删除了 ServiceAccount，则这些令牌将无效，从而可以防止任何误用，Kubelet 还会在令牌即将到期时自动旋转令牌，另外，还可以配置希望此令牌可用的路径。
 
 为了启用令牌请求投射（此功能在 Kubernetes 1.12 中引入，Kubernetes v1.20 已经稳定版本），你必须为 `kube-apiserver` 设置以下命令行参数，通过 kubeadm 安装的集群已经默认配置了：
 
