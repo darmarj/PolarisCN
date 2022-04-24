@@ -193,3 +193,6 @@ nav:
     - ConfigMap: ConfigManage/ConfigMap.md
     - Secret: ConfigManage/Secret.md
     - RBAC: ConfigManage/RBAC.md
+    - Security Context: ConfigManage/Security Context.md
+    - OPA: ConfigManage/OPA.md
+    - Kyverno: ConfigManage/Kyverno.md

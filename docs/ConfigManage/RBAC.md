@@ -32,7 +32,7 @@ title: RBAC
 
 ![api-server-space](../assets/images/api-server-space.png "api-server-space")
 
-从上图中我们也可以看出 Kubernetes 的 API 对象的组织方式，在顶层，我们可以看到有一个核心组（由于历史原因，是 /api/v1 下的所有内容而不是在 /apis/core/v1 下面）和命名组（路径 /apis/$NAME/$VERSION）和系统范围内的实体，比如 /metrics。我们也可以用下面的命令来查看集群中的 API 组织形式：
+从上图中我们也可以看出 Kubernetes 的 API 对象的组织方式，在顶层，我们可以看到有一个核心组（由于历史原因，是 `/api/v1` 下的所有内容而不是在 `/apis/core/v1` 下面）和命名组（路径 `/apis/$NAME/$VERSION`）和系统范围内的实体，比如 /metrics。我们也可以用下面的命令来查看集群中的 API 组织形式：
 
 ```yaml
 ➜  ~ kubectl get --raw /
@@ -48,7 +48,7 @@ title: RBAC
 }
 ```
 
-比如我们来查看批处理这个操作，在我们当前这个版本中存在 **1个版本** 的操作：/apis/batch/v1，暴露了可以查询和操作的不同实体集合，同样我们还是可以通过 kubectl 来查询对应对象下面的数据：
+比如我们来查看批处理这个操作，在我们当前这个版本中存在 **v1这个版本** 的操作：`/apis/batch/v1`，暴露了可以查询和操作的不同实体集合，同样我们还是可以通过 kubectl 来查询对应对象下面的数据：
 
 ```yaml
 ➜  ~ kubectl get --raw /apis/batch/v1 | python -m json.tool
@@ -186,46 +186,42 @@ apiVersion: apps/v1
 kind: Deployment
 ```
 
-其中 Deployment 就是这个 API 对象的资源类型（Resource），apps 就是它的组（Group），v1 就是它的版本（Version）。API Group、Version 和 资源就唯一定义了一个 HTTP 路径，然后在 kube-apiserver 端对这个 url 进行了监听，然后把对应的请求传递给了对应的控制器进行处理而已，当然在 Kuberentes 中的实现过程是非常复杂的。
+其中 Deployment 就是这个 API 对象的资源类型（`Resource`），apps 就是它的组（`Group`），v1 就是它的版本（`Version`）。API Group、Version 和 资源就唯一定义了一个 HTTP 路径，然后在 kube-apiserver 端对这个 url 进行了监听，然后把对应的请求传递给了对应的控制器进行处理而已，当然在 Kuberentes 中的实现过程是非常复杂的。
 
 ## RBAC
 
-上面我们介绍了 Kubernetes 所有资源对象都是模型化的 API 对象，允许执行 CRUD(Create、Read、Update、Delete) 操作(也就是我们常说的增、删、改、查操作)，比如下面的这些资源：
+上面我们介绍了 Kubernetes 所有资源对象都是模型化的 API 对象，允许执行 `#!css CRUD(Create、Read、Update、Delete)` 操作(也就是我们常说的增、删、改、查操作)。
 
-- Pods
-- ConfigMaps
-- Deployments
-- Nodes
-- Secrets
-- Namespaces
-- ......
-
-对于上面这些资源对象的可能存在的操作有：
-
-- create
-- get
-- delete
-- list
-- update
-- edit
-- watch
-- exec
-- patch
+!!!Quote "资源对象及其对应的操作有:"
+    |   Workloads   |   Verbs   |
+    |   ---------   |    -----  |
+    |   Pods        |   create  |
+    |   ConfigMaps  |   get     |
+    |   Deployments |   delete  |
+    |   Nodes       |   list    |
+    |   Secrets     |   update  |
+    |   Namespaces  |   edit    |
+    |   ......      |   watch   |
+    |               |   exec    |
+    |               |   patch   |
 
 在更上层，这些资源和 API Group 进行关联，比如 Pods 属于 Core API Group，而 Deployments 属于 apps API Group，现在我们要在 Kubernetes 中通过 RBAC 来对资源进行权限管理，除了上面的这些资源和操作以外，我们还需要了解另外几个概念：
 
-Rule：规则，规则是一组属于不同 API Group 资源上的一组操作的集合
-Role 和 ClusterRole：角色和集群角色，这两个对象都包含上面的 Rules 元素，二者的区别在于，在 Role 中，定义的规则只适用于单个命名空间，也就是和 namespace 关联的，而 ClusterRole 是集群范围内的，因此定义的规则不受命名空间的约束。另外 Role 和 ClusterRole 在Kubernetes 中都被定义为集群内部的 API 资源，和我们前面学习过的 Pod、Deployment 这些对象类似，都是我们集群的资源对象，所以同样的可以使用 YAML 文件来描述，用 kubectl 工具来管理
-Subject：主题，对应集群中尝试操作的对象，集群中定义了3种类型的主题资源：
+- **Rule**：规则，一组属于不同 API Group 资源上的一组操作集合。
 
-User Account：用户，这是有外部独立服务进行管理的，管理员进行私钥的分配，用户可以使用 KeyStone 或者 Goolge 帐号，甚至一个用户名和密码的文件列表也可以。对于用户的管理集群内部没有一个关联的资源对象，所以用户不能通过集群内部的 API 来进行管理
-Group：组，这是用来关联多个账户的，集群中有一些默认创建的组，比如 cluster-admin
-Service Account：服务帐号，通过 Kubernetes API 来管理的一些用户帐号，和 namespace 进行关联的，适用于集群内部运行的应用程序，需要通过 API 来完成权限认证，所以在集群内部进行权限操作，我们都需要使用到 ServiceAccount，这也是我们这节课的重点
-RoleBinding 和 ClusterRoleBinding：角色绑定和集群角色绑定，简单来说就是把声明的 Subject 和我们的 Role 进行绑定的过程（给某个用户绑定上操作的权限），二者的区别也是作用范围的区别：RoleBinding 只会影响到当前 namespace 下面的资源操作权限，而 ClusterRoleBinding 会影响到所有的 namespace。
+- **Role 和 ClusterRole**：角色和集群角色，这两个对象都包含上面的 Rules 元素。{++二者的区别在于，在 Role 中，定义的规则只适用于单个命名空间，也就是和 namespace 关联的，而 ClusterRole 是集群范围内的，因此定义的规则不受命名空间的约束。另外 Role 和 ClusterRole 在Kubernetes 中都被定义为集群内部的 API 资源，和我们前面学习过的 Pod、Deployment 这些对象类似，都是我们集群的资源对象，所以同样的可以使用 YAML 文件来描述，用 kubectl 工具来管理++}
+
+- **Subject**：主题，对应集群中尝试操作的对象，集群中定义了3种类型的主题资源：
+
+    - <span class="rouge">User Account</span>：用户，这是有 **外部独立服务** 进行管理的，管理员进行私钥的分配，用户可以使用 KeyStone 或者 Goolge 帐号，甚至一个用户名和密码的文件列表也可以。对于用户的管理集群内部没有一个关联的资源对象，所以用户不能通过集群内部的 API 来进行管理
+    - <span class="rouge">Group</span>：组，这是用来 **关联多个账户的** ，集群中有一些默认创建的组，比如 cluster-admin
+    - <span class="rouge">Service Account</span>：服务帐号，通过 Kubernetes API 来管理的一些用户帐号，**和 namespace 进行关联的，适用于集群内部运行的应用程序**。需要通过 API 来完成权限认证，所以在集群内部进行权限操作，我们都需要使用到 ServiceAccount，这也是我们这节课的重点
+    
+- **RoleBinding 和 ClusterRoleBinding**：角色绑定和集群角色绑定，简单来说就是把声明的 Subject 和我们的 Role 进行绑定的过程（给某个用户绑定上操作的权限），二者的区别也是作用范围的区别：RoleBinding 只会影响到当前 namespace 下面的资源操作权限，而 ClusterRoleBinding 会影响到集群级别的 namespace。
 
 接下来我们来通过几个简单的示例，来学习下在 Kubernetes 集群中如何使用 RBAC。
 
-### 只能访问某个 namespace 的普通用户¶
+### 只能访问某个 namespace 的普通用户
 
 我们想要创建一个 User Account，只能访问 kube-system 这个命名空间，对应的用户信息如下所示：
 
@@ -236,7 +232,7 @@ group: youdianzhishi
 
 #### 创建用户凭证
 
-我们前面已经提到过，Kubernetes 没有 User Account 的 API 对象，不过要创建一个用户帐号的话也是挺简单的，利用管理员分配给你的一个私钥就可以创建了，这个我们可以参考官方文档中的方法，这里我们来使用 OpenSSL 证书来创建一个 User，当然我们也可以使用更简单的 cfssl工具来创建：
+我们前面已经提到过，Kubernetes 没有 `User Account` 的 API 对象，不过要创建一个用户帐号的话也是挺简单的，利用管理员分配给你的一个私钥就可以创建了，这个我们可以参考官方文档中的方法，这里我们来使用 OpenSSL 证书来创建一个 User，当然我们也可以使用更简单的 cfssl工具来创建：
 
 给用户 cnych 创建一个私钥，命名成 cnych.key：
 
@@ -248,13 +244,13 @@ Generating RSA private key, 2048 bit long modulus
 e is 65537 (0x10001)
 ```
 
-使用我们刚刚创建的私钥创建一个证书签名请求文件：cnych.csr，要注意需要确保在 -subj 参数中指定用户名和组(CN表示用户名，O表示组)：
+使用我们刚刚创建的私钥创建一个证书签名请求文件：cnych.csr，要注意需要确保在 `#!css -subj` 参数中指定用户名和组(CN表示用户名，O表示组)：
 
 ```shell
 ➜  ~ openssl req -new -key cnych.key -out cnych.csr -subj "/CN=cnych/O=youdianzhishi"
 ```
 
-然后找到我们的 Kubernetes 集群的 CA 证书，我们使用的是 kubeadm 安装的集群，CA 相关证书位于 /etc/kubernetes/pki/ 目录下面，如果你是二进制方式搭建的，你应该在最开始搭建集群的时候就已经指定好了 CA 的目录，我们会利用该目录下面的 ca.crt 和 ca.key两个文件来批准上面的证书请求。生成最终的证书文件，我们这里设置证书的有效期为 500 天：
+然后找到我们的 Kubernetes 集群的 CA 证书，我们使用的是 kubeadm 安装的集群，CA 相关证书位于 `/etc/kubernetes/pki/` 目录下面，如果你是二进制方式搭建的，你应该在最开始搭建集群的时候就已经指定好了 CA 的目录，**我们会利用该目录下面的 ca.crt 和 ca.key两个文件来批准上面的证书请求**。生成最终的证书文件，我们这里设置证书的有效期为 500 天：
 
 ```shell
 ➜  ~ openssl x509 -req -in cnych.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out cnych.crt -days 500
@@ -308,7 +304,7 @@ rules:
   verbs: ["get", "list", "watch", "create", "update", "patch", "delete"] # 也可以使用['*']
 ```
 
-其中 Pod 属于 core 这个 API Group，在 YAML 中用空字符就可以，而 Deployment 和 ReplicaSet 现在都属于 apps 这个 API Group（如果不知道则可以用 kubectl explain 命令查看），所以 rules 下面的 apiGroups 就综合了这几个资源的 API Group：["", "apps"]，其中 verbs 就是我们上面提到的可以对这些资源对象执行的操作，我们这里需要所有的操作方法，所以我们也可以使用\['*'\] 来代替，然后直接创建这个 Role：
+其中 Pod 属于 `#!css core` 这个 API Group，在 YAML 中用 **空字符** 就可以，而 Deployment 和 ReplicaSet 现在都属于 apps 这个 API Group（如果不知道则可以用 kubectl explain 命令查看），所以 rules 下面的 apiGroups 就综合了这几个资源的 API Group：`["", "apps"]`，其中 verbs 就是我们上面提到的可以对这些资源对象执行的操作，我们这里需要所有的操作方法，所以我们也可以使用`['*']` 来代替，然后直接创建这个 Role：
 
 ```shell
 ➜  ~ kubectl create -f cnych-role.yaml
@@ -319,7 +315,7 @@ role.rbac.authorization.k8s.io/cnych-role created
 
 #### 创建角色权限绑定
 
-Role 创建完成了，但是很明显现在我们这个 Role 和我们的用户 cnych 还没有任何关系，对吧？这里就需要创建一个 RoleBinding 对象，在 kube-system 这个命名空间下面将上面的 cnych-role 角色和用户 cnych 进行绑定：
+Role 创建完成了，但是很明显现在我们这个 Role 和我们的用户 cnych 还没有任何关系，对吧？这里就需要创建一个 `RoleBinding` 对象，在 kube-system 这个命名空间下面将上面的 cnych-role 角色和用户 cnych 进行绑定：
 
 ```yaml
 # cnych-rolebinding.yaml
@@ -338,7 +334,7 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io  # 留空字符串也可以，则使用当前的apiGroup
 ```
 
-上面的 YAML 文件中我们看到了 subjects 字段，这里就是我们上面提到的用来尝试操作集群的对象，这里对应上面的 User 帐号 cnych，使用kubectl 创建上面的资源对象：
+上面的 YAML 文件中我们看到了 `#!css subjects` 字段，这里就是我们上面提到的用来尝试操作集群的对象，这里对应上面的 User 帐号 cnych，使用kubectl 创建上面的资源对象：
 
 ```shell
 ➜  ~ kubectl create -f cnych-rolebinding.yaml
@@ -369,7 +365,7 @@ deployment.apps/coredns          2/2     2            2           30d
 deployment.apps/metrics-server   1/1     1            1           9d
 ```
 
-我们可以看到我们使用 kubectl 的使用并没有指定 namespace，这是因为我们我们上面创建这个 Context 的时候就绑定在了 kube-system 这个命名空间下面，如果我们在后面加上一个-n default试看看呢？
+我们可以看到我们使用 kubectl 的使用并没有指定 namespace，这是因为我们我们上面创建这个 Context 的时候就绑定在了 kube-system 这个命名空间下面，如果我们在后面加上一个`-n default`试看看呢？
 
 ```shell
 ➜  ~ kubectl --context=cnych-context get pods --namespace=default
@@ -387,7 +383,7 @@ Error from server (Forbidden): services is forbidden: User "cnych" cannot list r
 
 ### 只能访问某个 namespace 的 ServiceAccount
 
-上面我们创建了一个只能访问某个命名空间下面的普通用户，我们前面也提到过 subjects 下面还有一种类型的主题资源：ServiceAccount，现在我们来创建一个集群内部的用户只能操作 kube-system 这个命名空间下面的 pods 和 deployments，首先来创建一个 ServiceAccount 对象：
+上面我们创建了一个只能访问某个命名空间下面的普通用户，我们前面也提到过 subjects 下面还有一种类型的主题资源：`#!css ServiceAccount`，现在我们来创建一个集群内部的用户只能操作 kube-system 这个命名空间下面的 `pods` 和 `deployments`，首先来创建一个 ServiceAccount 对象：
 
 ```shell
 ➜  ~ kubectl create sa cnych-sa -n kube-system
@@ -426,7 +422,7 @@ rules:
 ➜  ~ kubectl apply -f cnych-sa-role.yaml
 ```
 
-然后创建一个 RoleBinding 对象，将上面的 cnych-sa 和角色 haimaxy-sa-role 进行绑定：(haimaxy-sa-rolebinding.yaml)
+然后创建一个 `#!css RoleBinding` 对象，将上面的 cnych-sa 和角色 haimaxy-sa-role 进行绑定：(haimaxy-sa-rolebinding.yaml)
 
 ```yaml
 kind: RoleBinding
@@ -450,7 +446,7 @@ roleRef:
 ➜  ~ kubectl create -f cnych-sa-rolebinding.yaml
 ```
 
-然后我们怎么去验证这个 ServiceAccount 呢？我们前面的课程中是不是提到过一个 ServiceAccount 会生成一个 Secret 对象和它进行映射，这个 Secret 里面包含一个 token，我们可以利用这个 token 去登录 Dashboard，然后我们就可以在 Dashboard 中来验证我们的功能是否符合预期了：
+然后我们怎么去验证这个 ServiceAccount 呢？我们前面的课程中是不是提到过一个 ServiceAccount 会生成一个 `Secret` 对象和它进行映射，这个 Secret 里面包含一个 token，我们可以利用这个 token 去登录 Dashboard，然后我们就可以在 Dashboard 中来验证我们的功能是否符合预期了：
 
 ```shell
 ➜  ~ kubectl get secret -n kube-system |grep cnych-sa
@@ -459,21 +455,22 @@ cnych-sa-token-nxgqx                  kubernetes.io/service-account-token   3   
 # 会生成一串很长的base64后的字符串
 ```
 
-使用这里的 token 去 Dashboard 页面进行登录：
+使用这里的 `token` 去 Dashboard 页面进行登录：
 
 ![k8s-dashboard-permission](../assets/images/k8s-dashboard-permission.png "k8s-dashboard-permission")
 
-我们可以看到上面的提示信息说我们现在使用的这个 ServiceAccount 没有权限获取当前命名空间下面的资源对象，这是因为我们登录进来后默认跳转到 default 命名空间，我们切换到 kube-system 命名空间下面就可以了：
+我们可以看到上面的提示信息说我们现在使用的这个 `ServiceAccount` 没有权限获取当前命名空间下面的资源对象，这是因为我们登录进来后默认跳转到 default 命名空间，我们切换到 kube-system 命名空间下面就可以了：
 
 ![k8s-dashboard-available](../assets/images/k8s-dashboard-available.png "k8s-dashboard-available")
 
-我们可以看到可以访问 pod 列表了，但是也会有一些其他额外的提示：events is forbidden: User “system:serviceaccount:kube-system:cnych-sa” cannot list events in the namespace “kube-system”，这是因为当前登录用只被授权了访问 pod 和 deployment 的权限，同样的，访问下deployment看看可以了吗？
+我们可以看到可以访问 pod 列表了，但是也会有一些其他额外的提示：`events is forbidden: User “system:serviceaccount:kube-system:cnych-sa” cannot list events in the namespace “kube-system”`，这是因为当前登录用只被授权了访问 pod 和 deployment 的权限。
 
+再访问下deployment看看可以了吗？
 同样的，你可以根据自己的需求来对访问用户的权限进行限制，可以自己通过 Role 定义更加细粒度的权限，也可以使用系统内置的一些权限……
 
 ### 可以全局访问的 ServiceAccount
 
-刚刚我们创建的 cnych-sa 这个 ServiceAccount 和一个 Role 角色进行绑定的，如果我们现在创建一个新的 ServiceAccount，需要他操作的权限作用于所有的 namespace，这个时候我们就需要使用到 ClusterRole 和 ClusterRoleBinding 这两种资源对象了。同样，首先新建一个 ServiceAcount 对象：(cnych-sa2.yaml)
+刚刚我们创建的 cnych-sa 这个 ServiceAccount 和一个 Role 角色进行绑定的，如果我们现在创建一个新的 `#!css ServiceAccount`，需要他操作的权限作用于所有的 namespace，这个时候我们就需要使用到 `ClusterRole` 和 `ClusterRoleBinding` 这两种资源对象了。同样，首先新建一个 ServiceAcount 对象：(cnych-sa2.yaml)
 
 ```yaml
 apiVersion: v1
@@ -489,7 +486,7 @@ metadata:
 ➜  ~ kubectl create -f cnych-sa2.yaml
 ```
 
-然后创建一个 ClusterRoleBinding 对象（cnych-clusterolebinding.yaml）:
+然后创建一个 `ClusterRoleBinding` 对象（cnych-clusterolebinding.yaml）:
 
 ```yaml
 kind: ClusterRoleBinding
@@ -506,7 +503,7 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 
-从上面我们可以看到我们没有为这个资源对象声明 namespace，因为这是一个 ClusterRoleBinding 资源对象，是作用于整个集群的，我们也没有单独新建一个 ClusterRole 对象，而是使用的 cluster-admin 这个对象，这是 Kubernetes 集群内置的 ClusterRole 对象，我们可以使用 kubectl get clusterrole 和 kubectl get clusterrolebinding 查看系统内置的一些集群角色和集群角色绑定，这里我们使用的 cluster-admin 这个集群角色是拥有最高权限的集群角色，所以一般需要谨慎使用该集群角色。
+从上面我们可以看到我们没有为这个资源对象声明 namespace，因为这是一个 `ClusterRoleBinding` 资源对象，是作用于整个集群来说，我们也没有单独新建一个 ClusterRole 对象，而是使用的 cluster-admin 这个对象，这是 Kubernetes 集群内置的 ClusterRole 对象，我们可以使用 `kubectl get clusterrole` 和 `kubectl get clusterrolebinding` 查看系统内置的一些集群角色和集群角色绑定，这里我们使用的 cluster-admin 这个集群角色是拥有最高权限的集群角色，所以一般需要谨慎使用该集群角色。
 
 创建上面集群角色绑定资源对象，创建完成后同样使用 ServiceAccount 对应的 token 去登录 Dashboard 验证下：
 
