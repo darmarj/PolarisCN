@@ -67,7 +67,7 @@ spec:
 
 下表是我们常用的一些 securityContext 字段设置内容介绍：
 
-![security-context-list](../assets/images/security-context-list.png "security-context-list")
+![![security-context-list](../assets/images/security-context-list.png "security-context-list")](../assets/images/security-context-list.png "security-context-list")
 
 直接创建上面的 Pod 对象：
 
