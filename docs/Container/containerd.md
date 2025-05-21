@@ -236,82 +236,82 @@ version = 2
     tolerate_missing_hugetlb_controller = true
     unset_seccomp_profile = ""
 
-    [plugins."io.containerd.grpc.v1.cri".cni]
-      bin_dir = "/opt/cni/bin"
-      conf_dir = "/etc/cni/net.d"
-      conf_template = ""
-      max_conf_num = 1
+  [plugins."io.containerd.grpc.v1.cri".cni]
+    bin_dir = "/opt/cni/bin"
+    conf_dir = "/etc/cni/net.d"
+    conf_template = ""
+    max_conf_num = 1
 
-    [plugins."io.containerd.grpc.v1.cri".containerd]
-      default_runtime_name = "runc"
-      disable_snapshot_annotations = true
-      discard_unpacked_layers = false
-      no_pivot = false
-      snapshotter = "overlayfs"
+  [plugins."io.containerd.grpc.v1.cri".containerd]
+    default_runtime_name = "runc"
+    disable_snapshot_annotations = true
+    discard_unpacked_layers = false
+    no_pivot = false
+    snapshotter = "overlayfs"
 
-      [plugins."io.containerd.grpc.v1.cri".containerd.default_runtime]
-        base_runtime_spec = ""
-        container_annotations = []
-        pod_annotations = []
-        privileged_without_host_devices = false
-        runtime_engine = ""
-        runtime_root = ""
-        runtime_type = ""
+  [plugins."io.containerd.grpc.v1.cri".containerd.default_runtime]
+    base_runtime_spec = ""
+    container_annotations = []
+    pod_annotations = []
+    privileged_without_host_devices = false
+    runtime_engine = ""
+    runtime_root = ""
+    runtime_type = ""
 
-        [plugins."io.containerd.grpc.v1.cri".containerd.default_runtime.options]
+  [plugins."io.containerd.grpc.v1.cri".containerd.default_runtime.options]
 
-      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
 
-        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
-          base_runtime_spec = ""
-          container_annotations = []
-          pod_annotations = []
-          privileged_without_host_devices = false
-          runtime_engine = ""
-          runtime_root = ""
-          runtime_type = "io.containerd.runc.v2"
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+    base_runtime_spec = ""
+    container_annotations = []
+    pod_annotations = []
+    privileged_without_host_devices = false
+    runtime_engine = ""
+    runtime_root = ""
+    runtime_type = "io.containerd.runc.v2"
 
-          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
-            BinaryName = ""
-            CriuImagePath = ""
-            CriuPath = ""
-            CriuWorkPath = ""
-            IoGid = 0
-            IoUid = 0
-            NoNewKeyring = false
-            NoPivotRoot = false
-            Root = ""
-            ShimCgroup = ""
-            SystemdCgroup = false
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+    BinaryName = ""
+    CriuImagePath = ""
+    CriuPath = ""
+    CriuWorkPath = ""
+    IoGid = 0
+    IoUid = 0
+    NoNewKeyring = false
+    NoPivotRoot = false
+    Root = ""
+    ShimCgroup = ""
+    SystemdCgroup = false
 
-      [plugins."io.containerd.grpc.v1.cri".containerd.untrusted_workload_runtime]
-        base_runtime_spec = ""
-        container_annotations = []
-        pod_annotations = []
-        privileged_without_host_devices = false
-        runtime_engine = ""
-        runtime_root = ""
-        runtime_type = ""
+  [plugins."io.containerd.grpc.v1.cri".containerd.untrusted_workload_runtime]
+    base_runtime_spec = ""
+    container_annotations = []
+    pod_annotations = []
+    privileged_without_host_devices = false
+    runtime_engine = ""
+    runtime_root = ""
+    runtime_type = ""
 
-        [plugins."io.containerd.grpc.v1.cri".containerd.untrusted_workload_runtime.options]
+  [plugins."io.containerd.grpc.v1.cri".containerd.untrusted_workload_runtime.options]
 
-    [plugins."io.containerd.grpc.v1.cri".image_decryption]
-      key_model = "node"
+  [plugins."io.containerd.grpc.v1.cri".image_decryption]
+    key_model = "node"
 
-    [plugins."io.containerd.grpc.v1.cri".registry]
-      config_path = ""
+  [plugins."io.containerd.grpc.v1.cri".registry]
+    config_path = ""
 
-      [plugins."io.containerd.grpc.v1.cri".registry.auths]
+  [plugins."io.containerd.grpc.v1.cri".registry.auths]
 
-      [plugins."io.containerd.grpc.v1.cri".registry.configs]
+  [plugins."io.containerd.grpc.v1.cri".registry.configs]
 
-      [plugins."io.containerd.grpc.v1.cri".registry.headers]
+  [plugins."io.containerd.grpc.v1.cri".registry.headers]
 
-      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+  [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
 
-    [plugins."io.containerd.grpc.v1.cri".x509_key_pair_streaming]
-      tls_cert_file = ""
-      tls_key_file = ""
+  [plugins."io.containerd.grpc.v1.cri".x509_key_pair_streaming]
+    tls_cert_file = ""
+    tls_key_file = ""
 
   [plugins."io.containerd.internal.v1.opt"]
     path = "/opt/containerd"
