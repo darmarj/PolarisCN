@@ -1,0 +1,1442 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="One branded static site from a set of Markdown files to host the documentation for Open Source or Commercial project">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>CGroups&Namespaces - POLARISCN</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.03d4cea5.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.9204c3b2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    
+      
+
+
+    
+    
+  <link rel="stylesheet" href="../../overrides/assets/stylesheets/main.bf3dc0a9.min.css">
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cgroupsnamespaces" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner md-announce">
+          <div class="md-banner__inner md-announce__inner md-grid md-typeset">
+            
+  <a href="https://github.com/darmarj">
+    For updates follow <strong>NEWs</strong> on
+    <span class="twemoji twitter">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </span>
+    <strong>Github</strong>
+  </a>
+
+          </div>
+        </aside>
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="POLARISCN" class="md-header__button md-logo" aria-label="POLARISCN" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            POLARISCN
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CGroups&Namespaces
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/darmarj" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    darmarj
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      首页
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C%E6%97%B6/" class="md-tabs__link md-tabs__link--active">
+        容器运行时
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Foundation/K8s%20Introduction/" class="md-tabs__link">
+        基础
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Controller/ReplicaSet/" class="md-tabs__link">
+        控制器
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../ConfigManage/ConfigMap/" class="md-tabs__link">
+        配置管理
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="POLARISCN" class="md-nav__button md-logo" aria-label="POLARISCN" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    POLARISCN
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/darmarj" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    darmarj
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          容器运行时
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="容器运行时" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          容器运行时
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C%E6%97%B6/" class="md-nav__link">
+        容器运行时介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../containerd/" class="md-nav__link">
+        Containerd的使用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nerdctl/" class="md-nav__link">
+        命令行工具Nerdctl
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          CGroups与Namespaces
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        CGroups与Namespaces
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cgroups" class="md-nav__link">
+    CGroups概述
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cgroup" class="md-nav__link">
+    CGroup 测试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cgroups_1" class="md-nav__link">
+    在容器中使用CGroups
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#namespaces" class="md-nav__link">
+    Namespaces
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    参考文档
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          基础
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="基础" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          基础
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundation/K8s%20Introduction/" class="md-nav__link">
+        K8S简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundation/K8s%20Installation/" class="md-nav__link">
+        集群部署
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundation/YAML/" class="md-nav__link">
+        资源清单
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundation/Pod/" class="md-nav__link">
+        Pod原理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundation/Pod%20lifeCycle/" class="md-nav__link">
+        Pod生命周期
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundation/Pod%20inAdvance/" class="md-nav__link">
+        Pod使用进阶
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          控制器
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="控制器" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          控制器
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/ReplicaSet/" class="md-nav__link">
+        ReplicaSet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/Deployment/" class="md-nav__link">
+        Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/StatefulSet/" class="md-nav__link">
+        StatefulSet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/DaemonSet/" class="md-nav__link">
+        DaemonSet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/Job%26CronJob/" class="md-nav__link">
+        Job
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/HPA/" class="md-nav__link">
+        HPA
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/Admission/" class="md-nav__link">
+        Admission
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/Crd/" class="md-nav__link">
+        Crd
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/OpenKruise/" class="md-nav__link">
+        OpenKruise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          配置管理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="配置管理" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          配置管理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/ConfigMap/" class="md-nav__link">
+        ConfigMap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/Secret/" class="md-nav__link">
+        Secret
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/RBAC/" class="md-nav__link">
+        RBAC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/Security%20Context/" class="md-nav__link">
+        Security Context
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/OPA/" class="md-nav__link">
+        OPA
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/Kyverno/" class="md-nav__link">
+        Kyverno
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cgroups" class="md-nav__link">
+    CGroups概述
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cgroup" class="md-nav__link">
+    CGroup 测试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cgroups_1" class="md-nav__link">
+    在容器中使用CGroups
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#namespaces" class="md-nav__link">
+    Namespaces
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    参考文档
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="cgroupsnamespaces">CGroups与Namespaces<a class="headerlink" href="#cgroupsnamespaces" title="Permanent link">&para;</a></h1>
+<p>本节我们来一起了解下容器背后的两个核心技术：CGroups 和 Namespace。</p>
+<h2 id="cgroups">CGroups概述<a class="headerlink" href="#cgroups" title="Permanent link">&para;</a></h2>
+<p><code>CGroups</code> 全称为 <code>Linux Control Group</code>，其作用是限制一组进程使用的资源（CPU、内存等）上限，CGroups 也是 Containerd 容器技术的核心实现原理之一，首先我们需要先了解几个 `CGroups 的基本概念：</p>
+<ul>
+<li><ins class="critic">Task</ins>: 在 cgroup 中，task 可以理解为一个进程，但这里的进程和一般意义上的操作系统进程不太一样，实际上是进程 ID 和线程 ID 列表。</li>
+<li><ins class="critic">CGroup</ins>: 即控制组，一个控制组就是一组按照某种标准划分的 Tasks，可以理解为资源限制是以进程组为单位实现的，一个进程加入到某个控制组后，就会受到相应配置的资源限制。</li>
+<li><ins class="critic">Hierarchy</ins>: cgroup 的层级组织关系，cgroup 以树形层级组织，每个 cgroup 子节点默认继承其父 cgroup 节点的配置属性，这样每个 Hierarchy 在初始化会有 root cgroup。</li>
+<li><ins class="critic">Subsystem</ins>: 即子系统，子系统表示具体的资源配置，如CPU使用，内存占用等，Subsystem附加到Hierarchy上后可用。</li>
+</ul>
+<p><code>CGroups</code> 支持的子系统包含以下几类，即为每种可以控制的资源定义了一个子系统:</p>
+<ul>
+<li><strong>cpuset</strong>: 为 cgroup 中的进程分配单独的 CPU 节点，即可以绑定到特定的 CPU</li>
+<li><strong>cpu</strong>: 限制 cgroup 中进程的 CPU 使用份额</li>
+<li><strong>cpuacct</strong>: 统计 cgroup 中进程的 CPU 使用情况</li>
+<li><strong>memory</strong>: 限制 cgroup 中进程的内存使用,并能报告内存使用情况</li>
+<li><strong>devices</strong>: 控制 cgroup 中进程能访问哪些文件设备(设备文件的创建、读写)</li>
+<li><strong>freezer</strong>: 挂起或恢复 cgroup 中的 task</li>
+<li><strong>net_cls</strong>: 可以标记 cgroups 中进程的网络数据包，然后可以使用 tc 模块(traffic contro)对数据包进行控制</li>
+<li><strong>blkio</strong>: 限制 cgroup 中进程的块设备 IO</li>
+<li><strong>perf_event</strong>: 监控 cgroup 中进程的 perf 时间，可用于性能调优</li>
+<li><strong>hugetlb</strong>: hugetlb 的资源控制功能</li>
+<li><strong>pids</strong>: 限制 cgroup 中可以创建的进程数</li>
+<li><strong>net_prio</strong>: 允许管理员动态的通过各种应用程序设置网络传输的优先级</li>
+</ul>
+<p>通过上面的各个子系统，可以看出使用 <code>CGroups</code> 可以控制的资源有: CPU、内存、网络、IO、文件设备等。<code>CGroups</code> 具有以下几个特点：　　　　　　　</p>
+<ul>
+<li>CGroups 的 API 以一个伪文件系统（/sys/fs/cgroup/）的实现方式，用户的程序可以通过文件系统实现 CGroups 的组件管理</li>
+<li>CGroups 的组件管理操作单元可以细粒度到线程级别，用户可以创建和销毁 CGroups，从而实现资源载分配和再利用</li>
+<li>所有资源管理的功能都以子系统（cpu、cpuset 这些）的方式实现，接口统一子任务创建之初与其父任务处于同一个 CGroups 的控制组</li>
+</ul>
+<p>我们可以通过查看 /proc/cgroups 文件来查找当前系统支持的 CGroups 子系统:
+<img alt="cgroups" src="../../assets/images/cgroups.png" title="cgroups" /></p>
+<p>在使用 <code>CGroups</code> 时需要先挂载，我们可以使用 <code>df -h | grep cgroup</code> 命令进行查看:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>➜<span class="w">  </span>~<span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>cgroup
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>tmpfs<span class="w">                          </span><span class="m">3</span>.9G<span class="w">     </span><span class="m">0</span><span class="w">  </span><span class="m">3</span>.9G<span class="w">   </span><span class="m">0</span>%<span class="w"> </span>/sys/fs/cgroup
+</code></pre></div>
+可以看到被挂载到了 <code>/sys/fs/cgroup</code>，cgroup 其实是一种文件系统类型，所有的操作都是通过文件来完成的，我们可以使用 <code>mount --type cgroup</code>命令查看当前系统挂载了哪些 cgroup：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>➜<span class="w">  </span>~<span class="w"> </span>mount<span class="w"> </span>--type<span class="w"> </span>cgroup
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>cgroup<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup/systemd<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,xattr,release_agent<span class="o">=</span>/usr/lib/systemd/systemd-cgroups-agent,name<span class="o">=</span>systemd<span class="o">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>cgroup<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup/cpuset<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,cpuset<span class="o">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>cgroup<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup/perf_event<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,perf_event<span class="o">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>cgroup<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup/cpu,cpuacct<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,cpuacct,cpu<span class="o">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>cgroup<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup/memory<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,memory<span class="o">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>cgroup<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup/freezer<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,freezer<span class="o">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>cgroup<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup/net_cls,net_prio<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,net_prio,net_cls<span class="o">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>cgroup<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup/blkio<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,blkio<span class="o">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>cgroup<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup/hugetlb<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,hugetlb<span class="o">)</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>cgroup<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup/pids<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,pids<span class="o">)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>cgroup<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup/devices<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,devices<span class="o">)</span>
+</code></pre></div>
+<code>/sys/fs/cgroup</code> 目录下的每个子目录就对应着一个子系统，cgroup 是以目录形式组织的，/ 是 cgroup 的根目录，但是这个根目录可以被挂载到任意目录，例如 CGroups 的 memory 子系统的挂载点是 <code>/sys/fs/cgroup/memory</code>，那么 <code>/sys/fs/cgroup/memory/</code> 对应 memory 子系统的根目录，我们可以列出该目录下面的文件：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>➜<span class="w">  </span>~<span class="w"> </span>ll<span class="w"> </span>/sys/fs/cgroup/memory/
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>total<span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>cgroup.clone_children
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>--w--w--w-<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>cgroup.event_control
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>cgroup.procs
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>-r--r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>cgroup.sane_behavior
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>drwxr-xr-x<span class="w">  </span><span class="m">4</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>kubepods.slice
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.failcnt
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>--w-------<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.force_empty
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.kmem.failcnt
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.kmem.limit_in_bytes
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.kmem.max_usage_in_bytes
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>-r--r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.kmem.slabinfo
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.kmem.tcp.failcnt
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.kmem.tcp.limit_in_bytes
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.kmem.tcp.max_usage_in_bytes
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>-r--r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.kmem.tcp.usage_in_bytes
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>-r--r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.kmem.usage_in_bytes
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.limit_in_bytes
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.max_usage_in_bytes
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.memsw.failcnt
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.memsw.limit_in_bytes
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.memsw.max_usage_in_bytes
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>-r--r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.memsw.usage_in_bytes
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.move_charge_at_immigrate
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>-r--r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.numa_stat
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.oom_control
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>----------<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.pressure_level
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.soft_limit_in_bytes
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>-r--r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.stat
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.swappiness
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>-r--r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.usage_in_bytes
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>memory.use_hierarchy
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>notify_on_release
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>release_agent
+<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>drwxr-xr-x<span class="w"> </span><span class="m">65</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:25<span class="w"> </span>system.slice
+<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>tasks
+<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>drwxr-xr-x<span class="w">  </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>user.slice
+</code></pre></div>
+上面包含 <code>kubepods.slice、system.slice、user.slice</code> 等目录，这些目录下可能还会有子目录，相当于一颗有层级关系的树来进行组织：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├──<span class="w"> </span>kubepods.slice
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├──<span class="w"> </span>system.slice
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>└──<span class="w"> </span>user.slice
+</code></pre></div>
+例如我在节点上使用 systemd 管理了一个 Prometheus 的应用，我们可以使用 <code>systemctl status prometheus</code> 命令查看 Prometheus 进程所在的 cgroup 为 <code>/system.slice/prometheus.service</code>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>➜<span class="w">  </span>~<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>prometheus
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>●<span class="w"> </span>prometheus.service<span class="w"> </span>-<span class="w"> </span>prometheus<span class="w"> </span>service
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">   </span>Loaded:<span class="w"> </span>loaded<span class="w"> </span><span class="o">(</span>/etc/systemd/system/prometheus.service<span class="p">;</span><span class="w"> </span>enabled<span class="p">;</span><span class="w"> </span>vendor<span class="w"> </span>preset:<span class="w"> </span>disabled<span class="o">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">   </span>Active:<span class="w"> </span>active<span class="w"> </span><span class="o">(</span>running<span class="o">)</span><span class="w"> </span>since<span class="w"> </span>Thu<span class="w"> </span><span class="m">2021</span>-10-21<span class="w"> </span><span class="m">10</span>:10:12<span class="w"> </span>CST<span class="p">;</span><span class="w"> </span>1h<span class="w"> </span>40min<span class="w"> </span>ago
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">     </span>Docs:<span class="w"> </span>https://prometheus.io
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w"> </span>Main<span class="w"> </span>PID:<span class="w"> </span><span class="m">1065</span><span class="w"> </span><span class="o">(</span>prometheus<span class="o">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span>Tasks:<span class="w"> </span><span class="m">10</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">   </span>Memory:<span class="w"> </span><span class="m">167</span>.4M
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">   </span>CGroup:<span class="w"> </span>/system.slice/prometheus.service
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">           </span>└─1065<span class="w"> </span>/root/p8strain/prometheus-2.30.2.linux-amd64/prometheus<span class="w"> </span>--config.file<span class="o">=</span>/root/p8strain/prometheu...
+</code></pre></div>
+上面显示的 CGroup 只是一个相对的路径，实际的文件系统目录是在对应的子系统下面，比如 <code>/sys/fs/cgroup/cpu/system.slice/prometheus.service</code>、<code>/sys/fs/cgroup/memory/system.slice/prometheus.service</code> 目录：
+<img alt="cgroups-prometheus" src="../../assets/images/cgroups-prometheus.png" title="cgroups-prometheus" /></p>
+<p>这其实可以理解为 cpu 和 memory 子系统被附加到了 <code>/system.slice/prometheus.service</code> 这个 cgroup 上。</p>
+<details class="info">
+<summary>Info</summary>
+<p>如果 linux 系统使用 systemd 初始化系统，初始化进程会生成一个 root cgroup，每个 <code>systemd unit</code> 都将会被分配一个cgroup，同样可以配置容器运行时如 containerd 选择使用 cgroupfs 或 systemd 作为 cgroup 驱动，containerd 默认使用的是 cgroupfs，但对于使用了 systemd 的 linux 发行版来说就同时存在两个 cgroup 管理器，对于该服务器上启动的容器使用的是cgroupfs，而对于其他 systemd 管理的进程使用的是 systemd，这样在服务器资源负载高的情况下可能会变的不稳定。因此对于使用了 systemd 的 linux 系统，推荐将容器运行时的 cgroup 驱动使用 systemd。</p>
+</details>
+<h2 id="cgroup">CGroup 测试<a class="headerlink" href="#cgroup" title="Permanent link">&para;</a></h2>
+<p>接下来我们来尝试手动设置下 cgroup，以 CPU 这个子系统为例进行说明，首先我们在 <code>/sys/fs/cgroup/cpu</code> 目录下面创建一个名为 <code>ydzs.test</code> 的目录：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>➜<span class="w">  </span>~<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/sys/fs/cgroup/cpu/ydzs.test
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>➜<span class="w">  </span>~<span class="w"> </span>ls<span class="w"> </span>/sys/fs/cgroup/cpu/ydzs.test/
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>cgroup.clone_children<span class="w">  </span>cpuacct.stat<span class="w">          </span>cpu.cfs_period_us<span class="w">  </span>cpu.rt_runtime_us<span class="w">  </span>notify_on_release
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>cgroup.event_control<span class="w">   </span>cpuacct.usage<span class="w">         </span>cpu.cfs_quota_us<span class="w">   </span>cpu.shares<span class="w">         </span>tasks
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>cgroup.procs<span class="w">           </span>cpuacct.usage_percpu<span class="w">  </span>cpu.rt_period_us<span class="w">   </span>cpu.stat
+</code></pre></div>
+我们可以看到目录创建完成后，下面就会已经自动创建 cgroup 的相关文件，这里我们重点关注 <code>cpu.cfs_period_us</code> 和 <code>cpu.cfs_quota_us</code> 这两个文件，前面一个是用来配置 CPU 时间周期长度的，默认为 <code>100000us</code>，后者用来设置在此时间周期长度内所能使用的 CPU 时间数，默认值为-1，表示不受时间限制。
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>➜<span class="w">  </span>~<span class="w"> </span>cat<span class="w"> </span>/sys/fs/cgroup/cpu/ydzs.test/cpu.cfs_period_us
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="m">100000</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>➜<span class="w">  </span>~<span class="w"> </span>cat<span class="w"> </span>/sys/fs/cgroup/cpu/ydzs.test/cpu.cfs_quota_us
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>-1
+</code></pre></div>
+现在我们写一个简单的 Python 脚本来消耗 CPU：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># cgroup.py</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="k">pass</span>
+</code></pre></div>
+直接执行这个死循环脚本即可：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="err">➜</span>  <span class="o">~</span> <span class="n">python</span> <span class="n">cgroup</span><span class="o">.</span><span class="n">py</span> <span class="o">&amp;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="mi">2113</span>
+</code></pre></div>
+使用 top 命令可以看到进程号2113的 CPU 使用率达到了 100%
+<img alt="topCPU" src="../../assets/images/topCPU.png" title="topCPU" /></p>
+<p>现在我们将这个进程ID写入到 <code>/sys/fs/cgroup/cpu/ydzs.test/tasks</code> 文件下面去，然后设置 <code>/sys/fs/cgroup/cpu/ydzs.test/cpu.cfs_quota_us</code> 为 <code>10000us</code>，因为 <code>cpu.cfs_period_us</code> 默认值为 <code>100000us</code>，所以这表示我们要限制 CPU 使用率为10%：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>➜<span class="w">  </span>~<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="m">2113</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/fs/cgroup/cpu/ydzs.test/tasks
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>➜<span class="w">  </span>~<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="m">10000</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/fs/cgroup/cpu/ydzs.test/cpu.cfs_quota_us
+</code></pre></div>
+设置完过后上面我们的测试进程 CPU 就会被限制在 10% 左右了，再次使用 top 命令查看该进程可以验证。
+<img alt="topLimit" src="../../assets/images/topLimit.CPUpng" title="topLimit" /></p>
+<p>如果要限制内存等其他资源的话，同样去对应的子系统下面设置资源，并将进程 ID 加入 tasks 中即可。如果要删除这个 cgroup，直接删除文件夹是不行的，需要使用 <code>libcgroup</code> 工具：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>➜<span class="w">  </span>~<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>libcgroup<span class="w"> </span>libcgroup-tools
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>➜<span class="w">  </span>~<span class="w"> </span>cgdelete<span class="w"> </span>cpu:ydzs.test
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>➜<span class="w">  </span>~<span class="w"> </span>ls<span class="w"> </span>/sys/fs/cgroup/cpu/ydzs.test
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>ls:<span class="w"> </span>cannot<span class="w"> </span>access<span class="w"> </span>/sys/fs/cgroup/cpu/ydzs.test:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+</code></pre></div></p>
+<h2 id="cgroups_1">在容器中使用CGroups<a class="headerlink" href="#cgroups_1" title="Permanent link">&para;</a></h2>
+<p>上面我们测试了一个普通应用如何配置 cgroup，接下来我们在 Containerd 的容器中来使用 cgroup，比如使用 nerdctl 启动一个 nginx 容器，并限制其使用内存为50M:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>➜<span class="w">  </span>~<span class="w"> </span>nerdctl<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span>50m<span class="w"> </span>--name<span class="w"> </span>nginx<span class="w"> </span>nginx:alpine
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>8690c7dba4ffe03d63983555c594e2784c146b5f9939de1195a9626339c9129c
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>➜<span class="w">  </span>~<span class="w"> </span>nerdctl<span class="w"> </span>ps
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>CONTAINER<span class="w"> </span>ID<span class="w">    </span>IMAGE<span class="w">                             </span>COMMAND<span class="w">                   </span>CREATED<span class="w">           </span>STATUS<span class="w">    </span>PORTS<span class="w">    </span>NAMES
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>8690c7dba4ff<span class="w">    </span>docker.io/library/nginx:alpine<span class="w">    </span><span class="s2">&quot;/docker-entrypoint.…&quot;</span><span class="w">    </span><span class="m">53</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">    </span>Up<span class="w">                 </span>nginx
+</code></pre></div>
+在使用 <code>nerdctl run</code> 启动容器的时候可以使用 <code>-m</code> 或 <code>--memory</code> 参数来现在内存，启动完成后该容器的 cgroup 会出现在 名为 <code>default</code> 的目录下面，比如查看内存子系统的目录：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>➜<span class="w">  </span>~<span class="w"> </span>ll<span class="w"> </span>/sys/fs/cgroup/memory/default/
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>total<span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>drwxr-xr-x<span class="w"> </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>8690c7dba4ffe03d63983555c594e2784c146b5f9939de1195a9626339c9129c
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>cgroup.clone_children
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>--w--w--w-<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>cgroup.event_control
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>cgroup.procs
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>......
+</code></pre></div>
+上面我们启动的 nginx 容器 ID 的目录会出现在 <code>/sys/fs/cgroup/memory/default/</code> 下面，该文件夹下面有很多和内存相关的 cgroup 配置文件，要进行相关的配置就需要在该目录下对应的文件中去操作：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>➜<span class="w">  </span>~<span class="w"> </span>ll<span class="w"> </span>/sys/fs/cgroup/memory/default/8690c7dba4ffe03d63983555c594e2784c146b5f9939de1195a9626339c9129c
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>total<span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>cgroup.clone_children
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>--w--w--w-<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>cgroup.event_control
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>cgroup.procs
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.failcnt
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>--w-------<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.force_empty
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.kmem.failcnt
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.kmem.limit_in_bytes
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.kmem.max_usage_in_bytes
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>-r--r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.kmem.slabinfo
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.kmem.tcp.failcnt
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.kmem.tcp.limit_in_bytes
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.kmem.tcp.max_usage_in_bytes
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>-r--r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.kmem.tcp.usage_in_bytes
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>-r--r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.kmem.usage_in_bytes
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.limit_in_bytes
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.max_usage_in_bytes
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.memsw.failcnt
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.memsw.limit_in_bytes
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.memsw.max_usage_in_bytes
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>-r--r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.memsw.usage_in_bytes
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.move_charge_at_immigrate
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a>-r--r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.numa_stat
+<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.oom_control
+<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>----------<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.pressure_level
+<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.soft_limit_in_bytes
+<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>-r--r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.stat
+<a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.swappiness
+<a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a>-r--r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.usage_in_bytes
+<a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>memory.use_hierarchy
+<a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>notify_on_release
+<a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>tasks
+</code></pre></div>
+我们这里需要关心的是 <code>memory.limit_in_bytes</code> 文件，该文件就是用来设置内存大小的，正常应该是 50M 的内存限制：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>➜<span class="w">  </span>~<span class="w"> </span>cat<span class="w"> </span>/sys/fs/cgroup/memory/default/8690c7dba4ffe03d63983555c594e2784c146b5f9939de1195a9626339c9129c/memory.limit_in_bytes
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="m">52428800</span>
+</code></pre></div>
+同样我们的 nginx 容器进程 ID 也会出现在上面的 <code>tasks</code> 文件中：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>➜<span class="w">  </span>~<span class="w"> </span>cat<span class="w"> </span>/sys/fs/cgroup/memory/default/8690c7dba4ffe03d63983555c594e2784c146b5f9939de1195a9626339c9129c/tasks
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="m">2686</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="m">2815</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="m">2816</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="m">2817</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="m">2818</span>
+</code></pre></div>
+我们可以通过如下命令过滤该进程号，可以看出第一行的 2686 就是 nginx 进程在主机上的进程 ID，下面几个是这个进程下的线程：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>➜<span class="w">  </span>~<span class="w"> </span>ps<span class="w"> </span>-ef<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">2686</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>root<span class="w">       </span><span class="m">2686</span><span class="w">   </span><span class="m">2656</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>?<span class="w">        </span><span class="m">00</span>:00:00<span class="w"> </span>nginx:<span class="w"> </span>master<span class="w"> </span>process<span class="w"> </span>nginx<span class="w"> </span>-g<span class="w"> </span>daemon<span class="w"> </span>off<span class="p">;</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="m">101</span><span class="w">        </span><span class="m">2815</span><span class="w">   </span><span class="m">2686</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>?<span class="w">        </span><span class="m">00</span>:00:00<span class="w"> </span>nginx:<span class="w"> </span>worker<span class="w"> </span>process
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="m">101</span><span class="w">        </span><span class="m">2816</span><span class="w">   </span><span class="m">2686</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>?<span class="w">        </span><span class="m">00</span>:00:00<span class="w"> </span>nginx:<span class="w"> </span>worker<span class="w"> </span>process
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="m">101</span><span class="w">        </span><span class="m">2817</span><span class="w">   </span><span class="m">2686</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>?<span class="w">        </span><span class="m">00</span>:00:00<span class="w"> </span>nginx:<span class="w"> </span>worker<span class="w"> </span>process
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="m">101</span><span class="w">        </span><span class="m">2818</span><span class="w">   </span><span class="m">2686</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="m">15</span>:01<span class="w"> </span>?<span class="w">        </span><span class="m">00</span>:00:00<span class="w"> </span>nginx:<span class="w"> </span>worker<span class="w"> </span>process
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>root<span class="w">       </span><span class="m">2950</span><span class="w">   </span><span class="m">1976</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="m">15</span>:36<span class="w"> </span>pts/0<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>grep<span class="w"> </span>--color<span class="o">=</span>auto<span class="w"> </span><span class="m">2686</span>
+</code></pre></div></p>
+<h2 id="namespaces">Namespaces<a class="headerlink" href="#namespaces" title="Permanent link">&para;</a></h2>
+<p><code>namespace</code> 也称命名空间，是 Linux 为我们提供的用于隔离进程树、网络接口、挂载点以及进程间通信等资源的方法。在日常使用个人 PC 时，我们并没有运行多个完全分离的服务器的需求，但是如果我们在服务器上启动了多个服务，这些服务其实会相互影响的，每一个服务都能看到其他服务的进程，也可以访问宿主机器上的任意文件，一旦服务器上的某一个服务被入侵，那么入侵者就能够访问当前机器上的所有服务和文件，这是我们不愿意看到的，我们更希望运行在同一台机器上的不同服务能做到完全隔离，就像运行在多台不同的机器上一样。而我们这里的容器其实就通过 Linux 的 Namespaces 技术来实现的对不同的容器进行隔离。</p>
+<p>linux 共有6(7)种命名空间:</p>
+<ul>
+<li><strong>ipc namespace</strong>: 管理对 IPC 资源（进程间通信（信号量、消息队列和共享内存）的访问</li>
+<li><strong>net namespace</strong>: 网络设备、网络栈、端口等隔离</li>
+<li><strong>mnt namespace</strong>: 文件系统挂载点隔离</li>
+<li><strong>pid namespace</strong>: 用于进程隔离</li>
+<li><strong>user namespace</strong>: 用户和用户组隔离（3.8以后的内核才支持）</li>
+<li><strong>uts namespace</strong>: 主机和域名隔离</li>
+<li><strong>cgroup namespace</strong>：用于 cgroup 根目录隔离（4.6以后版本的内核才支持）</li>
+</ul>
+<p>我们可以通过 <code>lsns</code> 命令查看当前系统已经创建的命名空间：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>➜<span class="w">  </span>~<span class="w"> </span>lsns
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">        </span>NS<span class="w"> </span>TYPE<span class="w">  </span>NPROCS<span class="w">   </span>PID<span class="w"> </span>USER<span class="w">    </span>COMMAND
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="m">4026531836</span><span class="w"> </span>pid<span class="w">      </span><span class="m">143</span><span class="w">     </span><span class="m">1</span><span class="w"> </span>root<span class="w">    </span>/usr/lib/systemd/systemd<span class="w"> </span>--switched-root<span class="w"> </span>--system<span class="w"> </span>--deserialize<span class="w"> </span><span class="m">22</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="m">4026531837</span><span class="w"> </span>user<span class="w">     </span><span class="m">143</span><span class="w">     </span><span class="m">1</span><span class="w"> </span>root<span class="w">    </span>/usr/lib/systemd/systemd<span class="w"> </span>--switched-root<span class="w"> </span>--system<span class="w"> </span>--deserialize<span class="w"> </span><span class="m">22</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="m">4026531838</span><span class="w"> </span>uts<span class="w">      </span><span class="m">143</span><span class="w">     </span><span class="m">1</span><span class="w"> </span>root<span class="w">    </span>/usr/lib/systemd/systemd<span class="w"> </span>--switched-root<span class="w"> </span>--system<span class="w"> </span>--deserialize<span class="w"> </span><span class="m">22</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="m">4026531839</span><span class="w"> </span>ipc<span class="w">      </span><span class="m">143</span><span class="w">     </span><span class="m">1</span><span class="w"> </span>root<span class="w">    </span>/usr/lib/systemd/systemd<span class="w"> </span>--switched-root<span class="w"> </span>--system<span class="w"> </span>--deserialize<span class="w"> </span><span class="m">22</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="m">4026531840</span><span class="w"> </span>mnt<span class="w">      </span><span class="m">138</span><span class="w">     </span><span class="m">1</span><span class="w"> </span>root<span class="w">    </span>/usr/lib/systemd/systemd<span class="w"> </span>--switched-root<span class="w"> </span>--system<span class="w"> </span>--deserialize<span class="w"> </span><span class="m">22</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="m">4026531856</span><span class="w"> </span>mnt<span class="w">        </span><span class="m">1</span><span class="w">    </span><span class="m">28</span><span class="w"> </span>root<span class="w">    </span>kdevtmpfs
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="m">4026531956</span><span class="w"> </span>net<span class="w">      </span><span class="m">143</span><span class="w">     </span><span class="m">1</span><span class="w"> </span>root<span class="w">    </span>/usr/lib/systemd/systemd<span class="w"> </span>--switched-root<span class="w"> </span>--system<span class="w"> </span>--deserialize<span class="w"> </span><span class="m">22</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="m">4026532503</span><span class="w"> </span>mnt<span class="w">        </span><span class="m">2</span><span class="w">   </span><span class="m">728</span><span class="w"> </span>root<span class="w">    </span>/usr/sbin/NetworkManager<span class="w"> </span>--no-daemon
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="m">4026532504</span><span class="w"> </span>mnt<span class="w">        </span><span class="m">1</span><span class="w">   </span><span class="m">745</span><span class="w"> </span>chrony<span class="w">  </span>/usr/sbin/chronyd
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="m">4026532642</span><span class="w"> </span>mnt<span class="w">        </span><span class="m">1</span><span class="w">  </span><span class="m">1076</span><span class="w"> </span>grafana<span class="w"> </span>/usr/sbin/grafana-server<span class="w"> </span>--config<span class="o">=</span>/etc/grafana/grafana.ini<span class="w"> </span>--pidfile<span class="o">=</span>/var/run
+</code></pre></div>
+要查看一个进程所属的命名空间信息，可以到 <code>/proc/&lt;pid&gt;/ns</code> 目录下查看：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>➜<span class="w">  </span>~<span class="w"> </span>ps<span class="w"> </span>-ef<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>prometheus
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>root<span class="w">       </span><span class="m">1065</span><span class="w">      </span><span class="m">1</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="m">10</span>:10<span class="w"> </span>?<span class="w">        </span><span class="m">00</span>:01:13<span class="w"> </span>/root/p8strain/prometheus-2.30.2.linux-amd64/prometheus<span class="w"> </span>--config.file<span class="o">=</span>/root/p8strain/prometheus-2.30.2.linux-amd64/prometheus.yml
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>➜<span class="w">  </span>~<span class="w"> </span>ll<span class="w"> </span>/proc/1065/ns
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>total<span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:58<span class="w"> </span>ipc<span class="w"> </span>-&gt;<span class="w"> </span>ipc:<span class="o">[</span><span class="m">4026531839</span><span class="o">]</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:58<span class="w"> </span>mnt<span class="w"> </span>-&gt;<span class="w"> </span>mnt:<span class="o">[</span><span class="m">4026531840</span><span class="o">]</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:58<span class="w"> </span>net<span class="w"> </span>-&gt;<span class="w"> </span>net:<span class="o">[</span><span class="m">4026531956</span><span class="o">]</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:58<span class="w"> </span>pid<span class="w"> </span>-&gt;<span class="w"> </span>pid:<span class="o">[</span><span class="m">4026531836</span><span class="o">]</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:58<span class="w"> </span>user<span class="w"> </span>-&gt;<span class="w"> </span>user:<span class="o">[</span><span class="m">4026531837</span><span class="o">]</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">0</span><span class="w"> </span>Oct<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">15</span>:58<span class="w"> </span>uts<span class="w"> </span>-&gt;<span class="w"> </span>uts:<span class="o">[</span><span class="m">4026531838</span><span class="o">]</span>
+</code></pre></div></p>
+<p>这些 namespace 都是链接文件, 格式为 <code>namespaceType:[inode number]</code>，<code>inode number</code> 用来标识一个 namespace，可以理解为 namespace id，如果两个进程的某个命名空间的链接文件指向同一个，那么其相关资源在同一个命名空间中，也就没有隔离了。比如同样针对上面运行的 nginx 容器，我们查看其命名空间：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>➜<span class="w">  </span>~<span class="w"> </span>lsns<span class="w">  </span><span class="p">|</span>grep<span class="w"> </span>nginx
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="m">4026532505</span><span class="w"> </span>mnt<span class="w">        </span><span class="m">5</span><span class="w">  </span><span class="m">3171</span><span class="w"> </span>root<span class="w">    </span>nginx:<span class="w"> </span>master<span class="w"> </span>process<span class="w"> </span>nginx<span class="w"> </span>-g<span class="w"> </span>daemon<span class="w"> </span>off
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="m">4026532506</span><span class="w"> </span>uts<span class="w">        </span><span class="m">5</span><span class="w">  </span><span class="m">3171</span><span class="w"> </span>root<span class="w">    </span>nginx:<span class="w"> </span>master<span class="w"> </span>process<span class="w"> </span>nginx<span class="w"> </span>-g<span class="w"> </span>daemon<span class="w"> </span>off
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="m">4026532507</span><span class="w"> </span>ipc<span class="w">        </span><span class="m">5</span><span class="w">  </span><span class="m">3171</span><span class="w"> </span>root<span class="w">    </span>nginx:<span class="w"> </span>master<span class="w"> </span>process<span class="w"> </span>nginx<span class="w"> </span>-g<span class="w"> </span>daemon<span class="w"> </span>off
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="m">4026532508</span><span class="w"> </span>pid<span class="w">        </span><span class="m">5</span><span class="w">  </span><span class="m">3171</span><span class="w"> </span>root<span class="w">    </span>nginx:<span class="w"> </span>master<span class="w"> </span>process<span class="w"> </span>nginx<span class="w"> </span>-g<span class="w"> </span>daemon<span class="w"> </span>off
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="m">4026532510</span><span class="w"> </span>net<span class="w">        </span><span class="m">5</span><span class="w">  </span><span class="m">3171</span><span class="w"> </span>root<span class="w">    </span>nginx:<span class="w"> </span>master<span class="w"> </span>process<span class="w"> </span>nginx<span class="w"> </span>-g<span class="w"> </span>daemon<span class="w"> </span>off
+</code></pre></div>
+可以看出 nginx 容器启动后，已经为该容器自动创建了单独的 <code>mtn、uts、ipc、pid、net</code> 命名空间，也就是这个容器在这些方面是独立隔离的，其他容器想要和该容器共享某一个命名空间，那么就需要指向同一个命名空间。</p>
+<h2 id="_1">参考文档<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://kubernetes.io/zh/docs/setup/production-environment/container-runtimes/">https://kubernetes.io/zh/docs/setup/production-environment/container-runtimes/</a></li>
+<li><a href="https://www.infoq.cn/article/docker-resource-management-cgroups/">https://www.infoq.cn/article/docker-resource-management-cgroups/</a></li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../nerdctl/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 命令行工具Nerdctl" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              命令行工具Nerdctl
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../Foundation/K8s%20Introduction/" class="md-footer__link md-footer__link--next" aria-label="下一页: K8S简介" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              K8S简介
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 ~ Present Darmarj.M
+          </div>
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/darmarj" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": null}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      
+    
+  <script src="../../overrides/assets/javascripts/bundle.525231ca.min.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,1819 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="One branded static site from a set of Markdown files to host the documentation for Open Source or Commercial project">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>K8s Installaton - POLARISCN</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.03d4cea5.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.9204c3b2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    
+      
+
+
+    
+    
+  <link rel="stylesheet" href="../../overrides/assets/stylesheets/main.bf3dc0a9.min.css">
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner md-announce">
+          <div class="md-banner__inner md-announce__inner md-grid md-typeset">
+            
+  <a href="https://github.com/darmarj">
+    For updates follow <strong>NEWs</strong> on
+    <span class="twemoji twitter">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </span>
+    <strong>Github</strong>
+  </a>
+
+          </div>
+        </aside>
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="POLARISCN" class="md-header__button md-logo" aria-label="POLARISCN" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            POLARISCN
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              K8s Installaton
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/darmarj" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    darmarj
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      首页
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Container/%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C%E6%97%B6/" class="md-tabs__link">
+        容器运行时
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../K8s%20Introduction/" class="md-tabs__link md-tabs__link--active">
+        基础
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Controller/ReplicaSet/" class="md-tabs__link">
+        控制器
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../ConfigManage/ConfigMap/" class="md-tabs__link">
+        配置管理
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="POLARISCN" class="md-nav__button md-logo" aria-label="POLARISCN" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    POLARISCN
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/darmarj" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    darmarj
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          容器运行时
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="容器运行时" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          容器运行时
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Container/%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C%E6%97%B6/" class="md-nav__link">
+        容器运行时介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Container/containerd/" class="md-nav__link">
+        Containerd的使用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Container/nerdctl/" class="md-nav__link">
+        命令行工具Nerdctl
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Container/namespace%26cgroups/" class="md-nav__link">
+        CGroups与Namespaces
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          基础
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="基础" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          基础
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../K8s%20Introduction/" class="md-nav__link">
+        K8S简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          集群部署
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        集群部署
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    环境准备
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#containerd" class="md-nav__link">
+    安装 Containerd
+  </a>
+  
+    <nav class="md-nav" aria-label="安装 Containerd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kubeadm-kubernetes" class="md-nav__link">
+    使用 kubeadm 部署 Kubernetes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    初始化集群
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    添加节点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dashboard" class="md-nav__link">
+    Dashboard
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    清理
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../YAML/" class="md-nav__link">
+        资源清单
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Pod/" class="md-nav__link">
+        Pod原理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Pod%20lifeCycle/" class="md-nav__link">
+        Pod生命周期
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Pod%20inAdvance/" class="md-nav__link">
+        Pod使用进阶
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          控制器
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="控制器" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          控制器
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/ReplicaSet/" class="md-nav__link">
+        ReplicaSet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/Deployment/" class="md-nav__link">
+        Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/StatefulSet/" class="md-nav__link">
+        StatefulSet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/DaemonSet/" class="md-nav__link">
+        DaemonSet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/Job%26CronJob/" class="md-nav__link">
+        Job
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/HPA/" class="md-nav__link">
+        HPA
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/Admission/" class="md-nav__link">
+        Admission
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/Crd/" class="md-nav__link">
+        Crd
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Controller/OpenKruise/" class="md-nav__link">
+        OpenKruise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          配置管理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="配置管理" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          配置管理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/ConfigMap/" class="md-nav__link">
+        ConfigMap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/Secret/" class="md-nav__link">
+        Secret
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/RBAC/" class="md-nav__link">
+        RBAC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/Security%20Context/" class="md-nav__link">
+        Security Context
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/OPA/" class="md-nav__link">
+        OPA
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ConfigManage/Kyverno/" class="md-nav__link">
+        Kyverno
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    环境准备
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#containerd" class="md-nav__link">
+    安装 Containerd
+  </a>
+  
+    <nav class="md-nav" aria-label="安装 Containerd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kubeadm-kubernetes" class="md-nav__link">
+    使用 kubeadm 部署 Kubernetes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    初始化集群
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    添加节点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dashboard" class="md-nav__link">
+    Dashboard
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    清理
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="_1">集群部署<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p><strong>使用 containerd 作为容器运行时搭建 Kubernetes 集群</strong></p>
+<p>现在我们使用 kubeadm 从头搭建一个使用 containerd 作为容器运行时的 Kubernetes 集群，这里我们安装最新的 <code>v1.22.2</code> 版本。</p>
+<h2 id="_2">环境准备<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>3个节点，都是 Centos 7.6 系统，内核版本：3.10.0-1062.4.1.el7.x86_64，在每个节点上添加 hosts 信息：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>➜<span class="w">  </span>~<span class="w"> </span>cat<span class="w"> </span>/etc/hosts
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="m">192</span>.168.0.186<span class="w"> </span>k8sm
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="m">192</span>.168.0.187<span class="w"> </span>k8sn1
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="m">192</span>.168.0.188<span class="w"> </span>k8sn2
+</code></pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">hostname</p>
+<p>节点的 hostname 必须使用标准的 DNS 命名，另外千万不用什么默认的 <code>localhost</code> 的 hostname，会导致各种错误出现的。在 Kubernetes 项目里，机器的名字以及一切存储在 Etcd 中的 API 对象，都必须使用标准的 DNS 命名（RFC 1123）。可以使用命令 <code>hostnamectl set-hostname node1</code> 来修改 hostname。</p>
+</div>
+<p>禁用防火墙：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>➜<span class="w">  </span>~<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>firewalld
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>➜<span class="w">  </span>~<span class="w"> </span>systemctl<span class="w"> </span>disable<span class="w"> </span>firewalld
+</code></pre></div>
+<p>禁用 SELINUX：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>➜<span class="w">  </span>~<span class="w"> </span>setenforce<span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>➜<span class="w">  </span>~<span class="w"> </span>cat<span class="w"> </span>/etc/selinux/config
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nv">SELINUX</span><span class="o">=</span>disabled
+</code></pre></div>
+<p>由于开启内核 ipv4 转发需要加载 br_netfilter 模块，所以加载下该模块：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>➜<span class="w">  </span>~<span class="w"> </span>modprobe<span class="w"> </span>br_netfilter
+</code></pre></div>
+<p>创建<code>/etc/sysctl.d/k8s.conf</code>文件，添加如下内容：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>net.bridge.bridge-nf-call-ip6tables<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>net.bridge.bridge-nf-call-iptables<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>net.ipv4.ip_forward<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">bridge-nf</p>
+<p>bridge-nf 使得 netfilter 可以对 Linux 网桥上的 IPv4/ARP/IPv6 包过滤。比如，设置<code>net.bridge.bridge-nf-call-iptables＝1</code>后，二层的网桥在转发包时也会被 iptables的 FORWARD 规则所过滤。常用的选项包括：</p>
+<ul>
+<li>net.bridge.bridge-nf-call-arptables：是否在 arptables 的 FORWARD 中过滤网桥的 ARP 包</li>
+<li>net.bridge.bridge-nf-call-ip6tables：是否在 ip6tables 链中过滤 IPv6 包</li>
+<li>net.bridge.bridge-nf-call-iptables：是否在 iptables 链中过滤 IPv4 包</li>
+<li>net.bridge.bridge-nf-filter-vlan-tagged：是否在 iptables/arptables 中过滤打了 vlan 标签的包。</li>
+</ul>
+</div>
+<p>执行如下命令使修改生效：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>➜<span class="w">  </span>~<span class="w"> </span>sysctl<span class="w"> </span>-p<span class="w"> </span>/etc/sysctl.d/k8s.conf
+</code></pre></div>
+<p>安装 ipvs：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>➜<span class="w">  </span>~<span class="w"> </span>cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/sysconfig/modules/ipvs.modules<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="s">#!/bin/bash</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="s">modprobe -- ip_vs</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="s">modprobe -- ip_vs_rr</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="s">modprobe -- ip_vs_wrr</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="s">modprobe -- ip_vs_sh</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="s">modprobe -- nf_conntrack_ipv4</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="s">EOF</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>➜<span class="w">  </span>~<span class="w"> </span>chmod<span class="w"> </span><span class="m">755</span><span class="w"> </span>/etc/sysconfig/modules/ipvs.modules<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>bash<span class="w"> </span>/etc/sysconfig/modules/ipvs.modules<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>lsmod<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-e<span class="w"> </span>ip_vs<span class="w"> </span>-e<span class="w"> </span>nf_conntrack_ipv4
+</code></pre></div>
+上面脚本创建了的<code>/etc/sysconfig/modules/ipvs.modules</code>文件，保证在节点重启后能自动加载所需模块。使用<code>lsmod | grep -e ip_vs -e nf_conntrack_ipv4</code>命令查看是否已经正确加载所需的内核模块。
+接下来还需要确保各个节点上已经安装了 ipset 软件包：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>➜<span class="w">  </span>~<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>ipset
+</code></pre></div>
+为了便于查看 ipvs 的代理规则，最好安装一下管理工具 ipvsadm：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>➜<span class="w">  </span>~<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>ipvsadm
+</code></pre></div>
+同步服务器时间
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>➜<span class="w">  </span>~<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>chrony<span class="w"> </span>-y
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>➜<span class="w">  </span>~<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>chronyd
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>➜<span class="w">  </span>~<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>chronyd
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>➜<span class="w">  </span>~<span class="w"> </span>chronyc<span class="w"> </span>sources
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="m">210</span><span class="w"> </span>Number<span class="w"> </span>of<span class="w"> </span><span class="nv">sources</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>MS<span class="w"> </span>Name/IP<span class="w"> </span>address<span class="w">         </span>Stratum<span class="w"> </span>Poll<span class="w"> </span>Reach<span class="w"> </span>LastRx<span class="w"> </span>Last<span class="w"> </span><span class="nv">sample</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="o">===============================================================================</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>^+<span class="w"> </span>sv1.ggsrv.de<span class="w">                  </span><span class="m">2</span><span class="w">   </span><span class="m">6</span><span class="w">    </span><span class="m">17</span><span class="w">    </span><span class="m">32</span><span class="w">   </span>-823us<span class="o">[</span>-1128us<span class="o">]</span><span class="w"> </span>+/-<span class="w">   </span>98ms
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>^-<span class="w"> </span>montreal.ca.logiplex.net<span class="w">      </span><span class="m">2</span><span class="w">   </span><span class="m">6</span><span class="w">    </span><span class="m">17</span><span class="w">    </span><span class="m">32</span><span class="w">    </span>-17ms<span class="o">[</span><span class="w">  </span>-17ms<span class="o">]</span><span class="w"> </span>+/-<span class="w">  </span>179ms
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>^-<span class="w"> </span>ntp6.flashdance.cx<span class="w">            </span><span class="m">2</span><span class="w">   </span><span class="m">6</span><span class="w">    </span><span class="m">17</span><span class="w">    </span><span class="m">32</span><span class="w">    </span>-32ms<span class="o">[</span><span class="w">  </span>-32ms<span class="o">]</span><span class="w"> </span>+/-<span class="w">  </span>161ms
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>^*<span class="w"> </span><span class="m">119</span>.28.183.184<span class="w">                </span><span class="m">2</span><span class="w">   </span><span class="m">6</span><span class="w">    </span><span class="m">33</span><span class="w">    </span><span class="m">32</span><span class="w">   </span>+661us<span class="o">[</span><span class="w"> </span>+357us<span class="o">]</span><span class="w"> </span>+/-<span class="w">   </span>38ms
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>➜<span class="w">  </span>~<span class="w"> </span>date
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>Tue<span class="w"> </span>Aug<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">14</span>:36:14<span class="w"> </span>CST<span class="w"> </span><span class="m">2021</span>
+</code></pre></div>
+关闭 swap 分区：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>➜<span class="w">  </span>~<span class="w"> </span>swapoff<span class="w"> </span>-a
+</code></pre></div>
+修改<code>/etc/fstab</code>文件，注释掉 SWAP 的自动挂载，使用free -m确认 swap 已经关闭。swappiness 参数调整，修改<code>/etc/sysctl.d/k8s.conf</code>添加下面一行：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>vm.swappiness<span class="o">=</span><span class="m">0</span>
+</code></pre></div>
+执行 <code>sysctl -p /etc/sysctl.d/k8s.conf</code> 使修改生效。</p>
+<h2 id="containerd">安装 Containerd<a class="headerlink" href="#containerd" title="Permanent link">&para;</a></h2>
+<p>我们已经了解过容器运行时 containerd 的一些基本使用，接下来在各个节点上安装 Containerd。</p>
+<p>由于 containerd 需要调用 runc，所以我们也需要先安装 runc，不过 containerd 提供了一个包含相关依赖的压缩包 <code>cri-containerd-cni-${VERSION}.${OS}-${ARCH}.tar.gz</code>，可以直接使用这个包来进行安装。首先从 <a href="https://github.com/containerd/containerd/releases">release</a> 页面下载最新版本的压缩包，当前为 1.5.5 版本：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>➜<span class="w">  </span>~<span class="w"> </span>wget<span class="w"> </span>https://github.com/containerd/containerd/releases/download/v1.5.5/cri-containerd-cni-1.5.5-linux-amd64.tar.gz
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1"># 如果有限制，也可以替换成下面的 URL 加速下载</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1"># wget https://download.fastgit.org/containerd/containerd/releases/download/v1.5.5/cri-containerd-cni-1.5.5-linux-amd64.tar.gz</span>
+</code></pre></div>
+直接将压缩包解压到系统的各个目录中：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>➜<span class="w">  </span>~<span class="w"> </span>tar<span class="w"> </span>-C<span class="w"> </span>/<span class="w"> </span>-xzf<span class="w"> </span>cri-containerd-cni-1.5.5-linux-amd64.tar.gz
+</code></pre></div>
+然后要将 <code>/usr/local/bin</code> 和 <code>/usr/local/sbin</code> 追加到 <code>~/.bashrc</code> 文件的 <code>PATH</code> 环境变量中：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/bin:/usr/local/sbin
+</code></pre></div>
+然后执行下面的命令使其立即生效：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>➜<span class="w">  </span>~<span class="w"> </span><span class="nb">source</span><span class="w"> </span>~/.bashrc
+</code></pre></div>
+containerd 的默认配置文件为 <code>/etc/containerd/config.toml</code>，我们可以通过如下所示的命令生成一个默认的配置：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>➜<span class="w">  </span>~<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/containerd
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>➜<span class="w">  </span>~<span class="w"> </span>containerd<span class="w"> </span>config<span class="w"> </span>default<span class="w"> </span>&gt;<span class="w"> </span>/etc/containerd/config.toml
+</code></pre></div>
+对于使用 systemd 作为 init system 的 Linux 的发行版，使用 <code>systemd</code> 作为容器的 <code>cgroup driver</code> 可以确保节点在资源紧张的情况更加稳定，所以推荐将 containerd 的 cgroup driver 配置为 systemd。</p>
+<p>修改前面生成的配置文件 <code>/etc/containerd/config.toml</code>，在 <code>plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options</code> 配置块下面将 <code>SystemdCgroup</code> 设置为 <code>true</code>：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">[plugins.</span><span class="s2">&quot;io.containerd.grpc.v1.cri&quot;</span><span class="k">.containerd.runtimes.runc]</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="p">...</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="k">[plugins.</span><span class="s2">&quot;io.containerd.grpc.v1.cri&quot;</span><span class="k">.containerd.runtimes.runc.options]</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">    </span><span class="n">SystemdCgroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">    </span><span class="p">....</span>
+</code></pre></div>
+然后再为镜像仓库配置一个加速器，需要在 cri 配置块下面的 <code>registry</code> 配置块下面进行配置 <code>registry.mirrors</code>：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">[plugins.</span><span class="s2">&quot;io.containerd.grpc.v1.cri&quot;</span><span class="k">]</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="p">...</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="c1"># sandbox_image = &quot;k8s.gcr.io/pause:3.5&quot;</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="n">sandbox_image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;registry.aliyuncs.com/k8sxio/pause:3.5&quot;</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">  </span><span class="p">...</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">  </span><span class="k">[plugins.</span><span class="s2">&quot;io.containerd.grpc.v1.cri&quot;</span><span class="k">.registry]</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">    </span><span class="k">[plugins.</span><span class="s2">&quot;io.containerd.grpc.v1.cri&quot;</span><span class="k">.registry.mirrors]</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">      </span><span class="k">[plugins.</span><span class="s2">&quot;io.containerd.grpc.v1.cri&quot;</span><span class="k">.registry.mirrors.</span><span class="s2">&quot;docker.io&quot;</span><span class="k">]</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">        </span><span class="n">endpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;https://bqr1dr1n.mirror.aliyuncs.com&quot;</span><span class="p">]</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">      </span><span class="k">[plugins.</span><span class="s2">&quot;io.containerd.grpc.v1.cri&quot;</span><span class="k">.registry.mirrors.</span><span class="s2">&quot;k8s.gcr.io&quot;</span><span class="k">]</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">        </span><span class="n">endpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;https://registry.aliyuncs.com/k8sxio&quot;</span><span class="p">]</span>
+</code></pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>如果我们的节点不能正常获取 <code>k8s.gcr.io</code> 的镜像，那么我们需要在上面重新配置 <code>sandbox_image</code> 镜像，否则后面 kubelet 覆盖该镜像不会生效：<code>Warning: For remote container runtime, --pod-infra-container-image is ignored in kubelet, which should be set in that remote runtime instead。</code></p>
+</div>
+<p>由于上面我们下载的 containerd 压缩包中包含一个 <code>etc/systemd/system/containerd.service</code> 的文件，这样我们就可以通过 systemd 来配置 containerd 作为守护进程运行了，现在我们就可以启动 containerd 了，直接执行下面的命令即可：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>➜<span class="w">  </span>~<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>➜<span class="w">  </span>~<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>containerd<span class="w"> </span>--now
+</code></pre></div>
+启动完成后就可以使用 containerd 的本地 CLI 工具 <code>ctr</code> 和 <code>crictl</code> 了，比如查看版本：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>➜<span class="w">  </span>~<span class="w"> </span>ctr<span class="w"> </span>version
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>Client:
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span>Version:<span class="w">  </span>v1.5.5
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">  </span>Revision:<span class="w"> </span>72cec4be58a9eb6b2910f5d10f1c01ca47d231c0
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">  </span>Go<span class="w"> </span>version:<span class="w"> </span>go1.16.6
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>Server:
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">  </span>Version:<span class="w">  </span>v1.5.5
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">  </span>Revision:<span class="w"> </span>72cec4be58a9eb6b2910f5d10f1c01ca47d231c0
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">  </span>UUID:<span class="w"> </span>cd2894ad-fd71-4ef7-a09f-5795c7eb4c3b
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>➜<span class="w">  </span>~<span class="w"> </span>crictl<span class="w"> </span>version
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>Version:<span class="w">  </span><span class="m">0</span>.1.0
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>RuntimeName:<span class="w">  </span>containerd
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>RuntimeVersion:<span class="w">  </span>v1.5.5
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>RuntimeApiVersion:<span class="w">  </span>v1alpha2
+</code></pre></div></p>
+<h3 id="kubeadm-kubernetes">使用 kubeadm 部署 Kubernetes<a class="headerlink" href="#kubeadm-kubernetes" title="Permanent link">&para;</a></h3>
+<p>上面的相关环境配置也完成了，现在我们就可以来安装 Kubeadm 了，我们这里是通过指定yum 源的方式来进行安装的：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>➜<span class="w">  </span>~<span class="w"> </span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="s">[kubernetes]</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="s">name=Kubernetes</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="s">baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="s">enabled=1</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="s">gpgcheck=1</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="s">repo_gpgcheck=1</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="s">gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="s">        https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="s">EOF</span>
+</code></pre></div>
+当然了，上面的 yum 源是需要科学上网的，如果不能科学上网的话，我们可以使用阿里云的源进行安装：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>➜<span class="w">  </span>~<span class="w"> </span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="s">[kubernetes]</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="s">name=Kubernetes</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="s">baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="s">enabled=1</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="s">gpgcheck=0</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="s">repo_gpgcheck=0</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="s">gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="s">        http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="s">EOF</span>
+</code></pre></div>
+然后安装 kubeadm、kubelet、kubectl：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># --disableexcludes 禁掉除了kubernetes之外的别的仓库</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>➜<span class="w">  </span>~<span class="w"> </span>yum<span class="w"> </span>makecache<span class="w"> </span>fast
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>➜<span class="w">  </span>~<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>kubelet-1.22.2<span class="w"> </span>kubeadm-1.22.2<span class="w"> </span>kubectl-1.22.2<span class="w"> </span>--disableexcludes<span class="o">=</span>kubernetes
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>➜<span class="w">  </span>~<span class="w"> </span>kubeadm<span class="w"> </span>version
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>kubeadm<span class="w"> </span>version:<span class="w"> </span><span class="p">&amp;</span>version.Info<span class="o">{</span>Major:<span class="s2">&quot;1&quot;</span>,<span class="w"> </span>Minor:<span class="s2">&quot;22&quot;</span>,<span class="w"> </span>GitVersion:<span class="s2">&quot;v1.22.2&quot;</span>,<span class="w"> </span>GitCommit:<span class="s2">&quot;8b5a19147530eaac9476b0ab82980b4088bbc1b2&quot;</span>,<span class="w"> </span>GitTreeState:<span class="s2">&quot;clean&quot;</span>,<span class="w"> </span>BuildDate:<span class="s2">&quot;2021-09-15T21:37:34Z&quot;</span>,<span class="w"> </span>GoVersion:<span class="s2">&quot;go1.16.8&quot;</span>,<span class="w"> </span>Compiler:<span class="s2">&quot;gc&quot;</span>,<span class="w"> </span>Platform:<span class="s2">&quot;linux/amd64&quot;</span><span class="o">}</span>
+</code></pre></div>
+可以看到我们这里安装的是 <code>v1.22.2</code> 版本，然后将 master 节点的 kubelet 设置成开机启动：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>➜<span class="w">  </span>~<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>kubelet
+</code></pre></div></p>
+<div class="admonition success">
+<p class="admonition-title">Success</p>
+<p>到这里为止上面所有的操作都需要在所有节点执行配置。</p>
+</div>
+<h3 id="_3">初始化集群<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>当我们执行 <code>kubelet --help</code> 命令的时候可以看到原来大部分命令行参数都被 <code>DEPRECATED</code>了，这是因为官方推荐我们使用 <code>--config</code> 来指定配置文件，在配置文件中指定原来这些参数的配置，可以通过官方文档 <a href="https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/">Set Kubelet parameters via a config file</a> 了解更多相关信息，这样 Kubernetes 就可以支持动态 Kubelet 配置（Dynamic Kubelet Configuration）了，参考 <a href="https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/">Reconfigure a Node’s Kubelet in a Live Cluster</a>。</p>
+<p>然后我们可以通过下面的命令在 master 节点上输出集群初始化默认使用的配置：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubeadm<span class="w"> </span>config<span class="w"> </span>print<span class="w"> </span>init-defaults<span class="w"> </span>--component-configs<span class="w"> </span>KubeletConfiguration<span class="w"> </span>&gt;<span class="w"> </span>kubeadm.yaml
+</code></pre></div>
+然后根据我们自己的需求修改配置，比如修改 <code>imageRepository</code> 指定集群初始化时拉取 Kubernetes 所需镜像的地址，kube-proxy 的模式为 ipvs，另外需要注意的是我们这里是准备安装 flannel 网络插件的，需要将 <code>networking.podSubnet</code> 设置为<span class="jade"><code>10.244.0.0/16</code></span>：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># kubeadm.yaml</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubeadm.k8s.io/v1beta3</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="nt">bootstrapTokens</span><span class="p">:</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">groups</span><span class="p">:</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">system:bootstrappers:kubeadm:default-node-token</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">abcdef.0123456789abcdef</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="w">  </span><span class="nt">ttl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24h0m0s</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">  </span><span class="nt">usages</span><span class="p">:</span>
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">signing</span>
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">authentication</span>
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">InitConfiguration</span>
+<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="nt">localAPIEndpoint</span><span class="p">:</span>
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="w">  </span><span class="nt">advertiseAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.0.186</span><span class="w">  </span><span class="c1"># 指定master节点内网IP</span>
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a><span class="w">  </span><span class="nt">bindPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6443</span>
+<a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a><span class="nt">nodeRegistration</span><span class="p">:</span>
+<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a><span class="w">  </span><span class="nt">criSocket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/run/containerd/containerd.sock</span><span class="w">  </span><span class="c1"># 使用 containerd的Unix socket 地址</span>
+<a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a><span class="w">  </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IfNotPresent</span>
+<a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">master</span>
+<a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a><span class="w">  </span><span class="nt">taints</span><span class="p">:</span><span class="w">  </span><span class="c1"># 给master添加污点，master节点不能调度应用</span>
+<a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NoSchedule&quot;</span>
+<a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a><span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node-role.kubernetes.io/master&quot;</span>
+<a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a>
+<a id="__codelineno-26-23" name="__codelineno-26-23" href="#__codelineno-26-23"></a><span class="nn">---</span>
+<a id="__codelineno-26-24" name="__codelineno-26-24" href="#__codelineno-26-24"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubeproxy.config.k8s.io/v1alpha1</span>
+<a id="__codelineno-26-25" name="__codelineno-26-25" href="#__codelineno-26-25"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KubeProxyConfiguration</span>
+<a id="__codelineno-26-26" name="__codelineno-26-26" href="#__codelineno-26-26"></a><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ipvs</span><span class="w">  </span><span class="c1"># kube-proxy 模式</span>
+<a id="__codelineno-26-27" name="__codelineno-26-27" href="#__codelineno-26-27"></a>
+<a id="__codelineno-26-28" name="__codelineno-26-28" href="#__codelineno-26-28"></a><span class="nn">---</span>
+<a id="__codelineno-26-29" name="__codelineno-26-29" href="#__codelineno-26-29"></a><span class="nt">apiServer</span><span class="p">:</span>
+<a id="__codelineno-26-30" name="__codelineno-26-30" href="#__codelineno-26-30"></a><span class="w">  </span><span class="nt">timeoutForControlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4m0s</span>
+<a id="__codelineno-26-31" name="__codelineno-26-31" href="#__codelineno-26-31"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubeadm.k8s.io/v1beta3</span>
+<a id="__codelineno-26-32" name="__codelineno-26-32" href="#__codelineno-26-32"></a><span class="nt">certificatesDir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/kubernetes/pki</span>
+<a id="__codelineno-26-33" name="__codelineno-26-33" href="#__codelineno-26-33"></a><span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes</span>
+<a id="__codelineno-26-34" name="__codelineno-26-34" href="#__codelineno-26-34"></a><span class="nt">controllerManager</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<a id="__codelineno-26-35" name="__codelineno-26-35" href="#__codelineno-26-35"></a><span class="nt">dns</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<a id="__codelineno-26-36" name="__codelineno-26-36" href="#__codelineno-26-36"></a><span class="nt">etcd</span><span class="p">:</span>
+<a id="__codelineno-26-37" name="__codelineno-26-37" href="#__codelineno-26-37"></a><span class="w">  </span><span class="nt">local</span><span class="p">:</span>
+<a id="__codelineno-26-38" name="__codelineno-26-38" href="#__codelineno-26-38"></a><span class="w">    </span><span class="nt">dataDir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/lib/etcd</span>
+<a id="__codelineno-26-39" name="__codelineno-26-39" href="#__codelineno-26-39"></a><span class="nt">imageRepository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.aliyuncs.com/k8sxio</span>
+<a id="__codelineno-26-40" name="__codelineno-26-40" href="#__codelineno-26-40"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterConfiguration</span>
+<a id="__codelineno-26-41" name="__codelineno-26-41" href="#__codelineno-26-41"></a><span class="nt">kubernetesVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.22.2</span>
+<a id="__codelineno-26-42" name="__codelineno-26-42" href="#__codelineno-26-42"></a><span class="nt">networking</span><span class="p">:</span>
+<a id="__codelineno-26-43" name="__codelineno-26-43" href="#__codelineno-26-43"></a><span class="w">  </span><span class="nt">dnsDomain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster.local</span>
+<a id="__codelineno-26-44" name="__codelineno-26-44" href="#__codelineno-26-44"></a><span class="w">  </span><span class="nt">serviceSubnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.96.0.0/12</span>
+<a id="__codelineno-26-45" name="__codelineno-26-45" href="#__codelineno-26-45"></a><span class="w">  </span><span class="nt">podSubnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.244.0.0/16</span><span class="w">  </span><span class="c1"># 指定 pod 子网</span>
+<a id="__codelineno-26-46" name="__codelineno-26-46" href="#__codelineno-26-46"></a><span class="nt">scheduler</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<a id="__codelineno-26-47" name="__codelineno-26-47" href="#__codelineno-26-47"></a>
+<a id="__codelineno-26-48" name="__codelineno-26-48" href="#__codelineno-26-48"></a><span class="nn">---</span>
+<a id="__codelineno-26-49" name="__codelineno-26-49" href="#__codelineno-26-49"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubelet.config.k8s.io/v1beta1</span>
+<a id="__codelineno-26-50" name="__codelineno-26-50" href="#__codelineno-26-50"></a><span class="nt">authentication</span><span class="p">:</span>
+<a id="__codelineno-26-51" name="__codelineno-26-51" href="#__codelineno-26-51"></a><span class="w">  </span><span class="nt">anonymous</span><span class="p">:</span>
+<a id="__codelineno-26-52" name="__codelineno-26-52" href="#__codelineno-26-52"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<a id="__codelineno-26-53" name="__codelineno-26-53" href="#__codelineno-26-53"></a><span class="w">  </span><span class="nt">webhook</span><span class="p">:</span>
+<a id="__codelineno-26-54" name="__codelineno-26-54" href="#__codelineno-26-54"></a><span class="w">    </span><span class="nt">cacheTTL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-55" name="__codelineno-26-55" href="#__codelineno-26-55"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-26-56" name="__codelineno-26-56" href="#__codelineno-26-56"></a><span class="w">  </span><span class="nt">x509</span><span class="p">:</span>
+<a id="__codelineno-26-57" name="__codelineno-26-57" href="#__codelineno-26-57"></a><span class="w">    </span><span class="nt">clientCAFile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/kubernetes/pki/ca.crt</span>
+<a id="__codelineno-26-58" name="__codelineno-26-58" href="#__codelineno-26-58"></a><span class="nt">authorization</span><span class="p">:</span>
+<a id="__codelineno-26-59" name="__codelineno-26-59" href="#__codelineno-26-59"></a><span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Webhook</span>
+<a id="__codelineno-26-60" name="__codelineno-26-60" href="#__codelineno-26-60"></a><span class="w">  </span><span class="nt">webhook</span><span class="p">:</span>
+<a id="__codelineno-26-61" name="__codelineno-26-61" href="#__codelineno-26-61"></a><span class="w">    </span><span class="nt">cacheAuthorizedTTL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-62" name="__codelineno-26-62" href="#__codelineno-26-62"></a><span class="w">    </span><span class="nt">cacheUnauthorizedTTL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-63" name="__codelineno-26-63" href="#__codelineno-26-63"></a><span class="nt">clusterDNS</span><span class="p">:</span>
+<a id="__codelineno-26-64" name="__codelineno-26-64" href="#__codelineno-26-64"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.96.0.10</span>
+<a id="__codelineno-26-65" name="__codelineno-26-65" href="#__codelineno-26-65"></a><span class="nt">clusterDomain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster.local</span>
+<a id="__codelineno-26-66" name="__codelineno-26-66" href="#__codelineno-26-66"></a><span class="nt">cpuManagerReconcilePeriod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-67" name="__codelineno-26-67" href="#__codelineno-26-67"></a><span class="nt">evictionPressureTransitionPeriod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-68" name="__codelineno-26-68" href="#__codelineno-26-68"></a><span class="nt">fileCheckFrequency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-69" name="__codelineno-26-69" href="#__codelineno-26-69"></a><span class="nt">healthzBindAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">127.0.0.1</span>
+<a id="__codelineno-26-70" name="__codelineno-26-70" href="#__codelineno-26-70"></a><span class="nt">healthzPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10248</span>
+<a id="__codelineno-26-71" name="__codelineno-26-71" href="#__codelineno-26-71"></a><span class="nt">httpCheckFrequency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-72" name="__codelineno-26-72" href="#__codelineno-26-72"></a><span class="nt">imageMinimumGCAge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-73" name="__codelineno-26-73" href="#__codelineno-26-73"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KubeletConfiguration</span>
+<a id="__codelineno-26-74" name="__codelineno-26-74" href="#__codelineno-26-74"></a><span class="nt">cgroupDriver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">systemd</span><span class="w">  </span><span class="c1"># 配置 cgroup driver</span>
+<a id="__codelineno-26-75" name="__codelineno-26-75" href="#__codelineno-26-75"></a><span class="nt">logging</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<a id="__codelineno-26-76" name="__codelineno-26-76" href="#__codelineno-26-76"></a><span class="nt">memorySwap</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<a id="__codelineno-26-77" name="__codelineno-26-77" href="#__codelineno-26-77"></a><span class="nt">nodeStatusReportFrequency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-78" name="__codelineno-26-78" href="#__codelineno-26-78"></a><span class="nt">nodeStatusUpdateFrequency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-79" name="__codelineno-26-79" href="#__codelineno-26-79"></a><span class="nt">rotateCertificates</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-26-80" name="__codelineno-26-80" href="#__codelineno-26-80"></a><span class="nt">runtimeRequestTimeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-81" name="__codelineno-26-81" href="#__codelineno-26-81"></a><span class="nt">shutdownGracePeriod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-82" name="__codelineno-26-82" href="#__codelineno-26-82"></a><span class="nt">shutdownGracePeriodCriticalPods</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-83" name="__codelineno-26-83" href="#__codelineno-26-83"></a><span class="nt">staticPodPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/kubernetes/manifests</span>
+<a id="__codelineno-26-84" name="__codelineno-26-84" href="#__codelineno-26-84"></a><span class="nt">streamingConnectionIdleTimeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-85" name="__codelineno-26-85" href="#__codelineno-26-85"></a><span class="nt">syncFrequency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+<a id="__codelineno-26-86" name="__codelineno-26-86" href="#__codelineno-26-86"></a><span class="nt">volumeStatsAggPeriod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0s</span>
+</code></pre></div></p>
+<div class="admonition tip">
+<p class="admonition-title">配置提示</p>
+<p>对于上面的资源清单的文档比较杂，要想完整了解上面的资源对象对应的属性，可以查看对应的 godoc 文档，地址: <a href="https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta3">https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta3</a>。</p>
+</div>
+<p>在开始初始化集群之前可以使用 <code>kubeadm config images pull --config kubeadm.yaml</code> 预先在各个服务器节点上拉取所k8s需要的容器镜像。</p>
+<p>配置文件准备好过后，可以使用如下命令先将相关镜像 pull 下面：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubeadm<span class="w"> </span>config<span class="w"> </span>images<span class="w"> </span>pull<span class="w"> </span>--config<span class="w"> </span>kubeadm.yaml
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="o">[</span>config/images<span class="o">]</span><span class="w"> </span>Pulled<span class="w"> </span>registry.aliyuncs.com/k8sxio/kube-apiserver:v1.22.2
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="o">[</span>config/images<span class="o">]</span><span class="w"> </span>Pulled<span class="w"> </span>registry.aliyuncs.com/k8sxio/kube-controller-manager:v1.22.2
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="o">[</span>config/images<span class="o">]</span><span class="w"> </span>Pulled<span class="w"> </span>registry.aliyuncs.com/k8sxio/kube-scheduler:v1.22.2
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="o">[</span>config/images<span class="o">]</span><span class="w"> </span>Pulled<span class="w"> </span>registry.aliyuncs.com/k8sxio/kube-proxy:v1.22.2
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="o">[</span>config/images<span class="o">]</span><span class="w"> </span>Pulled<span class="w"> </span>registry.aliyuncs.com/k8sxio/pause:3.5
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="o">[</span>config/images<span class="o">]</span><span class="w"> </span>Pulled<span class="w"> </span>registry.aliyuncs.com/k8sxio/etcd:3.5.0-0
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>failed<span class="w"> </span>to<span class="w"> </span>pull<span class="w"> </span>image<span class="w"> </span><span class="s2">&quot;registry.aliyuncs.com/k8sxio/coredns:v1.8.4&quot;</span>:<span class="w"> </span>output:<span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="s2">&quot;2021-10-25T17:34:48+08:00&quot;</span><span class="w"> </span><span class="nv">level</span><span class="o">=</span>fatal<span class="w"> </span><span class="nv">msg</span><span class="o">=</span><span class="s2">&quot;pulling image: rpc error: code = NotFound desc = failed to pull and unpack image \&quot;registry.aliyuncs.com/k8sxio/coredns:v1.8.4\&quot;: failed to resolve reference \&quot;registry.aliyuncs.com/k8sxio/coredns:v1.8.4\&quot;: registry.aliyuncs.com/k8sxio/coredns:v1.8.4: not found&quot;</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>,<span class="w"> </span>error:<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>status<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>To<span class="w"> </span>see<span class="w"> </span>the<span class="w"> </span>stack<span class="w"> </span>trace<span class="w"> </span>of<span class="w"> </span>this<span class="w"> </span>error<span class="w"> </span>execute<span class="w"> </span>with<span class="w"> </span>--v<span class="o">=</span><span class="m">5</span><span class="w"> </span>or<span class="w"> </span>higher
+</code></pre></div>
+上面在拉取 <code>coredns</code> 镜像的时候出错了，没有找到这个镜像，我们可以手动 pull 该镜像，然后重新 tag 下镜像地址即可：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>➜<span class="w">  </span>~<span class="w"> </span>ctr<span class="w"> </span>-n<span class="w"> </span>k8s.io<span class="w"> </span>i<span class="w"> </span>pull<span class="w"> </span>docker.io/coredns/coredns:1.8.4
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>docker.io/coredns/coredns:1.8.4:<span class="w">                                                  </span>resolved<span class="w">       </span><span class="p">|</span>++++++++++++++++++++++++++++++++++++++<span class="p">|</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>index-sha256:6e5a02c21641597998b4be7cb5eb1e7b02c0d8d23cce4dd09f4682d463798890:<span class="w">    </span><span class="k">done</span><span class="w">           </span><span class="p">|</span>++++++++++++++++++++++++++++++++++++++<span class="p">|</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>manifest-sha256:10683d82b024a58cc248c468c2632f9d1b260500f7cd9bb8e73f751048d7d6d4:<span class="w"> </span><span class="k">done</span><span class="w">           </span><span class="p">|</span>++++++++++++++++++++++++++++++++++++++<span class="p">|</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>layer-sha256:bc38a22c706b427217bcbd1a7ac7c8873e75efdd0e59d6b9f069b4b243db4b4b:<span class="w">    </span><span class="k">done</span><span class="w">           </span><span class="p">|</span>++++++++++++++++++++++++++++++++++++++<span class="p">|</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>config-sha256:8d147537fb7d1ac8895da4d55a5e53621949981e2e6460976dae812f83d84a44:<span class="w">   </span><span class="k">done</span><span class="w">           </span><span class="p">|</span>++++++++++++++++++++++++++++++++++++++<span class="p">|</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>layer-sha256:c6568d217a0023041ef9f729e8836b19f863bcdb612bb3a329ebc165539f5a80:<span class="w">    </span>exists<span class="w">         </span><span class="p">|</span>++++++++++++++++++++++++++++++++++++++<span class="p">|</span>
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>elapsed:<span class="w"> </span><span class="m">12</span>.4s<span class="w">                                                                    </span>total:<span class="w">  </span><span class="m">12</span>.0<span class="w"> </span>M<span class="w"> </span><span class="o">(</span><span class="m">991</span>.3<span class="w"> </span>KiB/s<span class="o">)</span>
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>unpacking<span class="w"> </span>linux/amd64<span class="w"> </span>sha256:6e5a02c21641597998b4be7cb5eb1e7b02c0d8d23cce4dd09f4682d463798890...
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="k">done</span>:<span class="w"> </span><span class="m">410</span>.185888ms
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>➜<span class="w">  </span>~<span class="w"> </span>ctr<span class="w"> </span>-n<span class="w"> </span>k8s.io<span class="w"> </span>i<span class="w"> </span>tag<span class="w"> </span>docker.io/coredns/coredns:1.8.4<span class="w"> </span>registry.aliyuncs.com/k8sxio/coredns:v1.8.4
+</code></pre></div>
+然后就可以使用上面的配置文件在 master 节点上进行初始化：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubeadm<span class="w"> </span>init<span class="w"> </span>--config<span class="w"> </span>kubeadm.yaml<span class="w"> </span>--v<span class="o">=</span><span class="m">5</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="o">[</span>init<span class="o">]</span><span class="w"> </span>Using<span class="w"> </span>Kubernetes<span class="w"> </span>version:<span class="w"> </span>v1.22.2
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="o">[</span>preflight<span class="o">]</span><span class="w"> </span>Running<span class="w"> </span>pre-flight<span class="w"> </span>checks
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="o">[</span>preflight<span class="o">]</span><span class="w"> </span>Pulling<span class="w"> </span>images<span class="w"> </span>required<span class="w"> </span><span class="k">for</span><span class="w"> </span>setting<span class="w"> </span>up<span class="w"> </span>a<span class="w"> </span>Kubernetes<span class="w"> </span>cluster
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="o">[</span>preflight<span class="o">]</span><span class="w"> </span>This<span class="w"> </span>might<span class="w"> </span>take<span class="w"> </span>a<span class="w"> </span>minute<span class="w"> </span>or<span class="w"> </span>two,<span class="w"> </span>depending<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>speed<span class="w"> </span>of<span class="w"> </span>your<span class="w"> </span>internet<span class="w"> </span>connection
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="o">[</span>preflight<span class="o">]</span><span class="w"> </span>You<span class="w"> </span>can<span class="w"> </span>also<span class="w"> </span>perform<span class="w"> </span>this<span class="w"> </span>action<span class="w"> </span><span class="k">in</span><span class="w"> </span>beforehand<span class="w"> </span>using<span class="w"> </span><span class="s1">&#39;kubeadm config images pull&#39;</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Using<span class="w"> </span>certificateDir<span class="w"> </span>folder<span class="w"> </span><span class="s2">&quot;/etc/kubernetes/pki&quot;</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Generating<span class="w"> </span><span class="s2">&quot;ca&quot;</span><span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>key
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Generating<span class="w"> </span><span class="s2">&quot;apiserver&quot;</span><span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>key
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>apiserver<span class="w"> </span>serving<span class="w"> </span>cert<span class="w"> </span>is<span class="w"> </span>signed<span class="w"> </span><span class="k">for</span><span class="w"> </span>DNS<span class="w"> </span>names<span class="w"> </span><span class="o">[</span>kubernetes<span class="w"> </span>kubernetes.default<span class="w"> </span>kubernetes.default.svc<span class="w"> </span>kubernetes.default.svc.cluster.local<span class="w"> </span>master1<span class="o">]</span><span class="w"> </span>and<span class="w"> </span>IPs<span class="w"> </span><span class="o">[</span><span class="m">10</span>.96.0.1<span class="w"> </span><span class="m">192</span>.168.31.31<span class="o">]</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Generating<span class="w"> </span><span class="s2">&quot;apiserver-kubelet-client&quot;</span><span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>key
+<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Generating<span class="w"> </span><span class="s2">&quot;front-proxy-ca&quot;</span><span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>key
+<a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Generating<span class="w"> </span><span class="s2">&quot;front-proxy-client&quot;</span><span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>key
+<a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Generating<span class="w"> </span><span class="s2">&quot;etcd/ca&quot;</span><span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>key
+<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Generating<span class="w"> </span><span class="s2">&quot;etcd/server&quot;</span><span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>key
+<a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>etcd/server<span class="w"> </span>serving<span class="w"> </span>cert<span class="w"> </span>is<span class="w"> </span>signed<span class="w"> </span><span class="k">for</span><span class="w"> </span>DNS<span class="w"> </span>names<span class="w"> </span><span class="o">[</span>localhost<span class="w"> </span>master1<span class="o">]</span><span class="w"> </span>and<span class="w"> </span>IPs<span class="w"> </span><span class="o">[</span><span class="m">192</span>.168.31.31<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span>::1<span class="o">]</span>
+<a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Generating<span class="w"> </span><span class="s2">&quot;etcd/peer&quot;</span><span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>key
+<a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>etcd/peer<span class="w"> </span>serving<span class="w"> </span>cert<span class="w"> </span>is<span class="w"> </span>signed<span class="w"> </span><span class="k">for</span><span class="w"> </span>DNS<span class="w"> </span>names<span class="w"> </span><span class="o">[</span>localhost<span class="w"> </span>master1<span class="o">]</span><span class="w"> </span>and<span class="w"> </span>IPs<span class="w"> </span><span class="o">[</span><span class="m">192</span>.168.31.31<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span>::1<span class="o">]</span>
+<a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Generating<span class="w"> </span><span class="s2">&quot;etcd/healthcheck-client&quot;</span><span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>key
+<a id="__codelineno-29-20" name="__codelineno-29-20" href="#__codelineno-29-20"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Generating<span class="w"> </span><span class="s2">&quot;apiserver-etcd-client&quot;</span><span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>key
+<a id="__codelineno-29-21" name="__codelineno-29-21" href="#__codelineno-29-21"></a><span class="o">[</span>certs<span class="o">]</span><span class="w"> </span>Generating<span class="w"> </span><span class="s2">&quot;sa&quot;</span><span class="w"> </span>key<span class="w"> </span>and<span class="w"> </span>public<span class="w"> </span>key
+<a id="__codelineno-29-22" name="__codelineno-29-22" href="#__codelineno-29-22"></a><span class="o">[</span>kubeconfig<span class="o">]</span><span class="w"> </span>Using<span class="w"> </span>kubeconfig<span class="w"> </span>folder<span class="w"> </span><span class="s2">&quot;/etc/kubernetes&quot;</span>
+<a id="__codelineno-29-23" name="__codelineno-29-23" href="#__codelineno-29-23"></a><span class="o">[</span>kubeconfig<span class="o">]</span><span class="w"> </span>Writing<span class="w"> </span><span class="s2">&quot;admin.conf&quot;</span><span class="w"> </span>kubeconfig<span class="w"> </span>file
+<a id="__codelineno-29-24" name="__codelineno-29-24" href="#__codelineno-29-24"></a><span class="o">[</span>kubeconfig<span class="o">]</span><span class="w"> </span>Writing<span class="w"> </span><span class="s2">&quot;kubelet.conf&quot;</span><span class="w"> </span>kubeconfig<span class="w"> </span>file
+<a id="__codelineno-29-25" name="__codelineno-29-25" href="#__codelineno-29-25"></a><span class="o">[</span>kubeconfig<span class="o">]</span><span class="w"> </span>Writing<span class="w"> </span><span class="s2">&quot;controller-manager.conf&quot;</span><span class="w"> </span>kubeconfig<span class="w"> </span>file
+<a id="__codelineno-29-26" name="__codelineno-29-26" href="#__codelineno-29-26"></a><span class="o">[</span>kubeconfig<span class="o">]</span><span class="w"> </span>Writing<span class="w"> </span><span class="s2">&quot;scheduler.conf&quot;</span><span class="w"> </span>kubeconfig<span class="w"> </span>file
+<a id="__codelineno-29-27" name="__codelineno-29-27" href="#__codelineno-29-27"></a><span class="o">[</span>kubelet-start<span class="o">]</span><span class="w"> </span>Writing<span class="w"> </span>kubelet<span class="w"> </span>environment<span class="w"> </span>file<span class="w"> </span>with<span class="w"> </span>flags<span class="w"> </span>to<span class="w"> </span>file<span class="w"> </span><span class="s2">&quot;/var/lib/kubelet/kubeadm-flags.env&quot;</span>
+<a id="__codelineno-29-28" name="__codelineno-29-28" href="#__codelineno-29-28"></a><span class="o">[</span>kubelet-start<span class="o">]</span><span class="w"> </span>Writing<span class="w"> </span>kubelet<span class="w"> </span>configuration<span class="w"> </span>to<span class="w"> </span>file<span class="w"> </span><span class="s2">&quot;/var/lib/kubelet/config.yaml&quot;</span>
+<a id="__codelineno-29-29" name="__codelineno-29-29" href="#__codelineno-29-29"></a><span class="o">[</span>kubelet-start<span class="o">]</span><span class="w"> </span>Starting<span class="w"> </span>the<span class="w"> </span>kubelet
+<a id="__codelineno-29-30" name="__codelineno-29-30" href="#__codelineno-29-30"></a><span class="o">[</span>control-plane<span class="o">]</span><span class="w"> </span>Using<span class="w"> </span>manifest<span class="w"> </span>folder<span class="w"> </span><span class="s2">&quot;/etc/kubernetes/manifests&quot;</span>
+<a id="__codelineno-29-31" name="__codelineno-29-31" href="#__codelineno-29-31"></a><span class="o">[</span>control-plane<span class="o">]</span><span class="w"> </span>Creating<span class="w"> </span>static<span class="w"> </span>Pod<span class="w"> </span>manifest<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s2">&quot;kube-apiserver&quot;</span>
+<a id="__codelineno-29-32" name="__codelineno-29-32" href="#__codelineno-29-32"></a><span class="o">[</span>control-plane<span class="o">]</span><span class="w"> </span>Creating<span class="w"> </span>static<span class="w"> </span>Pod<span class="w"> </span>manifest<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s2">&quot;kube-controller-manager&quot;</span>
+<a id="__codelineno-29-33" name="__codelineno-29-33" href="#__codelineno-29-33"></a><span class="o">[</span>control-plane<span class="o">]</span><span class="w"> </span>Creating<span class="w"> </span>static<span class="w"> </span>Pod<span class="w"> </span>manifest<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s2">&quot;kube-scheduler&quot;</span>
+<a id="__codelineno-29-34" name="__codelineno-29-34" href="#__codelineno-29-34"></a><span class="o">[</span>etcd<span class="o">]</span><span class="w"> </span>Creating<span class="w"> </span>static<span class="w"> </span>Pod<span class="w"> </span>manifest<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">local</span><span class="w"> </span>etcd<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;/etc/kubernetes/manifests&quot;</span>
+<a id="__codelineno-29-35" name="__codelineno-29-35" href="#__codelineno-29-35"></a><span class="o">[</span>wait-control-plane<span class="o">]</span><span class="w"> </span>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>kubelet<span class="w"> </span>to<span class="w"> </span>boot<span class="w"> </span>up<span class="w"> </span>the<span class="w"> </span>control<span class="w"> </span>plane<span class="w"> </span>as<span class="w"> </span>static<span class="w"> </span>Pods<span class="w"> </span>from<span class="w"> </span>directory<span class="w"> </span><span class="s2">&quot;/etc/kubernetes/manifests&quot;</span>.<span class="w"> </span>This<span class="w"> </span>can<span class="w"> </span>take<span class="w"> </span>up<span class="w"> </span>to<span class="w"> </span>4m0s
+<a id="__codelineno-29-36" name="__codelineno-29-36" href="#__codelineno-29-36"></a><span class="o">[</span>apiclient<span class="o">]</span><span class="w"> </span>All<span class="w"> </span>control<span class="w"> </span>plane<span class="w"> </span>components<span class="w"> </span>are<span class="w"> </span>healthy<span class="w"> </span>after<span class="w"> </span><span class="m">12</span>.004224<span class="w"> </span>seconds
+<a id="__codelineno-29-37" name="__codelineno-29-37" href="#__codelineno-29-37"></a><span class="o">[</span>upload-config<span class="o">]</span><span class="w"> </span>Storing<span class="w"> </span>the<span class="w"> </span>configuration<span class="w"> </span>used<span class="w"> </span><span class="k">in</span><span class="w"> </span>ConfigMap<span class="w"> </span><span class="s2">&quot;kubeadm-config&quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span><span class="s2">&quot;kube-system&quot;</span><span class="w"> </span>Namespace
+<a id="__codelineno-29-38" name="__codelineno-29-38" href="#__codelineno-29-38"></a><span class="o">[</span>kubelet<span class="o">]</span><span class="w"> </span>Creating<span class="w"> </span>a<span class="w"> </span>ConfigMap<span class="w"> </span><span class="s2">&quot;kubelet-config-1.22&quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>namespace<span class="w"> </span>kube-system<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>configuration<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>kubelets<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>cluster
+<a id="__codelineno-29-39" name="__codelineno-29-39" href="#__codelineno-29-39"></a><span class="o">[</span>upload-certs<span class="o">]</span><span class="w"> </span>Skipping<span class="w"> </span>phase.<span class="w"> </span>Please<span class="w"> </span>see<span class="w"> </span>--upload-certs
+<a id="__codelineno-29-40" name="__codelineno-29-40" href="#__codelineno-29-40"></a><span class="o">[</span>mark-control-plane<span class="o">]</span><span class="w"> </span>Marking<span class="w"> </span>the<span class="w"> </span>node<span class="w"> </span>master1<span class="w"> </span>as<span class="w"> </span>control-plane<span class="w"> </span>by<span class="w"> </span>adding<span class="w"> </span>the<span class="w"> </span>labels:<span class="w"> </span><span class="o">[</span>node-role.kubernetes.io/master<span class="o">(</span>deprecated<span class="o">)</span><span class="w"> </span>node-role.kubernetes.io/control-plane<span class="w"> </span>node.kubernetes.io/exclude-from-external-load-balancers<span class="o">]</span>
+<a id="__codelineno-29-41" name="__codelineno-29-41" href="#__codelineno-29-41"></a><span class="o">[</span>mark-control-plane<span class="o">]</span><span class="w"> </span>Marking<span class="w"> </span>the<span class="w"> </span>node<span class="w"> </span>master1<span class="w"> </span>as<span class="w"> </span>control-plane<span class="w"> </span>by<span class="w"> </span>adding<span class="w"> </span>the<span class="w"> </span>taints<span class="w"> </span><span class="o">[</span>node-role.kubernetes.io/master:NoSchedule<span class="o">]</span>
+<a id="__codelineno-29-42" name="__codelineno-29-42" href="#__codelineno-29-42"></a><span class="o">[</span>bootstrap-token<span class="o">]</span><span class="w"> </span>Using<span class="w"> </span>token:<span class="w"> </span>abcdef.0123456789abcdef
+<a id="__codelineno-29-43" name="__codelineno-29-43" href="#__codelineno-29-43"></a><span class="o">[</span>bootstrap-token<span class="o">]</span><span class="w"> </span>Configuring<span class="w"> </span>bootstrap<span class="w"> </span>tokens,<span class="w"> </span>cluster-info<span class="w"> </span>ConfigMap,<span class="w"> </span>RBAC<span class="w"> </span>Roles
+<a id="__codelineno-29-44" name="__codelineno-29-44" href="#__codelineno-29-44"></a><span class="o">[</span>bootstrap-token<span class="o">]</span><span class="w"> </span>configured<span class="w"> </span>RBAC<span class="w"> </span>rules<span class="w"> </span>to<span class="w"> </span>allow<span class="w"> </span>Node<span class="w"> </span>Bootstrap<span class="w"> </span>tokens<span class="w"> </span>to<span class="w"> </span>get<span class="w"> </span>nodes
+<a id="__codelineno-29-45" name="__codelineno-29-45" href="#__codelineno-29-45"></a><span class="o">[</span>bootstrap-token<span class="o">]</span><span class="w"> </span>configured<span class="w"> </span>RBAC<span class="w"> </span>rules<span class="w"> </span>to<span class="w"> </span>allow<span class="w"> </span>Node<span class="w"> </span>Bootstrap<span class="w"> </span>tokens<span class="w"> </span>to<span class="w"> </span>post<span class="w"> </span>CSRs<span class="w"> </span><span class="k">in</span><span class="w"> </span>order<span class="w"> </span><span class="k">for</span><span class="w"> </span>nodes<span class="w"> </span>to<span class="w"> </span>get<span class="w"> </span>long<span class="w"> </span>term<span class="w"> </span>certificate<span class="w"> </span>credentials
+<a id="__codelineno-29-46" name="__codelineno-29-46" href="#__codelineno-29-46"></a><span class="o">[</span>bootstrap-token<span class="o">]</span><span class="w"> </span>configured<span class="w"> </span>RBAC<span class="w"> </span>rules<span class="w"> </span>to<span class="w"> </span>allow<span class="w"> </span>the<span class="w"> </span>csrapprover<span class="w"> </span>controller<span class="w"> </span>automatically<span class="w"> </span>approve<span class="w"> </span>CSRs<span class="w"> </span>from<span class="w"> </span>a<span class="w"> </span>Node<span class="w"> </span>Bootstrap<span class="w"> </span>Token
+<a id="__codelineno-29-47" name="__codelineno-29-47" href="#__codelineno-29-47"></a><span class="o">[</span>bootstrap-token<span class="o">]</span><span class="w"> </span>configured<span class="w"> </span>RBAC<span class="w"> </span>rules<span class="w"> </span>to<span class="w"> </span>allow<span class="w"> </span>certificate<span class="w"> </span>rotation<span class="w"> </span><span class="k">for</span><span class="w"> </span>all<span class="w"> </span>node<span class="w"> </span>client<span class="w"> </span>certificates<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>cluster
+<a id="__codelineno-29-48" name="__codelineno-29-48" href="#__codelineno-29-48"></a><span class="o">[</span>bootstrap-token<span class="o">]</span><span class="w"> </span>Creating<span class="w"> </span>the<span class="w"> </span><span class="s2">&quot;cluster-info&quot;</span><span class="w"> </span>ConfigMap<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span><span class="s2">&quot;kube-public&quot;</span><span class="w"> </span>namespace
+<a id="__codelineno-29-49" name="__codelineno-29-49" href="#__codelineno-29-49"></a><span class="o">[</span>kubelet-finalize<span class="o">]</span><span class="w"> </span>Updating<span class="w"> </span><span class="s2">&quot;/etc/kubernetes/kubelet.conf&quot;</span><span class="w"> </span>to<span class="w"> </span>point<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>rotatable<span class="w"> </span>kubelet<span class="w"> </span>client<span class="w"> </span>certificate<span class="w"> </span>and<span class="w"> </span>key
+<a id="__codelineno-29-50" name="__codelineno-29-50" href="#__codelineno-29-50"></a><span class="o">[</span>addons<span class="o">]</span><span class="w"> </span>Applied<span class="w"> </span>essential<span class="w"> </span>addon:<span class="w"> </span>CoreDNS
+<a id="__codelineno-29-51" name="__codelineno-29-51" href="#__codelineno-29-51"></a><span class="o">[</span>addons<span class="o">]</span><span class="w"> </span>Applied<span class="w"> </span>essential<span class="w"> </span>addon:<span class="w"> </span>kube-proxy
+<a id="__codelineno-29-52" name="__codelineno-29-52" href="#__codelineno-29-52"></a>
+<a id="__codelineno-29-53" name="__codelineno-29-53" href="#__codelineno-29-53"></a>Your<span class="w"> </span>Kubernetes<span class="w"> </span>control-plane<span class="w"> </span>has<span class="w"> </span>initialized<span class="w"> </span>successfully!
+<a id="__codelineno-29-54" name="__codelineno-29-54" href="#__codelineno-29-54"></a>
+<a id="__codelineno-29-55" name="__codelineno-29-55" href="#__codelineno-29-55"></a>To<span class="w"> </span>start<span class="w"> </span>using<span class="w"> </span>your<span class="w"> </span>cluster,<span class="w"> </span>you<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>regular<span class="w"> </span>user:
+<a id="__codelineno-29-56" name="__codelineno-29-56" href="#__codelineno-29-56"></a>
+<a id="__codelineno-29-57" name="__codelineno-29-57" href="#__codelineno-29-57"></a><span class="w">  </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/.kube
+<a id="__codelineno-29-58" name="__codelineno-29-58" href="#__codelineno-29-58"></a><span class="w">  </span>sudo<span class="w"> </span>cp<span class="w"> </span>-i<span class="w"> </span>/etc/kubernetes/admin.conf<span class="w"> </span><span class="nv">$HOME</span>/.kube/config
+<a id="__codelineno-29-59" name="__codelineno-29-59" href="#__codelineno-29-59"></a><span class="w">  </span>sudo<span class="w"> </span>chown<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="w"> </span><span class="nv">$HOME</span>/.kube/config
+<a id="__codelineno-29-60" name="__codelineno-29-60" href="#__codelineno-29-60"></a>
+<a id="__codelineno-29-61" name="__codelineno-29-61" href="#__codelineno-29-61"></a>Alternatively,<span class="w"> </span><span class="k">if</span><span class="w"> </span>you<span class="w"> </span>are<span class="w"> </span>the<span class="w"> </span>root<span class="w"> </span>user,<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>run:
+<a id="__codelineno-29-62" name="__codelineno-29-62" href="#__codelineno-29-62"></a>
+<a id="__codelineno-29-63" name="__codelineno-29-63" href="#__codelineno-29-63"></a><span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span>/etc/kubernetes/admin.conf
+<a id="__codelineno-29-64" name="__codelineno-29-64" href="#__codelineno-29-64"></a>
+<a id="__codelineno-29-65" name="__codelineno-29-65" href="#__codelineno-29-65"></a>You<span class="w"> </span>should<span class="w"> </span>now<span class="w"> </span>deploy<span class="w"> </span>a<span class="w"> </span>pod<span class="w"> </span>network<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>cluster.
+<a id="__codelineno-29-66" name="__codelineno-29-66" href="#__codelineno-29-66"></a>Run<span class="w"> </span><span class="s2">&quot;kubectl apply -f [podnetwork].yaml&quot;</span><span class="w"> </span>with<span class="w"> </span>one<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>options<span class="w"> </span>listed<span class="w"> </span>at:
+<a id="__codelineno-29-67" name="__codelineno-29-67" href="#__codelineno-29-67"></a><span class="w">  </span>https://kubernetes.io/docs/concepts/cluster-administration/addons/
+<a id="__codelineno-29-68" name="__codelineno-29-68" href="#__codelineno-29-68"></a>
+<a id="__codelineno-29-69" name="__codelineno-29-69" href="#__codelineno-29-69"></a>Then<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>join<span class="w"> </span>any<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>worker<span class="w"> </span>nodes<span class="w"> </span>by<span class="w"> </span>running<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>on<span class="w"> </span>each<span class="w"> </span>as<span class="w"> </span>root:
+<a id="__codelineno-29-70" name="__codelineno-29-70" href="#__codelineno-29-70"></a>
+<a id="__codelineno-29-71" name="__codelineno-29-71" href="#__codelineno-29-71"></a>kubeadm<span class="w"> </span>join<span class="w"> </span><span class="m">192</span>.168.0.186:6443<span class="w"> </span>--token<span class="w"> </span>abcdef.0123456789abcdef<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-29-72" name="__codelineno-29-72" href="#__codelineno-29-72"></a><span class="w">    </span>--discovery-token-ca-cert-hash<span class="w"> </span>sha256:ca0c87226c69309d7779096c15b6a41e14b077baf4650bfdb6f9d3178d4da645
+</code></pre></div>
+根据安装提示拷贝 kubeconfig 文件：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>➜<span class="w">  </span>~<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/.kube
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>➜<span class="w">  </span>~<span class="w"> </span>sudo<span class="w"> </span>cp<span class="w"> </span>-i<span class="w"> </span>/etc/kubernetes/admin.conf<span class="w"> </span><span class="nv">$HOME</span>/.kube/config
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>➜<span class="w">  </span>~<span class="w"> </span>sudo<span class="w"> </span>chown<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="w"> </span><span class="nv">$HOME</span>/.kube/config
+</code></pre></div>
+然后可以使用 kubectl 命令查看 master 节点已经初始化成功了：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>NAME<span class="w">      </span>STATUS<span class="w">   </span>ROLES<span class="w">                  </span>AGE<span class="w">   </span>VERSION
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>k8sm<span class="w">   </span>Ready<span class="w">    </span>control-plane,master<span class="w">   </span>41s<span class="w">   </span>v1.22.2
+</code></pre></div></p>
+<h3 id="_4">添加节点<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>记住初始化集群上面的配置和操作要提前做好，将 master 节点上面的 <code>$HOME/.kube/config</code> 文件拷贝到 node 节点对应的文件中，安装 kubeadm、kubelet、kubectl（可选），然后执行上面初始化完成后提示的 join 命令即可：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubeadm<span class="w"> </span>join<span class="w"> </span><span class="m">192</span>.168.31.31:6443<span class="w"> </span>--token<span class="w"> </span>abcdef.0123456789abcdef<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>&gt;<span class="w"> </span>--discovery-token-ca-cert-hash<span class="w"> </span>sha256:ca0c87226c69309d7779096c15b6a41e14b077baf4650bfdb6f9d3178d4da645
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="o">[</span>preflight<span class="o">]</span><span class="w"> </span>Running<span class="w"> </span>pre-flight<span class="w"> </span>checks
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="o">[</span>preflight<span class="o">]</span><span class="w"> </span>Reading<span class="w"> </span>configuration<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>cluster...
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="o">[</span>preflight<span class="o">]</span><span class="w"> </span>FYI:<span class="w"> </span>You<span class="w"> </span>can<span class="w"> </span>look<span class="w"> </span>at<span class="w"> </span>this<span class="w"> </span>config<span class="w"> </span>file<span class="w"> </span>with<span class="w"> </span><span class="s1">&#39;kubectl -n kube-system get cm kubeadm-config -o yaml&#39;</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="o">[</span>kubelet-start<span class="o">]</span><span class="w"> </span>Writing<span class="w"> </span>kubelet<span class="w"> </span>configuration<span class="w"> </span>to<span class="w"> </span>file<span class="w"> </span><span class="s2">&quot;/var/lib/kubelet/config.yaml&quot;</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="o">[</span>kubelet-start<span class="o">]</span><span class="w"> </span>Writing<span class="w"> </span>kubelet<span class="w"> </span>environment<span class="w"> </span>file<span class="w"> </span>with<span class="w"> </span>flags<span class="w"> </span>to<span class="w"> </span>file<span class="w"> </span><span class="s2">&quot;/var/lib/kubelet/kubeadm-flags.env&quot;</span>
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="o">[</span>kubelet-start<span class="o">]</span><span class="w"> </span>Starting<span class="w"> </span>the<span class="w"> </span>kubelet
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a><span class="o">[</span>kubelet-start<span class="o">]</span><span class="w"> </span>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>kubelet<span class="w"> </span>to<span class="w"> </span>perform<span class="w"> </span>the<span class="w"> </span>TLS<span class="w"> </span>Bootstrap...
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a>
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a>This<span class="w"> </span>node<span class="w"> </span>has<span class="w"> </span>joined<span class="w"> </span>the<span class="w"> </span>cluster:
+<a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a>*<span class="w"> </span>Certificate<span class="w"> </span>signing<span class="w"> </span>request<span class="w"> </span>was<span class="w"> </span>sent<span class="w"> </span>to<span class="w"> </span>apiserver<span class="w"> </span>and<span class="w"> </span>a<span class="w"> </span>response<span class="w"> </span>was<span class="w"> </span>received.
+<a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a>*<span class="w"> </span>The<span class="w"> </span>Kubelet<span class="w"> </span>was<span class="w"> </span>informed<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>new<span class="w"> </span>secure<span class="w"> </span>connection<span class="w"> </span>details.
+<a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a>
+<a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a>Run<span class="w"> </span><span class="s1">&#39;kubectl get nodes&#39;</span><span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>control-plane<span class="w"> </span>to<span class="w"> </span>see<span class="w"> </span>this<span class="w"> </span>node<span class="w"> </span>join<span class="w"> </span>the<span class="w"> </span>cluster.
+</code></pre></div></p>
+<div class="admonition info">
+<p class="admonition-title">join 命令</p>
+<p>如果忘记了上面的 join 命令可以使用命令 <code>kubeadm token create --print-join-command</code> 重新获取。</p>
+</div>
+<p>执行成功后运行 get nodes 命令：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>NAME<span class="w">      </span>STATUS<span class="w">   </span>ROLES<span class="w">                  </span>AGE<span class="w">     </span>VERSION
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>k8sm<span class="w">      </span>Ready<span class="w">    </span>control-plane,master<span class="w">   </span>2m35s<span class="w">   </span>v1.22.2
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>k8sn1<span class="w">     </span>Ready<span class="w">    </span>&lt;none&gt;<span class="w">                 </span>45s<span class="w">     </span>v1.22.2
+</code></pre></div>
+这个时候其实集群还不能正常使用，因为还没有安装网络插件，接下来安装网络插件，可以在文档 <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/</a> 中选择我们自己的网络插件，这里我们安装 flannel:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>➜<span class="w">  </span>~<span class="w"> </span>wget<span class="w"> </span>https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="c1"># 如果有节点是多网卡，则需要在资源清单文件中指定内网网卡</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="c1"># 搜索到名为 kube-flannel-ds 的 DaemonSet，在kube-flannel容器下面</span>
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>➜<span class="w">  </span>~<span class="w"> </span>vi<span class="w"> </span>kube-flannel.yml
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>......
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>containers:
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>-<span class="w"> </span>name:<span class="w"> </span>kube-flannel
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="w">  </span>image:<span class="w"> </span>quay.io/coreos/flannel:v0.15.0
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a><span class="w">  </span>command:
+<a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a><span class="w">  </span>-<span class="w"> </span>/opt/bin/flanneld
+<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a><span class="w">  </span>args:
+<a id="__codelineno-34-12" name="__codelineno-34-12" href="#__codelineno-34-12"></a><span class="w">  </span>-<span class="w"> </span>--ip-masq
+<a id="__codelineno-34-13" name="__codelineno-34-13" href="#__codelineno-34-13"></a><span class="w">  </span>-<span class="w"> </span>--kube-subnet-mgr
+<a id="__codelineno-34-14" name="__codelineno-34-14" href="#__codelineno-34-14"></a><span class="w">  </span>-<span class="w"> </span>--iface<span class="o">=</span>eth0<span class="w">  </span><span class="c1"># 如果是多网卡的话，指定内网网卡的名称</span>
+<a id="__codelineno-34-15" name="__codelineno-34-15" href="#__codelineno-34-15"></a>......
+<a id="__codelineno-34-16" name="__codelineno-34-16" href="#__codelineno-34-16"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>kube-flannel.yml<span class="w">  </span><span class="c1"># 安装 flannel 网络插件</span>
+</code></pre></div>
+隔一会儿查看 Pod 运行状态：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>kube-system
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>NAME<span class="w">                             </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>coredns-7568f67dbd-5mg59<span class="w">         </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>8m32s
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>coredns-7568f67dbd-b685t<span class="w">         </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>8m31s
+<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>etcd-master<span class="w">                      </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>66m
+<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>kube-apiserver-master<span class="w">            </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>66m
+<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>kube-controller-manager-master<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>66m
+<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>kube-flannel-ds-dsbt6<span class="w">            </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>11m
+<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>kube-flannel-ds-zwlm6<span class="w">            </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>11m
+<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>kube-proxy-jq84n<span class="w">                 </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>66m
+<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a>kube-proxy-x4hbv<span class="w">                 </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>19m
+<a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a>kube-scheduler-master<span class="w">            </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>66m
+</code></pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Flannel 网络插件</p>
+<p>当我们部署完网络插件后执行 ifconfig 命令，正常会看到新增的<code>cni0</code>与<code>flannel1</code>这两个虚拟设备，但是如果没有看到<code>cni0</code>这个设备也不用太担心，我们可以观察<code>/var/lib/cni</code>目录是否存在，如果不存在并不是说部署有问题，而是该节点上暂时还没有应用运行，我们只需要在该节点上运行一个 Pod 就可以看到该目录会被创建，并且<code>cni0</code>设备也会被创建出来。</p>
+</div>
+<p>用同样的方法添加另外一个节点即可。</p>
+<h2 id="dashboard">Dashboard<a class="headerlink" href="#dashboard" title="Permanent link">&para;</a></h2>
+<p><code>v1.22.2</code> 版本的集群需要安装最新的 2.0+ 版本的 Dashboard：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># 推荐使用下面这种方式</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>➜<span class="w">  </span>~<span class="w"> </span>wget<span class="w"> </span>https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>➜<span class="w">  </span>~<span class="w"> </span>vi<span class="w"> </span>recommended.yaml
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="c1"># 修改Service为NodePort类型</span>
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>......
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>kind:<span class="w"> </span>Service
+<a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>apiVersion:<span class="w"> </span>v1
+<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>metadata:
+<a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a><span class="w">  </span>labels:
+<a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="w">    </span>k8s-app:<span class="w"> </span>kubernetes-dashboard
+<a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a><span class="w">  </span>name:<span class="w"> </span>kubernetes-dashboard
+<a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a><span class="w">  </span>namespace:<span class="w"> </span>kubernetes-dashboard
+<a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a>spec:
+<a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a><span class="w">  </span>ports:
+<a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a><span class="w">    </span>-<span class="w"> </span>port:<span class="w"> </span><span class="m">443</span>
+<a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a><span class="w">      </span>targetPort:<span class="w"> </span><span class="m">8443</span>
+<a id="__codelineno-36-17" name="__codelineno-36-17" href="#__codelineno-36-17"></a><span class="w">  </span>selector:
+<a id="__codelineno-36-18" name="__codelineno-36-18" href="#__codelineno-36-18"></a><span class="w">    </span>k8s-app:<span class="w"> </span>kubernetes-dashboard
+<a id="__codelineno-36-19" name="__codelineno-36-19" href="#__codelineno-36-19"></a><span class="w">  </span>type:<span class="w"> </span>NodePort<span class="w">  </span><span class="c1"># 加上type=NodePort变成NodePort类型的服务</span>
+<a id="__codelineno-36-20" name="__codelineno-36-20" href="#__codelineno-36-20"></a>......
+</code></pre></div></p>
+<div class="admonition info">
+<p class="admonition-title">监控组件</p>
+<p>在 YAML 文件中可以看到新版本 Dashboard 集成了一个 metrics-scraper 的组件，可以通过 Kubernetes 的 Metrics API 收集一些基础资源的监控信息，并在 web 页面上展示，所以要想在页面上展示监控信息就需要提供 Metrics API，比如安装 Metrics Server。</p>
+</div>
+<p>直接创建：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>recommended.yaml
+</code></pre></div>
+新版本的 Dashboard 会被默认安装在 kubernetes-dashboard 这个命名空间下面：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>kubernetes-dashboard<span class="w"> </span>-o<span class="w"> </span>wide
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>NAME<span class="w">                                         </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE<span class="w">   </span>IP<span class="w">          </span>NODE<span class="w">     </span>NOMINATED<span class="w"> </span>NODE<span class="w">   </span>READINESS<span class="w"> </span>GATES
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>dashboard-metrics-scraper-856586f554-pllvt<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>24m<span class="w">   </span><span class="m">10</span>.88.0.7<span class="w">   </span>k8sm<span class="w">   </span>&lt;none&gt;<span class="w">           </span>&lt;none&gt;
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>kubernetes-dashboard-76597d7df5-82998<span class="w">        </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>21m<span class="w">   </span><span class="m">10</span>.88.0.2<span class="w">   </span>k8sn2<span class="w">    </span>&lt;none&gt;<span class="w">           </span>&lt;none&gt;
+</code></pre></div>
+我们仔细看可以发现上面的 Pod 分配的 IP 段是 <span class="jade"><code>10.88.xx.xx</code></span>，包括前面自动安装的 CoreDNS 也是如此，我们前面不是配置的 podSubnet 为 <span class="jade"><code>10.244.0.0/16</code></span> 吗？我们先去查看下 CNI 的配置文件：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>➜<span class="w">  </span>~<span class="w"> </span>ls<span class="w"> </span>-la<span class="w"> </span>/etc/cni/net.d/
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>total<span class="w"> </span><span class="m">8</span>
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>drwxr-xr-x<span class="w">  </span><span class="m">2</span><span class="w"> </span><span class="m">1001</span><span class="w"> </span>docker<span class="w">  </span><span class="m">67</span><span class="w"> </span>Aug<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">16</span>:45<span class="w"> </span>.
+<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>drwxr-xr-x.<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">1001</span><span class="w"> </span>docker<span class="w">  </span><span class="m">19</span><span class="w"> </span>Jul<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="m">01</span>:13<span class="w"> </span>..
+<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span><span class="m">1001</span><span class="w"> </span>docker<span class="w"> </span><span class="m">604</span><span class="w"> </span>Jul<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="m">01</span>:13<span class="w"> </span><span class="m">10</span>-containerd-net.conflist
+<a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">292</span><span class="w"> </span>Aug<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">16</span>:45<span class="w"> </span><span class="m">10</span>-flannel.conflist
+</code></pre></div>
+可以看到里面包含两个配置，一个是 <code>10-containerd-net.conflist</code>，另外一个是我们上面创建的 Flannel 网络插件生成的配置，我们的需求肯定是想使用 Flannel 的这个配置，我们可以查看下 containerd 这个自带的 cni 插件配置：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>➜<span class="w">  </span>~<span class="w"> </span>cat<span class="w"> </span>/etc/cni/net.d/10-containerd-net.conflist
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="o">{</span>
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="w">  </span><span class="s2">&quot;cniVersion&quot;</span>:<span class="w"> </span><span class="s2">&quot;0.4.0&quot;</span>,
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="w">  </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;containerd-net&quot;</span>,
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a><span class="w">  </span><span class="s2">&quot;plugins&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a><span class="w">    </span><span class="o">{</span>
+<a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a><span class="w">      </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;bridge&quot;</span>,
+<a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a><span class="w">      </span><span class="s2">&quot;bridge&quot;</span>:<span class="w"> </span><span class="s2">&quot;cni0&quot;</span>,
+<a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a><span class="w">      </span><span class="s2">&quot;isGateway&quot;</span>:<span class="w"> </span>true,
+<a id="__codelineno-40-10" name="__codelineno-40-10" href="#__codelineno-40-10"></a><span class="w">      </span><span class="s2">&quot;ipMasq&quot;</span>:<span class="w"> </span>true,
+<a id="__codelineno-40-11" name="__codelineno-40-11" href="#__codelineno-40-11"></a><span class="w">      </span><span class="s2">&quot;promiscMode&quot;</span>:<span class="w"> </span>true,
+<a id="__codelineno-40-12" name="__codelineno-40-12" href="#__codelineno-40-12"></a><span class="w">      </span><span class="s2">&quot;ipam&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-40-13" name="__codelineno-40-13" href="#__codelineno-40-13"></a><span class="w">        </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;host-local&quot;</span>,
+<a id="__codelineno-40-14" name="__codelineno-40-14" href="#__codelineno-40-14"></a><span class="w">        </span><span class="s2">&quot;ranges&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<a id="__codelineno-40-15" name="__codelineno-40-15" href="#__codelineno-40-15"></a><span class="w">          </span><span class="o">[{</span>
+<a id="__codelineno-40-16" name="__codelineno-40-16" href="#__codelineno-40-16"></a><span class="w">            </span><span class="s2">&quot;subnet&quot;</span>:<span class="w"> </span><span class="s2">&quot;10.88.0.0/16&quot;</span>
+<a id="__codelineno-40-17" name="__codelineno-40-17" href="#__codelineno-40-17"></a><span class="w">          </span><span class="o">}]</span>,
+<a id="__codelineno-40-18" name="__codelineno-40-18" href="#__codelineno-40-18"></a><span class="w">          </span><span class="o">[{</span>
+<a id="__codelineno-40-19" name="__codelineno-40-19" href="#__codelineno-40-19"></a><span class="w">            </span><span class="s2">&quot;subnet&quot;</span>:<span class="w"> </span><span class="s2">&quot;2001:4860:4860::/64&quot;</span>
+<a id="__codelineno-40-20" name="__codelineno-40-20" href="#__codelineno-40-20"></a><span class="w">          </span><span class="o">}]</span>
+<a id="__codelineno-40-21" name="__codelineno-40-21" href="#__codelineno-40-21"></a><span class="w">        </span><span class="o">]</span>,
+<a id="__codelineno-40-22" name="__codelineno-40-22" href="#__codelineno-40-22"></a><span class="w">        </span><span class="s2">&quot;routes&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<a id="__codelineno-40-23" name="__codelineno-40-23" href="#__codelineno-40-23"></a><span class="w">          </span><span class="o">{</span><span class="w"> </span><span class="s2">&quot;dst&quot;</span>:<span class="w"> </span><span class="s2">&quot;0.0.0.0/0&quot;</span><span class="w"> </span><span class="o">}</span>,
+<a id="__codelineno-40-24" name="__codelineno-40-24" href="#__codelineno-40-24"></a><span class="w">          </span><span class="o">{</span><span class="w"> </span><span class="s2">&quot;dst&quot;</span>:<span class="w"> </span><span class="s2">&quot;::/0&quot;</span><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-40-25" name="__codelineno-40-25" href="#__codelineno-40-25"></a><span class="w">        </span><span class="o">]</span>
+<a id="__codelineno-40-26" name="__codelineno-40-26" href="#__codelineno-40-26"></a><span class="w">      </span><span class="o">}</span>
+<a id="__codelineno-40-27" name="__codelineno-40-27" href="#__codelineno-40-27"></a><span class="w">    </span><span class="o">}</span>,
+<a id="__codelineno-40-28" name="__codelineno-40-28" href="#__codelineno-40-28"></a><span class="w">    </span><span class="o">{</span>
+<a id="__codelineno-40-29" name="__codelineno-40-29" href="#__codelineno-40-29"></a><span class="w">      </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;portmap&quot;</span>,
+<a id="__codelineno-40-30" name="__codelineno-40-30" href="#__codelineno-40-30"></a><span class="w">      </span><span class="s2">&quot;capabilities&quot;</span>:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;portMappings&quot;</span>:<span class="w"> </span>true<span class="o">}</span>
+<a id="__codelineno-40-31" name="__codelineno-40-31" href="#__codelineno-40-31"></a><span class="w">    </span><span class="o">}</span>
+<a id="__codelineno-40-32" name="__codelineno-40-32" href="#__codelineno-40-32"></a><span class="w">  </span><span class="o">]</span>
+<a id="__codelineno-40-33" name="__codelineno-40-33" href="#__codelineno-40-33"></a><span class="o">}</span>
+</code></pre></div>
+可以看到上面的 IP 段恰好就是 <span class="jade"><code>10.88.0.0/16</code></span>，但是这个 cni 插件类型是 <code>bridge</code> 网络，网桥的名称为 <code>cni0</code>：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>➜<span class="w">  </span>~<span class="w"> </span>ip<span class="w"> </span>a
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>...
+<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a><span class="m">6</span>:<span class="w"> </span>cni0:<span class="w"> </span>&lt;BROADCAST,MULTICAST,PROMISC,UP,LOWER_UP&gt;<span class="w"> </span>mtu<span class="w"> </span><span class="m">1500</span><span class="w"> </span>qdisc<span class="w"> </span>noqueue<span class="w"> </span>state<span class="w"> </span>UP<span class="w"> </span>group<span class="w"> </span>default<span class="w"> </span>qlen<span class="w"> </span><span class="m">1000</span>
+<a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="w">    </span>link/ether<span class="w"> </span>9a:e7:eb:40:e8:66<span class="w"> </span>brd<span class="w"> </span>ff:ff:ff:ff:ff:ff
+<a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a><span class="w">    </span>inet<span class="w"> </span><span class="m">10</span>.88.0.1/16<span class="w"> </span>brd<span class="w"> </span><span class="m">10</span>.88.255.255<span class="w"> </span>scope<span class="w"> </span>global<span class="w"> </span>cni0
+<a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a><span class="w">       </span>valid_lft<span class="w"> </span>forever<span class="w"> </span>preferred_lft<span class="w"> </span>forever
+<a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a><span class="w">    </span>inet6<span class="w"> </span><span class="m">2001</span>:4860:4860::1/64<span class="w"> </span>scope<span class="w"> </span>global
+<a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a><span class="w">       </span>valid_lft<span class="w"> </span>forever<span class="w"> </span>preferred_lft<span class="w"> </span>forever
+<a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a><span class="w">    </span>inet6<span class="w"> </span>fe80::98e7:ebff:fe40:e866/64<span class="w"> </span>scope<span class="w"> </span>link
+<a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a><span class="w">       </span>valid_lft<span class="w"> </span>forever<span class="w"> </span>preferred_lft<span class="w"> </span>forever
+<a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a>...
+</code></pre></div>
+但是使用 bridge 网络的容器无法跨多个宿主机进行通信，跨主机通信需要借助其他的 cni 插件，比如上面我们安装的 Flannel，或者 Calico 等等，由于我们这里有两个 cni 配置，所以我们需要将 <code>10-containerd-net.conflist</code> 这个配置删除，因为如果这个目录中有多个 cni 配置文件，kubelet 将会使用按文件名的字典顺序排列的第一个作为配置文件，所以前面默认选择使用的是 <code>containerd-net</code> 这个插件。
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>➜<span class="w">  </span>~<span class="w"> </span>mv<span class="w"> </span>/etc/cni/net.d/10-containerd-net.conflist<span class="w"> </span>/etc/cni/net.d/10-containerd-net.conflist.bak
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>➜<span class="w">  </span>~<span class="w"> </span>ifconfig<span class="w"> </span>cni0<span class="w"> </span>down<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ip<span class="w"> </span>link<span class="w"> </span>delete<span class="w"> </span>cni0
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>➜<span class="w">  </span>~<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>➜<span class="w">  </span>~<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>containerd<span class="w"> </span>kubelet
+</code></pre></div>
+然后记得重建 coredns 和 dashboard 的 Pod，重建后 Pod 的 IP 地址就正常了：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>kubernetes-dashboard<span class="w"> </span>-o<span class="w"> </span>wide
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>NAME<span class="w">                                         </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE<span class="w">   </span>IP<span class="w">           </span>NODE<span class="w">    </span>NOMINATED<span class="w"> </span>NODE<span class="w">   </span>READINESS<span class="w"> </span>GATES
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>dashboard-metrics-scraper-856586f554-tp8m5<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>42s<span class="w">   </span><span class="m">10</span>.244.1.6<span class="w">   </span>k8sn2<span class="w">   </span>&lt;none&gt;<span class="w">           </span>&lt;none&gt;
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>kubernetes-dashboard-76597d7df5-9rmbx<span class="w">        </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>66s<span class="w">   </span><span class="m">10</span>.244.1.5<span class="w">   </span>k8sn2<span class="w">   </span>&lt;none&gt;<span class="w">           </span>&lt;none&gt;
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>-o<span class="w"> </span>wide<span class="w"> </span>-l<span class="w"> </span>k8s-app<span class="o">=</span>kube-dns
+<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a>NAME<span class="w">                       </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE<span class="w">     </span>IP<span class="w">           </span>NODE<span class="w">    </span>NOMINATED<span class="w"> </span>NODE<span class="w">   </span>READINESS<span class="w"> </span>GATES
+<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a>coredns-7568f67dbd-n7bfx<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>5m40s<span class="w">   </span><span class="m">10</span>.244.1.2<span class="w">   </span>k8sn2<span class="w">   </span>&lt;none&gt;<span class="w">           </span>&lt;none&gt;
+<a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a>coredns-7568f67dbd-plrv8<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>3m47s<span class="w">   </span><span class="m">10</span>.244.1.4<span class="w">   </span>k8sn2<span class="w">   </span>&lt;none&gt;<span class="w">           </span>&lt;none&gt;
+</code></pre></div>
+查看 Dashboard 的 NodePort 端口：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>kubernetes-dashboard
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>NAME<span class="w">                        </span>TYPE<span class="w">        </span>CLUSTER-IP<span class="w">      </span>EXTERNAL-IP<span class="w">   </span>PORT<span class="o">(</span>S<span class="o">)</span><span class="w">         </span>AGE
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>dashboard-metrics-scraper<span class="w">   </span>ClusterIP<span class="w">   </span><span class="m">10</span>.99.37.172<span class="w">    </span>&lt;none&gt;<span class="w">        </span><span class="m">8000</span>/TCP<span class="w">        </span>25m
+<a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>kubernetes-dashboard<span class="w">        </span>NodePort<span class="w">    </span><span class="m">10</span>.103.102.27<span class="w">   </span>&lt;none&gt;<span class="w">        </span><span class="m">443</span>:31050/TCP<span class="w">   </span>25m
+</code></pre></div>
+然后可以通过上面的 31050 端口去访问 Dashboard，要记住使用 https，Chrome 不生效可以使用Firefox 测试，如果没有 <code>Firefox</code> 下面打不开页面，可以点击下页面中的<code>信任证书</code>即可：
+<img alt="BrowseCert" src="../../assets/images/BrowseCert.png" title="BrowseCert" />
+信任后就可以访问到 Dashboard 的登录页面了：
+<img alt="Dashboard" src="../../assets/images/Dashboard.png" title="Dashboard" />
+然后创建一个具有全局所有权限的用户来登录 Dashboard：(admin.yaml)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterRoleBinding</span>
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin</span>
+<a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="nt">roleRef</span><span class="p">:</span>
+<a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a><span class="w">  </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterRole</span>
+<a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster-admin</span>
+<a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a><span class="w">  </span><span class="nt">apiGroup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io</span>
+<a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a><span class="nt">subjects</span><span class="p">:</span>
+<a id="__codelineno-45-10" name="__codelineno-45-10" href="#__codelineno-45-10"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ServiceAccount</span>
+<a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin</span>
+<a id="__codelineno-45-12" name="__codelineno-45-12" href="#__codelineno-45-12"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes-dashboard</span>
+<a id="__codelineno-45-13" name="__codelineno-45-13" href="#__codelineno-45-13"></a><span class="nn">---</span>
+<a id="__codelineno-45-14" name="__codelineno-45-14" href="#__codelineno-45-14"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-45-15" name="__codelineno-45-15" href="#__codelineno-45-15"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ServiceAccount</span>
+<a id="__codelineno-45-16" name="__codelineno-45-16" href="#__codelineno-45-16"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-45-17" name="__codelineno-45-17" href="#__codelineno-45-17"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin</span>
+<a id="__codelineno-45-18" name="__codelineno-45-18" href="#__codelineno-45-18"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes-dashboard</span>
+</code></pre></div>
+直接创建：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>admin.yaml
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>-n<span class="w"> </span>kubernetes-dashboard<span class="p">|</span>grep<span class="w"> </span>admin-token
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>admin-token-lwmmx<span class="w">                  </span>kubernetes.io/service-account-token<span class="w">   </span><span class="m">3</span><span class="w">         </span>1d
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>➜<span class="w">  </span>~<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>admin-token-lwmmx<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">={</span>.data.token<span class="o">}</span><span class="w"> </span>-n<span class="w"> </span>kubernetes-dashboard<span class="w"> </span><span class="p">|</span>base64<span class="w"> </span>-d
+<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="c1"># 会生成一串很长的base64后的字符串</span>
+</code></pre></div>
+然后用上面的 base64 解码后的字符串作为 token 登录 Dashboard 即可，新版本还新增了一个暗黑模式：</p>
+<p>最终, 我们就完成了使用 kubeadm 搭建 v1.22.2 版本的 kubernetes 集群、coredns、ipvs、flannel、containerd。</p>
+<h2 id="_5">清理<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>如果你的集群安装过程中遇到了其他问题，我们可以使用下面的命令来进行重置：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>➜<span class="w">  </span>~<span class="w"> </span>kubeadm<span class="w"> </span>reset
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>➜<span class="w">  </span>~<span class="w"> </span>ifconfig<span class="w"> </span>cni0<span class="w"> </span>down<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ip<span class="w"> </span>link<span class="w"> </span>delete<span class="w"> </span>cni0
+<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>➜<span class="w">  </span>~<span class="w"> </span>ifconfig<span class="w"> </span>flannel.1<span class="w"> </span>down<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ip<span class="w"> </span>link<span class="w"> </span>delete<span class="w"> </span>flannel.1
+<a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a>➜<span class="w">  </span>~<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/cni/
+</code></pre></div></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../K8s%20Introduction/" class="md-footer__link md-footer__link--prev" aria-label="上一页: K8S简介" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              K8S简介
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../YAML/" class="md-footer__link md-footer__link--next" aria-label="下一页: 资源清单" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              资源清单
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 ~ Present Darmarj.M
+          </div>
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/darmarj" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": null}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      
+    
+  <script src="../../overrides/assets/javascripts/bundle.525231ca.min.js"></script>
+
+  </body>
+</html>

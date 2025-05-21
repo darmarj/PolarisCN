@@ -1,0 +1,38 @@
+/*:root > * {
+  --md-code-hl-number-color
+  --md-code-hl-special-color
+  --md-code-hl-function-color
+  --md-code-hl-constant-color
+  --md-code-hl-keyword-color
+  --md-code-hl-string-color
+  --md-code-hl-name-color
+  --md-code-hl-operator-color
+  --md-code-hl-punctuation-color
+  --md-code-hl-comment-color
+  --md-code-hl-generic-color
+  --md-code-hl-variable-color
+  --md-code-hl-color: #7C4DFF;
+  --md-code-bg-color: #FFFFFF;
+  --md-code-fg-color: #7C4DFF;*/
+}
+
+/*.highlight .sb {
+  color: #7C4DFF;
+  background-color: #FFFFFF;
+}
+
+.highlight .k {
+  color: #7C4DFF;
+  background-color: #FFFFFF;
+}
+
+.highlight .no {
+  color: #7C4DFF;
+  background-color: #FFFFFF;
+}*/
+
+/*
+code {
+    font-weight: normal;
+}
+*/
